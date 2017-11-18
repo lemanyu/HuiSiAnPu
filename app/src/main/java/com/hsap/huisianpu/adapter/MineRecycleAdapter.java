@@ -1,7 +1,9 @@
 package com.hsap.huisianpu.adapter;
 
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hsap.huisianpu.R;
@@ -21,5 +23,6 @@ public class MineRecycleAdapter extends BaseQuickAdapter<Bean,BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Bean item) {
         helper.setText(R.id.tv_mine,item.getName());
+        Glide.with(mContext).load(item.getPic()).into((ImageView) helper.getView(R.id.iv_mine));
     }
 }

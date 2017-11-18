@@ -44,15 +44,23 @@ public class MineFragment extends BaseFragment {
         mineToolbar.setTitle("我的");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mineToolbar);
         ArrayList<Bean> list = new ArrayList<>();
-        list.add(new Bean("我的信息"));
-        list.add(new Bean("我的邀请"));
+        list.add(new Bean("我的信息",R.drawable.wodexinxi));
+        list.add(new Bean("我的邀请",R.drawable.wodeyaoqing));
         MineRecycleAdapter adapter = new MineRecycleAdapter(R.layout.item_mine, list);
         mineRlv.setLayoutManager(new LinearLayoutManager(mActivity));
         mineRlv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                     switch (position){
+                         case 0:
+                             //TODO 个人信息
 
+                         break;
+                         case 1:
+
+                             break;
+                     }
             }
         });
     }

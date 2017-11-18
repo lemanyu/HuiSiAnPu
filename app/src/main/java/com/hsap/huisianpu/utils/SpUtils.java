@@ -16,7 +16,7 @@ public class SpUtils {
         if (sp==null) {
             sp = context.getSharedPreferences(SPNAME, Context.MODE_PRIVATE);
         }
-        sp.edit().putBoolean(key,value).commit();
+        sp.edit().putBoolean(key,value).apply();
     }
     //取布尔类型值
     public static boolean getBoolean(String key, Context context) {
@@ -27,18 +27,18 @@ public class SpUtils {
         return b;
     }
     //移除布尔类型值
-    public static boolean removeKey(String key, Context context) {
+    public static void removeKey(String key, Context context) {
         if (sp==null) {
             sp = context.getSharedPreferences(SPNAME, Context.MODE_PRIVATE);
         }
-        return sp.edit().remove(key).commit();
+         sp.edit().clear().commit();
     }
     //存String类型的值的方法
     public static void putString(String key, String value, Context context){
         if (sp==null) {
             sp = context.getSharedPreferences(SPNAME, Context.MODE_PRIVATE);
         }
-        sp.edit().putString(key,value).commit();
+        sp.edit().putString(key,value).apply();
     }
     //取String类型值
     public static String getString(String key, Context context) {
@@ -53,7 +53,7 @@ public class SpUtils {
         if (sp==null) {
             sp = context.getSharedPreferences(SPNAME, Context.MODE_PRIVATE);
         }
-        sp.edit().putInt(key,value).commit();
+        sp.edit().putInt(key,value).apply();
     }
     //取int类型值
     public static int getInt(String key, Context context) {
