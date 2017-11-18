@@ -5,6 +5,6 @@ package com.hsap.huisianpu.utils;
  */
 
 public class ConstantUtils {
-    public static String IsLogin;
+    public static String Login;
     public static String UserId;
 }

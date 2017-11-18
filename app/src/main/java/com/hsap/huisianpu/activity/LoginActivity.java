@@ -90,7 +90,7 @@ public class LoginActivity extends BaseActivity {
                 //TODO 保存sp的值 跳转到主页
                 LoginBean bean = new Gson().fromJson(response.body().toString(), LoginBean.class);
                 if (bean.isSuccess()){
-                    SpUtils.putBoolean(ConstantUtils.IsLogin,true,LoginActivity.this);
+                    SpUtils.putBoolean(ConstantUtils.Login,true,LoginActivity.this);
                     SpUtils.putInt(ConstantUtils.UserId,bean.getData(),LoginActivity.this);
                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     finish();

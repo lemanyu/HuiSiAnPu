@@ -2,6 +2,7 @@ package com.hsap.huisianpu.activity;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,6 +17,8 @@ import com.hsap.huisianpu.utils.SpUtils;
  */
 
 public class WelcomeActivity extends BaseActivity {
+    private static final String TAG = "WelcomeActivity";
+
     @Override
     public int getLayoutId() {
         //取消标题
@@ -28,7 +31,7 @@ public class WelcomeActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        boolean islogin = SpUtils.getBoolean(ConstantUtils.IsLogin, WelcomeActivity.this);
+        boolean islogin = SpUtils.getBoolean(ConstantUtils.Login, WelcomeActivity.this);
         if(islogin){
             new Handler().postDelayed(new Runnable() {
                 @Override

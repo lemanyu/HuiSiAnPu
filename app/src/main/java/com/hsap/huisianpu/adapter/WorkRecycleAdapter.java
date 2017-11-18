@@ -16,10 +16,10 @@ import java.util.List;
  * Created by zhao on 2017/11/17.
  */
 
-public class MyAdapter extends BaseQuickAdapter<Bean,BaseViewHolder> {
+public class WorkRecycleAdapter extends BaseQuickAdapter<Bean,BaseViewHolder> {
 
 
-    public MyAdapter(int layoutResId, @Nullable List<Bean> data) {
+    public WorkRecycleAdapter(int layoutResId, @Nullable List<Bean> data) {
         super(layoutResId, data);
         this.setOnItemClickListener(new OnItemClickListener() {
             @Override

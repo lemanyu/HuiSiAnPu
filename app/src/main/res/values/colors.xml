@@ -6,4 +6,5 @@
     <color name="text_blue">#1296db</color>
     <color name="text_gray">#b3b3b3</color>
     <color name="text_white">#ffffff</color>
+    <color name="linecolor">#e0e2e1</color>
 </resources>

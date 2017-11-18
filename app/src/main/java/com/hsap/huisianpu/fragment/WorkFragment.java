@@ -11,12 +11,11 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hsap.huisianpu.R;
-import com.hsap.huisianpu.adapter.MyAdapter;
+import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
 import com.hsap.huisianpu.utils.ToastUtils;
 
-import java.security.cert.PKIXReason;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -69,7 +68,7 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("出差",R.drawable.chuchai));
         list.add(new Bean("加班",R.drawable.jiaban));
         list.add(new Bean("用车",R.drawable.car));
-        MyAdapter adapter = new MyAdapter(R.layout.item_work, list);
+        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         internalField.setLayoutManager(new GridLayoutManager(mActivity,4));
         internalField.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -105,7 +104,7 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("周报",R.drawable.week));
         list.add(new Bean("月报",R.drawable.month));
         list.add(new Bean("查看汇报",R.drawable.see));
-        MyAdapter adapter = new MyAdapter(R.layout.item_work, list);
+        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         business.setLayoutManager(new GridLayoutManager(mActivity,4));
         business.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -133,7 +132,7 @@ public class WorkFragment extends BaseFragment {
         ArrayList<Bean> list = new ArrayList<>();
         list.add(new Bean("发布项目",R.drawable.fabuxiangmu));
         list.add(new Bean("查看项目",R.drawable.chaknaxiangmu));
-        MyAdapter adapter = new MyAdapter(R.layout.item_work, list);
+        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         project.setLayoutManager(new GridLayoutManager(mActivity,4));
         project.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -156,7 +155,7 @@ public class WorkFragment extends BaseFragment {
         ArrayList<Bean> list = new ArrayList<>();
         list.add(new Bean("考勤统计",R.drawable.kaoqin));
         list.add(new Bean("待我审批",R.drawable.shenpi));
-        MyAdapter adapter = new MyAdapter(R.layout.item_work, list);
+        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         statistics.setLayoutManager(new GridLayoutManager(mActivity,4));
         statistics.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

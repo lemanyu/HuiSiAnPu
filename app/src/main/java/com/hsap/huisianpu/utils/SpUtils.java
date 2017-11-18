@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
  */
 
 public class SpUtils {
-    private static final String SPNAME = "hdlt" ;
+    private static final String SPNAME = "hsap" ;
     private static SharedPreferences sp;
 
     //存布尔类型的值的方法
@@ -25,6 +25,13 @@ public class SpUtils {
         }
         boolean b = sp.getBoolean(key, false);
         return b;
+    }
+    //移除布尔类型值
+    public static boolean removeKey(String key, Context context) {
+        if (sp==null) {
+            sp = context.getSharedPreferences(SPNAME, Context.MODE_PRIVATE);
+        }
+        return sp.edit().remove(key).commit();
     }
     //存String类型的值的方法
     public static void putString(String key, String value, Context context){

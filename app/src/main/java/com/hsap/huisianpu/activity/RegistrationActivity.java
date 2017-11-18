@@ -140,7 +140,7 @@ public class RegistrationActivity extends BaseActivity {
                     RegistrationBean bean = new Gson().fromJson(response.body().toString(), RegistrationBean.class);
                     if(bean.isSuccess()){
                         //TODO 保存sp的值 跳转到主页
-                        SpUtils.putBoolean(ConstantUtils.IsLogin,true,RegistrationActivity.this);
+                        SpUtils.putBoolean(ConstantUtils.Login,true,RegistrationActivity.this);
                         SpUtils.putInt(ConstantUtils.UserId,bean.getData(),RegistrationActivity.this);
                         ActivityManagerUtils.getInstance().finishActivityclass(LoginActivity.class);
                         startActivity(new Intent(RegistrationActivity.this, MainActivity.class));

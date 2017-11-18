@@ -12,7 +12,9 @@ public class Bean {
         this.name=name;
         this.pic=pic;
     }
-
+    public Bean(String name){
+        this.name=name;
+    }
     public String getName() {
         return name;
     }
