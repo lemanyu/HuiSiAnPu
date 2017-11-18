@@ -22,6 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initView();
         initData();
         initListener();
+
     }
     public void onClick(View v) {
         switch (v.getId()) {

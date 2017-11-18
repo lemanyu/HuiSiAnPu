@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+        <TextView
+            android:textSize="16sp"
+            android:id="@+id/tv_contact_name"
+            style="@style/MyTest"
+            android:text="aaa" />
+        <TextView
+            android:textSize="16sp"
+            android:id="@+id/tv_contact_number"
+            style="@style/CommonText"
+            android:text="bbb" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+     <CheckBox
+         android:id="@+id/cb_contact"
+         android:layout_marginRight="20dp"
+         android:layout_centerVertical="true"
+         android:onClick="@null"
+        android:layout_alignParentRight="true"
+         android:layout_gravity="center_horizontal"
+         android:layout_weight="1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" />
+</RelativeLayout>

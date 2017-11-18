@@ -40,4 +40,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.3.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
     compile 'com.lzy.net:okgo:3.0.4'
+    compile 'com.yanzhenjie:permission:1.1.2'
+    compile 'com.github.gittjy:LoadingDialog:1.0.2'
 }

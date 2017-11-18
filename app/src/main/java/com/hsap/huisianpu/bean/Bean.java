@@ -7,13 +7,17 @@ package com.hsap.huisianpu.bean;
 public class Bean {
     private  String name;
     private  int pic;
-
+    private  String number;
     public Bean(String name, int pic){
         this.name=name;
         this.pic=pic;
     }
-    public Bean(String name){
+    public Bean(){
+
+    }
+    public Bean(String name,String number){
         this.name=name;
+        this.number=number;
     }
     public String getName() {
         return name;
@@ -30,4 +34,12 @@ public class Bean {
     public void setPic(int pic) {
         this.pic = pic;
     }
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
 }

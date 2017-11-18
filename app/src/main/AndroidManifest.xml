@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.RegistrationActivity"></activity>
+        <activity android:name=".activity.ContactsActivity"></activity>
     </application>
 
 </manifest>
