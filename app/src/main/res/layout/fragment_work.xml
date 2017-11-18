@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            app:titleTextColor="@color/text_blue"
+            android:id="@+id/work_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
+            android:theme="@style/ToolBarTheme"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--公告-->
+            <TextView
+                style="@style/MyTest"
+                app:layout_marginPercent="2%w"
+                app:layout_textSizePercent="6%w"
+                android:text="公告" />
+           <android.support.v7.widget.RecyclerView
+               android:overScrollMode="never"
+               android:scrollbars="none"
+               android:nestedScrollingEnabled="false"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+           </android.support.v7.widget.RecyclerView>
+
+            <!--  内外勤管理  -->
+            <TextView
+                app:layout_marginPercent="2%w"
+                app:layout_textSizePercent="6%w"
+                android:text="内外勤管理"
+                style="@style/MyTest" />
+            <android.support.v7.widget.RecyclerView
+                app:layout_marginPercent="2%w"
+                android:id="@+id/internalField"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:nestedScrollingEnabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <!--  业务汇报  -->
+            <TextView
+                app:layout_marginPercent="2%w"
+                app:layout_textSizePercent="6%w"
+                android:text="业务汇报"
+                style="@style/MyTest" />
+            <android.support.v7.widget.RecyclerView
+                app:layout_marginPercent="2%w"
+                android:id="@+id/business"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:nestedScrollingEnabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <!--  项目管理  -->
+            <TextView
+                app:layout_marginPercent="2%w"
+                app:layout_textSizePercent="6%w"
+                android:text="项目管理"
+                style="@style/MyTest" />
+            <android.support.v7.widget.RecyclerView
+                app:layout_marginPercent="2%w"
+                android:id="@+id/project"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:nestedScrollingEnabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <!--  经营统计  -->
+            <TextView
+                app:layout_marginPercent="2%w"
+                app:layout_textSizePercent="6%w"
+                android:text="经营统计"
+                style="@style/MyTest" />
+            <android.support.v7.widget.RecyclerView
+                app:layout_marginPercent="2%w"
+                android:id="@+id/statistics"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:nestedScrollingEnabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

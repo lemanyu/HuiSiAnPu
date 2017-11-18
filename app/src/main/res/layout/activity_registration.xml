@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:id="@+id/fanhui"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+        <ImageView
+            android:clickable="false"
+            android:gravity="center_horizontal"
+            app:layout_marginPercent="1.5%w"
+            android:background="@drawable/fanhui"
+            app:layout_heightPercent="5%w"
+            app:layout_widthPercent="5%w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:clickable="false"
+            app:layout_textSizePercent="5%w"
+            app:layout_marginLeftPercent="3%w"
+            android:textColor="@color/text_blue"
+            android:text="返回"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <TextView
+        app:layout_marginTopPercent="7%w"
+        android:layout_centerHorizontal="true"
+        app:layout_textSizePercent="7%w"
+        android:textColor="@color/text_blue"
+        android:text="用户注册"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RadioGroup
+        app:layout_marginTopPercent="18%w"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:id="@+id/rg_zhuce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:checked="true"
+            android:id="@+id/rb_yuangong"
+            android:textColor="@color/text_blue"
+            android:text="员工"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rb_jingli"
+            android:text="经理"
+            android:textColor="@color/text_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        app:layout_marginTopPercent="30%w"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        app:layout_marginLeftPercent="2%w"
+        app:layout_textSizePercent="5%w"
+        android:text="用户账号："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:inputType="phone"
+        android:id="@+id/et_account"
+        app:layout_marginLeftPercent="5%w"
+        app:layout_widthPercent="60%w"
+        android:hint="请输入账号"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    <com.zhy.android.percent.support.PercentLinearLayout
+        app:layout_marginTopPercent="50%w"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            app:layout_marginLeftPercent="2%w"
+            app:layout_textSizePercent="5%w"
+            android:text="登录密码："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:inputType="textPassword"
+            android:id="@+id/et_cipher"
+            app:layout_marginLeftPercent="5%w"
+            app:layout_widthPercent="60%w"
+            android:hint="请输入密码"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    <com.zhy.android.percent.support.PercentLinearLayout
+        app:layout_marginTopPercent="70%w"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            app:layout_marginLeftPercent="2%w"
+            app:layout_textSizePercent="5%w"
+            android:text="确认密码："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:inputType="textPassword"
+            android:id="@+id/et_confirm_cipher"
+            app:layout_marginLeftPercent="5%w"
+            app:layout_widthPercent="60%w"
+            android:hint="请输入二次密码"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:id="@+id/pll_zhuce"
+        android:visibility="gone"
+        app:layout_marginTopPercent="90%w"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            app:layout_marginLeftPercent="2%w"
+            app:layout_textSizePercent="5%w"
+            android:text="邀请码："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_yaoqingma"
+            app:layout_marginLeftPercent="5%w"
+            app:layout_widthPercent="60%w"
+            android:hint="请输入邀请码"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    <Button
+        android:id="@+id/bt_registration"
+        app:layout_textSizePercent="5%w"
+        android:textColor="@color/text_blue"
+        app:layout_marginTopPercent="110%w"
+        android:layout_centerHorizontal="true"
+        android:text="注册"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</com.zhy.android.percent.support.PercentRelativeLayout>

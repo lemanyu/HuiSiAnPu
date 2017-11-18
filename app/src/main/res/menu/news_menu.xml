@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/add"
+        android:icon="@drawable/add_haiyou"
+        android:title="添加好友"
+        app:showAsAction="never"></item>
+    <item android:id="@+id/create"
+         android:icon="@drawable/create_qunzu"
+         android:title="创建群组"
+         app:showAsAction="never"></item>
+</menu>

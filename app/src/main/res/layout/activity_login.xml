@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+      <TextView
+          app:layout_marginTopPercent="10%w"
+          android:layout_centerHorizontal="true"
+          app:layout_textSizePercent="7%w"
+          android:textColor="@color/text_blue"
+          android:text="惠斯安普"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+    <com.zhy.android.percent.support.PercentLinearLayout
+        app:layout_marginTopPercent="30%w"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            app:layout_marginLeftPercent="2%w"
+            app:layout_textSizePercent="5%w"
+            android:text="账号："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:inputType="number"
+            android:id="@+id/et_username"
+            app:layout_marginLeftPercent="10%w"
+            app:layout_widthPercent="60%w"
+            android:hint="请输入账号"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+     <com.zhy.android.percent.support.PercentLinearLayout
+         app:layout_marginTopPercent="50%w"
+         android:layout_centerHorizontal="true"
+         android:orientation="horizontal"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <TextView
+             app:layout_marginLeftPercent="2%w"
+             app:layout_textSizePercent="5%w"
+             android:text="密码："
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+         <EditText
+             android:id="@+id/et_password"
+             app:layout_marginLeftPercent="10%w"
+             app:layout_widthPercent="60%w"
+             android:hint="请输入密码"
+             android:inputType="textPassword"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" />
+     </com.zhy.android.percent.support.PercentLinearLayout>
+     <com.zhy.android.percent.support.PercentLinearLayout
+         android:orientation="horizontal"
+         android:layout_centerHorizontal="true"
+         app:layout_marginTopPercent="70%w"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <Button
+         android:id="@+id/bt_zhuce"
+         android:textColor="@color/text_blue"
+         android:text="注册"
+         android:layout_weight="1"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content" />
+         <Button
+             android:id="@+id/bt_denglu"
+             android:textColor="@color/text_blue"
+             android:text="登录"
+             android:layout_weight="1"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content" />
+     </com.zhy.android.percent.support.PercentLinearLayout>
+</com.zhy.android.percent.support.PercentRelativeLayout>

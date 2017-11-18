@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <RadioGroup
+        android:background="@android:color/white"
+        android:id="@+id/rg_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_heightPercent="14%w">
+        <RadioButton
+            android:id="@+id/rb_news"
+            android:drawableTop="@drawable/news_selector"
+            style="@style/footbar_rb_style"
+            android:text="消息" />
+        <RadioButton
+            android:id="@+id/rb_work"
+             android:drawableTop="@drawable/work_selector"
+            style="@style/footbar_rb_style"
+            android:text="工作" />
+        <RadioButton
+            android:id="@+id/rb_mine"
+            android:drawableTop="@drawable/mine_selector"
+            style="@style/footbar_rb_style"
+            android:text="我的" />
+    </RadioGroup>
+</com.zhy.android.percent.support.PercentLinearLayout>
