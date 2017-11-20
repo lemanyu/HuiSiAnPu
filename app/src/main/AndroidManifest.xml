@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
-
         </activity>
         <activity android:name=".activity.LoginActivity"></activity>
         <activity android:name=".activity.WelcomeActivity">
@@ -23,7 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.RegistrationActivity"></activity>
-        <activity android:name=".activity.ContactsActivity"></activity>
+        <activity android:name=".activity.ContactsActivity"
+            android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.LeaveActivity"
+            android:theme="@style/BackTheme"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.hsap.huisianpu.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.activity.LeaveActivity;
 import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
@@ -79,7 +81,7 @@ public class WorkFragment extends BaseFragment {
                          ToastUtils.showToast(mActivity,"0");
                      break;
                      case 1:
-                         ToastUtils.showToast(mActivity,"1");
+                        startActivity(new Intent(mActivity, LeaveActivity.class));
                          break;
                      case 2:
                          ToastUtils.showToast(mActivity,"2");

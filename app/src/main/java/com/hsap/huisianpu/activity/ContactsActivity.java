@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.ContactRecycleAdapter;
 import com.hsap.huisianpu.base.BaseActivity;
+import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
 import com.hsap.huisianpu.bean.InvitationBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
@@ -47,7 +48,7 @@ import butterknife.ButterKnife;
  * Created by zhao on 2017/11/18.
  */
 
-public class ContactsActivity extends BaseActivity {
+public class ContactsActivity extends BaseBackActivity {
     private static final String TAG = "ContactsActivity";
     @BindView(R.id.bt_yaoqing)
     Button btYaoqing;
