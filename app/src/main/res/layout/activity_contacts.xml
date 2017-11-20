@@ -21,17 +21,15 @@
         <Button
             android:id="@+id/bt_yaoqing"
             android:background="@null"
-            android:layout_marginRight="5dp"
             android:layout_gravity="right"
             android:textSize="20sp"
             android:text="邀请"
             style="@style/CommonText" />
     </android.support.v7.widget.Toolbar>
-    <android.support.v7.widget.RecyclerView
+    <ListView
         android:descendantFocusability="blocksDescendants"
         android:id="@+id/rlv_yaoqing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-    </android.support.v7.widget.RecyclerView>
+    </ListView>
 </LinearLayout>

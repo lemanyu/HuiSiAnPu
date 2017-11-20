@@ -8,6 +8,16 @@ public class Bean {
     private  String name;
     private  int pic;
     private  String number;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
+    private boolean select;
     public Bean(String name, int pic){
         this.name=name;
         this.pic=pic;
@@ -15,9 +25,10 @@ public class Bean {
     public Bean(){
 
     }
-    public Bean(String name,String number){
+    public Bean(String name,String number,boolean select){
         this.name=name;
         this.number=number;
+        this.select=select;
     }
     public String getName() {
         return name;
