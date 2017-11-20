@@ -157,6 +157,7 @@ public class WorkFragment extends BaseFragment {
         ArrayList<Bean> list = new ArrayList<>();
         list.add(new Bean("考勤统计",R.drawable.kaoqin));
         list.add(new Bean("待我审批",R.drawable.shenpi));
+        list.add(new Bean("修改权限",R.drawable.xiugaiquanxian));
         WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         statistics.setLayoutManager(new GridLayoutManager(mActivity,4));
         statistics.setAdapter(adapter);
@@ -169,6 +170,9 @@ public class WorkFragment extends BaseFragment {
                         break;
                     case 1:
                         ToastUtils.showToast(mActivity,"待我审批");
+                        break;
+                    case 2:
+                        ToastUtils.showToast(mActivity,"修改权限");
                         break;
                 }
             }

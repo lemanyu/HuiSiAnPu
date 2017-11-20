@@ -2,6 +2,7 @@ package com.hsap.huisianpu.activity;
 
 import android.view.View;
 
+import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseActivity;
 import com.hsap.huisianpu.base.BaseBackActivity;
 
@@ -12,7 +13,7 @@ import com.hsap.huisianpu.base.BaseBackActivity;
 public class LeaveActivity extends BaseBackActivity {
     @Override
     public int getLayoutId() {
-        return 0;
+        return R.layout.activity_leave;
     }
 
     @Override
