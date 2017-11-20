@@ -1,8 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            app:titleTextColor="@color/text_blue"
+            android:id="@+id/leavte_toobar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
+            android:theme="@style/ToolBarTheme"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+            <ImageButton
+                android:id="@id/back"
+                android:layout_width="30dp"
+                android:background="@drawable/back"
+                android:layout_height="25dp" />
+            <TextView
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"
+                android:text="请假"
+               style="@style/CommonText" />
+            <Button
+                android:id="@+id/bt_learve_commit"
+                android:background="@null"
+                android:layout_gravity="right"
+                android:textSize="20sp"
+                android:text="提交"
+                style="@style/CommonText" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+   <android.support.v4.widget.NestedScrollView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+     <com.zhy.android.percent.support.PercentLinearLayout
+         android:focusable="true"
+         android:focusableInTouchMode="true"
+         android:orientation="vertical"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <com.zhy.android.percent.support.PercentLinearLayout
+             android:id="@+id/pll_qingjia"
+             android:layout_margin="5dp"
+             android:background="@color/text_white"
+             android:orientation="horizontal"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+             <TextView
+                 android:clickable="false"
+                 android:layout_weight="4"
+                 android:layout_marginLeft="5dp"
+                 android:layout_margin="5dp"
+                 style="@style/LeaveText"
+                 android:text="请假类型"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+             <TextView
+                 android:clickable="false"
+                 android:layout_weight="1"
+                 android:text="请选择类型"
+                 android:layout_marginLeft="5dp"
+                 android:layout_margin="5dp"
+                 style="@style/LeaveText"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+             <ImageView
+                 android:clickable="false"
+                 android:layout_gravity="center_vertical"
+                 app:layout_marginRightPercent="2%w"
+                 app:layout_widthPercent="7%w"
+                 app:layout_heightPercent="7%w"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:background="@drawable/right_gray"
+                 android:gravity="right" />
+         </com.zhy.android.percent.support.PercentLinearLayout>
+         <View
+             app:layout_marginRightPercent="2%w"
+             android:layout_width="match_parent"
+             android:layout_height="2dp"
+             android:layout_marginTop="2dp"
+             android:background="@color/linecolor" />
+         <com.zhy.android.percent.support.PercentLinearLayout
+             android:id="@+id/pll_begin"
+             android:layout_margin="5dp"
+             android:background="@color/text_white"
+             android:orientation="horizontal"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+             <TextView
+                 android:clickable="false"
+                 android:layout_weight="4"
+                 android:layout_marginLeft="5dp"
+                 android:layout_margin="5dp"
+                 style="@style/LeaveText"
+                 android:text="开始时间"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+             <TextView
+                 android:clickable="false"
+                 android:layout_weight="1"
+                 android:text="请选择（必填）"
+                 android:layout_marginLeft="5dp"
+                 android:layout_margin="5dp"
+                 style="@style/LeaveText"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+             <ImageView
+                 android:clickable="false"
+                 android:layout_gravity="center_vertical"
+                 app:layout_marginRightPercent="2%w"
+                 app:layout_widthPercent="7%w"
+                 app:layout_heightPercent="7%w"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:background="@drawable/right_gray"
+                 android:gravity="right" />
+         </com.zhy.android.percent.support.PercentLinearLayout>
+         <View
+             app:layout_marginRightPercent="2%w"
+             android:layout_width="match_parent"
+             android:layout_height="2dp"
+             android:layout_marginTop="2dp"
+             android:background="@color/linecolor" />
+         <com.zhy.android.percent.support.PercentLinearLayout
+             android:id="@+id/pll_end"
+             android:layout_margin="5dp"
+             android:background="@color/text_white"
+             android:orientation="horizontal"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+             <TextView
+                 android:clickable="false"
+                 android:layout_weight="4"
+                 android:layout_marginLeft="5dp"
+                 android:layout_margin="5dp"
+                 style="@style/LeaveText"
+                 android:text="结束时间"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+             <TextView
+                 android:clickable="false"
+                 android:layout_weight="1"
+                 android:text="请选择（必填）"
+                 android:layout_marginLeft="5dp"
+                 android:layout_margin="5dp"
+                 style="@style/LeaveText"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+             <ImageView
+                 android:clickable="false"
+                 android:layout_gravity="center_vertical"
+                 app:layout_marginRightPercent="2%w"
+                 app:layout_widthPercent="7%w"
+                 app:layout_heightPercent="7%w"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:background="@drawable/right_gray"
+                 android:gravity="right" />
+         </com.zhy.android.percent.support.PercentLinearLayout>
+         <View
+             app:layout_marginRightPercent="2%w"
+             android:layout_width="match_parent"
+             android:layout_height="2dp"
+             android:layout_marginTop="2dp"
+             android:background="@color/linecolor" />
+         <com.zhy.android.percent.support.PercentLinearLayout
+             android:layout_margin="5dp"
+             android:background="@color/text_white"
+             android:orientation="horizontal"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+             <TextView
+                 android:clickable="false"
+                 android:layout_weight="2"
+                 android:layout_marginLeft="5dp"
+                 android:layout_margin="5dp"
+                 style="@style/LeaveText"
+                 android:text="时长（天）:"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+         </com.zhy.android.percent.support.PercentLinearLayout>
+         <View
+             app:layout_marginRightPercent="2%w"
+             android:layout_width="match_parent"
+             android:layout_height="2dp"
+             android:layout_marginTop="2dp"
+             android:background="@color/linecolor" />
+          <TextView
+              android:textSize="20sp"
+              android:layout_margin="5dp"
+              android:text="请假事由"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+             <EditText
+                 android:layout_margin="5dp"
+                 android:lines="7"
+                 android:id="@+id/et_leave"
+                 android:background="@null"
+                 android:hint="请输入请假事由"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+         <View
+             app:layout_marginRightPercent="2%w"
+             android:layout_width="match_parent"
+             android:layout_height="2dp"
+             android:layout_marginTop="2dp"
+             android:background="@color/linecolor" />
+         <com.zhy.android.percent.support.PercentLinearLayout
+             android:layout_margin="5dp"
+             android:background="@color/text_white"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+             <TextView
+                 style="@style/LeaveText"
+                 android:text="审批人"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rlv_leave"
+                android:layout_marginTop="5dp"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-</android.support.v7.widget.LinearLayoutCompat>
+            </android.support.v7.widget.RecyclerView>
+         </com.zhy.android.percent.support.PercentLinearLayout>
+
+     </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+   </android.support.v4.widget.NestedScrollView>
+</com.zhy.android.percent.support.PercentLinearLayout >
