@@ -1,12 +1,9 @@
 package com.hsap.huisianpu.activity;
 
-import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -18,11 +15,18 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.bean.DaySignPushBean;
+import com.hsap.huisianpu.bean.IsSignPushBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -49,12 +53,24 @@ public class PunchActivity extends BaseBackActivity {
     LinearLayout llTime;
     @BindView(R.id.punch_toolbar)
     Toolbar punchToolbar;
-    @BindView(R.id.rlv_punch)
-    RecyclerView rlvPunch;
     @BindView(R.id.tv_punch_date)
     TextView tvPunchDate;
     @BindView(R.id.punch_fab)
     FloatingActionButton punchFab;
+    @BindView(R.id.tv_shangbantime)
+    TextView tvShangbantime;
+    @BindView(R.id.tv_shangbandidian)
+    TextView tvShangbandidian;
+    @BindView(R.id.ll_shangban)
+    LinearLayout llShangban;
+    @BindView(R.id.tv_xiabantime)
+    TextView tvXiabantime;
+    @BindView(R.id.tv_xiabandidian)
+    TextView tvXiabandidian;
+    @BindView(R.id.ll_xiaban)
+    LinearLayout llXiaban;
+    @BindView(R.id.tv_zhuangtai)
+    TextView tvZhuangtai;
     private int nowYear;
     private int nowMonth;
     private int nowDay;
@@ -63,6 +79,8 @@ public class PunchActivity extends BaseBackActivity {
     //声明mLocationOption对象
     public AMapLocationClientOption mLocationOption = null;
     private int nowHour;
+    private String s;
+
 
     @Override
     public int getLayoutId() {
@@ -76,11 +94,13 @@ public class PunchActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
+        tvZhuangtai.setText("打开记录时间和位置");
         Calendar calendar = Calendar.getInstance();
         nowYear = calendar.get(Calendar.YEAR);
         nowMonth = calendar.get(Calendar.MONTH) + 1;
         nowDay = calendar.get(Calendar.DAY_OF_MONTH);
         nowHour = calendar.get(Calendar.HOUR_OF_DAY);
+        timeAndLocalformNet(nowYear,nowMonth,nowDay);
         if (nowHour>7&&nowHour<9){
             punchFab.setVisibility(View.VISIBLE);
         }else {
@@ -92,7 +112,6 @@ public class PunchActivity extends BaseBackActivity {
             punchFab.setVisibility(View.GONE);
         }
         tvPunchDate.setText(nowYear + "." + nowMonth + "." + nowDay);
-
     }
 
     @Override
@@ -103,7 +122,7 @@ public class PunchActivity extends BaseBackActivity {
     }
 
     @Override
-    public void processClick( View v) {
+    public void processClick(View v) {
         switch (v.getId()) {
             case R.id.ll_time:
                 updateTime(v);
@@ -119,17 +138,13 @@ public class PunchActivity extends BaseBackActivity {
         DatePickerDialog dialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
                                                                    @Override
                                                                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                                                       int month= monthOfYear + 1;
+                                                                       int month = monthOfYear + 1;
                                                                        String date = year + "." + month + "." + dayOfMonth;
                                                                        tvPunchDate.setText(date);
 
-                                                                       //todo 判断是否为当日 显示fab
-                                                                       if (nowYear==year&&nowMonth==month&&nowDay==dayOfMonth){
-                                                                           punchFab.setVisibility(View.VISIBLE);
-                                                                       }else{
-                                                                           punchFab.setVisibility(View.GONE);
-                                                                           Snackbar.make(v,"当前日期不能打卡",Snackbar.LENGTH_SHORT).show();
-                                                                       }
+                                                                      timeAndLocalformNet(year,month,dayOfMonth);
+
+
                                                                    }
                                                                }, calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -138,18 +153,60 @@ public class PunchActivity extends BaseBackActivity {
         dialog.show(getFragmentManager(), "aaaaaaaaaa");
     }
 
+    private void timeAndLocalformNet(int year, int month, int dayOfMonth) {
+        OkGo.<String>post(NetAddressUtils.getDaySignPush).
+                params("id",SpUtils.getInt(ConstantUtils.UserId,PunchActivity.this)).
+                params("year",year).
+                params("month",month).params("day",dayOfMonth).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Log.e("getDaySignPush",response.body().toString());
+                        DaySignPushBean bean = new Gson().fromJson(response.body().toString(), DaySignPushBean.class);
+                        if (bean.isSuccess()){
+                            tvZhuangtai.setText("打开记录时间和位置");
+                            if(bean.getData().getTopSign()==null){
+                                tvShangbantime.setText("");
+                                tvShangbandidian.setText("");
+                            }else {
+                                tvShangbantime.setText("上班打卡时间"+bean.getData().
+                                        getTopSign().getHour()+":"+bean.getData().getTopSign().getMinute());
+                                tvShangbandidian.setText(bean.getData().getTopPosition());
+                            }
+                            if (bean.getData().getDownSign()==null){
+                                tvXiabantime.setText("");
+                                tvXiabandidian.setText("");
+                            }else {
+                                tvXiabantime.setText("下班打卡时间"+bean.getData().getDownSign().getHour()+
+                                        ":"+bean.getData().getDownSign().getMinute());
+                                tvXiabandidian.setText(bean.getData().getDownPosition()+"");
+                            }
+
+                        }else {
+                            tvZhuangtai.setText(bean.getMsg()+"");
+                            tvShangbantime.setText("");
+                            tvShangbandidian.setText("");
+                            tvXiabantime.setText("");
+                            tvXiabandidian.setText("");
+                        }
+
+                    }
+                });
+    }
+
     private void punchPermission() {
         AndPermission.with(PunchActivity.this)
                 .requestCode(1)
-                .permission(Permission.PHONE,Permission.LOCATION,Permission.STORAGE)
+                .permission(Permission.PHONE, Permission.LOCATION, Permission.STORAGE)
                 .rationale(rationaleListener)
                 .callback(permissionListener)
                 .start();
     }
-    private PermissionListener permissionListener=new PermissionListener() {
+
+    private PermissionListener permissionListener = new PermissionListener() {
         @Override
         public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
-            switch (requestCode){
+            switch (requestCode) {
                 case 1:
                     获取位置();
                     break;
@@ -158,10 +215,10 @@ public class PunchActivity extends BaseBackActivity {
 
         @Override
         public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-            ToastUtils.showToast(PunchActivity.this,"请到设置-权限管理中开启");
-            if (AndPermission.hasAlwaysDeniedPermission(PunchActivity.this, deniedPermissions)){
+            ToastUtils.showToast(PunchActivity.this, "请到设置-权限管理中开启");
+            if (AndPermission.hasAlwaysDeniedPermission(PunchActivity.this, deniedPermissions)) {
                 // 第一种：用默认的提示语。
-                AndPermission.defaultSettingDialog(PunchActivity.this,1).show();
+                AndPermission.defaultSettingDialog(PunchActivity.this, 1).show();
             }
         }
     };
@@ -174,7 +231,7 @@ public class PunchActivity extends BaseBackActivity {
         mlocationClient.setLocationListener(new AMapLocationListener() {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
-                if (aMapLocation!= null) {
+                if (aMapLocation != null) {
                     if (aMapLocation.getErrorCode() == 0) {
                         //定位成功回调信息，设置相关消息
                         String province = aMapLocation.getProvince();//省信息
@@ -185,13 +242,13 @@ public class PunchActivity extends BaseBackActivity {
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(aMapLocation.getTime());
                         String localeTime = df.format(date);//定位时间
-                        String locale=province+city+district+street+streetNum;//定位地点
+                        String locale = province + city + district + street + streetNum;//定位地点
                         mlocationClient.stopLocation();
-                        daka();
+                        daka(locale);
                     } else {
                         //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                       ToastUtils.showToast(PunchActivity.this,"获取错误");
-                       return;
+                        ToastUtils.showToast(PunchActivity.this, "获取错误");
+                        return;
                     }
                 }
             }
@@ -210,24 +267,55 @@ public class PunchActivity extends BaseBackActivity {
         mlocationClient.startLocation();
     }
 
-    private RationaleListener rationaleListener =new RationaleListener() {
+    private RationaleListener rationaleListener = new RationaleListener() {
         @Override
         public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
-            AndPermission.rationaleDialog(PunchActivity.this,rationale).show();
+            AndPermission.rationaleDialog(PunchActivity.this, rationale).show();
         }
     };
-    //打卡操作
-    private void daka() {
 
-        if(SpUtils.getBoolean(ConstantUtils.IsPunch,PunchActivity.this)){
-            //下班打卡
-            ToastUtils.showToast(PunchActivity.this,"下班打卡成功");
-            SpUtils.putBoolean(ConstantUtils.IsPunch,false,PunchActivity.this);
-            //提交服务器
-        }else{
-            //上班打卡
-            ToastUtils.showToast(PunchActivity.this,"上班打卡成功");
-            SpUtils.putBoolean(ConstantUtils.IsPunch,true,PunchActivity.this);
+    //打卡操作
+    private void daka(final String locale) {
+        OkGo.<String>post(NetAddressUtils.isSignPush).params("id", SpUtils.getInt(ConstantUtils.UserId, PunchActivity.this)).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                IsSignPushBean bean = new Gson().fromJson(response.body().toString(), IsSignPushBean.class);
+                s = bean.getData();
+
+            }
+        });
+        if (s.equals("未打卡")) {
+            OkGo.<String>post(NetAddressUtils.signTopPush).
+                    params("id", SpUtils.getInt(ConstantUtils.UserId, PunchActivity.this))
+                    .params("position", locale).execute(new StringCallback() {
+                @Override
+                public void onSuccess(Response<String> response) {
+                    Calendar calendar = Calendar.getInstance();
+                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                    int minute = calendar.get(Calendar.MINUTE);
+                    //上班打卡
+                    ToastUtils.showToast(PunchActivity.this, "上班打卡成功");
+                    llShangban.setVisibility(View.VISIBLE);
+                    tvShangbantime.setText("上班打卡时间" + hour + ":" + minute);
+                    tvShangbandidian.setText(locale);
+                }
+            });
+        } else {
+            OkGo.<String>post(NetAddressUtils.signDownPush).params("id", SpUtils.getInt(ConstantUtils.UserId, PunchActivity.this))
+                    .params("position", locale).execute(new StringCallback() {
+                @Override
+                public void onSuccess(Response<String> response) {
+                    Calendar calendar = Calendar.getInstance();
+                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                    int minute = calendar.get(Calendar.MINUTE);
+                    //下班打卡
+                    ToastUtils.showToast(PunchActivity.this, "下班打卡成功");
+                    llXiaban.setVisibility(View.VISIBLE);
+                    tvXiabantime.setText("下班打卡时间" + hour + ":" + minute);
+                    tvXiabandidian.setText(locale);
+                    punchFab.setVisibility(View.GONE);
+                }
+            });
 
         }
     }
