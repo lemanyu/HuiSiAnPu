@@ -41,7 +41,7 @@ public class LeaveActivity extends BaseBackActivity {
     @Override
     public int getLayoutId() {
 
-        return R.layout.activity_leave;
+        return R.layout.activity_work_leave;
     }
 
     @Override
