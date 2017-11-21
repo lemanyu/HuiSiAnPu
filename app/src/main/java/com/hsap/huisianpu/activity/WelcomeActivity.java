@@ -31,7 +31,6 @@ public class WelcomeActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        //SpUtils.removeKey(ConstantUtils.Login, WelcomeActivity.this);
 
         boolean islogin = SpUtils.getBoolean(ConstantUtils.Login, WelcomeActivity.this);
         if(islogin){

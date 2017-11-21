@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.activity.ContactsActivity;
+import com.hsap.huisianpu.activity.MineInviteActivity;
 import com.hsap.huisianpu.adapter.MineRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
@@ -68,47 +69,15 @@ public class MineFragment extends BaseFragment {
 
                          break;
                          case 1:
-                            contactsPermission();
+                          startActivity(new Intent(mActivity, MineInviteActivity.class));
+
                              break;
                      }
             }
         });
     }
 
-    private void contactsPermission() {
-        AndPermission.with(mActivity)
-                .requestCode(1)
-                .permission(Permission.CONTACTS)
-                .rationale(rationaleListener)
-                .callback(permissionListener)
-                .start();
 
-    }
-    private PermissionListener permissionListener=new PermissionListener() {
-        @Override
-        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
-            switch (requestCode){
-                case 1:
-                    startActivity(new Intent(mActivity, ContactsActivity.class));
-                    break;
-            }
-        }
-
-        @Override
-        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-            ToastUtils.showToast(mActivity,"请到设置-权限管理中开启");
-            if (AndPermission.hasAlwaysDeniedPermission(mActivity, deniedPermissions)){
-                // 第一种：用默认的提示语。
-                AndPermission.defaultSettingDialog(mActivity,1).show();
-            }
-        }
-    };
-    private RationaleListener rationaleListener =new RationaleListener() {
-        @Override
-        public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
-            AndPermission.rationaleDialog(mActivity,rationale).show();
-        }
-    };
     @Override
     public void initListener() {
 

@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by zhao on 2017/11/20.
+ * 请假页面
  */
 
 public class LeaveActivity extends BaseBackActivity {
@@ -40,6 +40,7 @@ public class LeaveActivity extends BaseBackActivity {
 
     @Override
     public int getLayoutId() {
+
         return R.layout.activity_leave;
     }
 

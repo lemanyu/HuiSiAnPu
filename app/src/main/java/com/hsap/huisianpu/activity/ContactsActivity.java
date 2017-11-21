@@ -45,7 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by zhao on 2017/11/18.
+ * 选择邀请人页面
  */
 
 public class ContactsActivity extends BaseBackActivity {

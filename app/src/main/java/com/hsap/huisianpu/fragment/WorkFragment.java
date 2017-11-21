@@ -2,6 +2,7 @@ package com.hsap.huisianpu.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,13 +13,21 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.activity.ContactsActivity;
 import com.hsap.huisianpu.activity.LeaveActivity;
+import com.hsap.huisianpu.activity.PunchActivity;
 import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +87,7 @@ public class WorkFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                  switch (position){
                      case 0:
-                         ToastUtils.showToast(mActivity,"0");
+                       startActivity(new Intent(mActivity, PunchActivity.class));
                      break;
                      case 1:
                         startActivity(new Intent(mActivity, LeaveActivity.class));
@@ -158,6 +167,7 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("考勤统计",R.drawable.kaoqin));
         list.add(new Bean("待我审批",R.drawable.shenpi));
         list.add(new Bean("修改权限",R.drawable.xiugaiquanxian));
+        list.add(new Bean("邀请注册",R.drawable.yaoqingzhuce));
         WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         statistics.setLayoutManager(new GridLayoutManager(mActivity,4));
         statistics.setAdapter(adapter);
@@ -173,6 +183,9 @@ public class WorkFragment extends BaseFragment {
                         break;
                     case 2:
                         ToastUtils.showToast(mActivity,"修改权限");
+                        break;
+                    case 3:
+                        contactsPermission();
                         break;
                 }
             }
@@ -192,4 +205,40 @@ public class WorkFragment extends BaseFragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
+    private void contactsPermission() {
+        AndPermission.with(mActivity)
+                .requestCode(1)
+                .permission(Permission.CONTACTS)
+                .rationale(rationaleListener)
+                .callback(permissionListener)
+                .start();
+
+    }
+    private PermissionListener permissionListener=new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+            switch (requestCode){
+                case 1:
+                    startActivity(new Intent(mActivity, ContactsActivity.class));
+                    break;
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+            ToastUtils.showToast(mActivity,"请到设置-权限管理中开启");
+            if (AndPermission.hasAlwaysDeniedPermission(mActivity, deniedPermissions)){
+                // 第一种：用默认的提示语。
+                AndPermission.defaultSettingDialog(mActivity,1).show();
+            }
+        }
+    };
+    private RationaleListener rationaleListener =new RationaleListener() {
+        @Override
+        public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
+            AndPermission.rationaleDialog(mActivity,rationale).show();
+        }
+    };
+
 }
