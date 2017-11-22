@@ -9,6 +9,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+
+                XG_ACCESS_ID:"2100271315",
+                XG_ACCESS_KEY : "A1T277UVH5JP",
+        ]
     }
     buildTypes {
         release {
@@ -46,4 +51,12 @@ dependencies {
     compile 'com.vivian.widgets:TimeLineItemDecoration:1.1'
   //地图定位
     compile 'com.amap.api:location:latest.integration'
+    //信鸽推送
+    //采集安装列表
+    compile 'com.tencent.xinge:xinge:3.1.2-a-alpha'
+    //wup包
+    compile 'com.tencent.wup:wup:1.0.0.E-alpha'
+
+    //mid包
+    compile 'com.tencent.mid:mid:3.9.0-alpha'
 }

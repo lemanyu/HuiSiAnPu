@@ -21,6 +21,8 @@ import com.hsap.huisianpu.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,6 +89,18 @@ public class LoginActivity extends BaseActivity {
                 params("password", password).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
+                XGPushManager.registerPush(getApplicationContext(), new XGIOperateCallback() {
+                    @Override
+                    public void onSuccess(Object data, int i) {
+                        Log.e("TPush", "注册成功，设备token为：" + data);
+                        SpUtils.putString(ConstantUtils.Token,data+"",LoginActivity.this);
+                    }
+
+                    @Override
+                    public void onFail(Object data, int errCode, String msg) {
+                        Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+                    }
+                });
                 //TODO 保存sp的值 跳转到主页
                 LoginBean bean = new Gson().fromJson(response.body().toString(), LoginBean.class);
                 if (bean.isSuccess()){

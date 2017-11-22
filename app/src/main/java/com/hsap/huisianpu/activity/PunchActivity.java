@@ -298,6 +298,7 @@ public class PunchActivity extends BaseBackActivity {
                     llShangban.setVisibility(View.VISIBLE);
                     tvShangbantime.setText("上班打卡时间" + hour + ":" + minute);
                     tvShangbandidian.setText(locale);
+                    punchFab.setVisibility(View.GONE);
                 }
             });
         } else {

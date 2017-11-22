@@ -53,7 +53,7 @@
              android:layout_height="wrap_content">
              <TextView
                  android:clickable="false"
-                 android:layout_weight="4"
+                 android:layout_weight="5"
                  android:layout_marginLeft="5dp"
                  android:layout_margin="5dp"
                  style="@style/LeaveText"
@@ -61,10 +61,11 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <TextView
+                 android:textColor="@color/text_blue"
+                 android:id="@+id/tv_qingjialeixing"
                  android:clickable="false"
                  android:layout_weight="1"
                  android:text="请选择类型"
-                 android:layout_marginLeft="5dp"
                  android:layout_margin="5dp"
                  style="@style/LeaveText"
                  android:layout_width="wrap_content"
@@ -95,7 +96,7 @@
              android:layout_height="wrap_content">
              <TextView
                  android:clickable="false"
-                 android:layout_weight="4"
+                 android:layout_weight="5"
                  android:layout_marginLeft="5dp"
                  android:layout_margin="5dp"
                  style="@style/LeaveText"
@@ -103,10 +104,10 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <TextView
+                 android:textColor="@color/text_blue"
                  android:clickable="false"
                  android:layout_weight="1"
                  android:text="请选择（必填）"
-                 android:layout_marginLeft="5dp"
                  android:layout_margin="5dp"
                  style="@style/LeaveText"
                  android:layout_width="wrap_content"
@@ -130,39 +131,42 @@
              android:background="@color/linecolor" />
          <com.zhy.android.percent.support.PercentLinearLayout
              android:id="@+id/pll_end"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
              android:layout_margin="5dp"
              android:background="@color/text_white"
-             android:orientation="horizontal"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content">
+             android:orientation="horizontal">
+
              <TextView
-                 android:clickable="false"
-                 android:layout_weight="4"
-                 android:layout_marginLeft="5dp"
-                 android:layout_margin="5dp"
                  style="@style/LeaveText"
-                 android:text="结束时间"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content" />
-             <TextView
-                 android:clickable="false"
-                 android:layout_weight="1"
-                 android:text="请选择（必填）"
-                 android:layout_marginLeft="5dp"
-                 android:layout_margin="5dp"
-                 style="@style/LeaveText"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content" />
-             <ImageView
-                 android:clickable="false"
-                 android:layout_gravity="center_vertical"
-                 app:layout_marginRightPercent="2%w"
-                 app:layout_widthPercent="7%w"
-                 app:layout_heightPercent="7%w"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
+                 android:layout_margin="5dp"
+                 android:layout_marginLeft="5dp"
+                 android:layout_weight="5"
+                 android:clickable="false"
+                 android:text="结束时间" />
+
+             <TextView
+                 android:textColor="@color/text_blue"
+                 style="@style/LeaveText"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="5dp"
+                 android:layout_weight="1"
+                 android:clickable="false"
+                 android:text="请选择（必填）" />
+
+             <ImageView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_vertical"
                  android:background="@drawable/right_gray"
-                 android:gravity="right" />
+                 android:clickable="false"
+                 android:gravity="right"
+                 app:layout_heightPercent="7%w"
+                 app:layout_marginRightPercent="2%w"
+                 app:layout_widthPercent="7%w" />
          </com.zhy.android.percent.support.PercentLinearLayout>
          <View
              app:layout_marginRightPercent="2%w"
@@ -170,6 +174,9 @@
              android:layout_height="2dp"
              android:layout_marginTop="2dp"
              android:background="@color/linecolor" />
+
+
+
          <com.zhy.android.percent.support.PercentLinearLayout
              android:layout_margin="5dp"
              android:background="@color/text_white"
@@ -187,25 +194,30 @@
                  android:layout_height="wrap_content" />
          </com.zhy.android.percent.support.PercentLinearLayout>
          <View
-             app:layout_marginRightPercent="2%w"
              android:layout_width="match_parent"
              android:layout_height="2dp"
              android:layout_marginTop="2dp"
-             android:background="@color/linecolor" />
-          <TextView
-              android:textSize="20sp"
+             android:background="@color/linecolor"
+             app:layout_marginRightPercent="2%w" />
+         <TextView
               android:layout_margin="5dp"
-              android:text="请假事由"
+              android:textSize="16sp"
+              android:text="请假事由："
               android:layout_width="wrap_content"
               android:layout_height="wrap_content" />
-             <EditText
-                 android:layout_margin="5dp"
-                 android:lines="7"
-                 android:id="@+id/et_leave"
-                 android:background="@null"
-                 android:hint="请输入请假事由"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content" />
+         <EditText
+             android:gravity="left|top"
+             android:layout_margin="5dp"
+             android:padding="5dp"
+             android:minLines="7"
+             android:inputType="textMultiLine"
+             android:id="@+id/et_leave"
+             android:background="@drawable/et_backgroud"
+             android:hint="请输入请假信息"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" />
+
+
          <View
              app:layout_marginRightPercent="2%w"
              android:layout_width="match_parent"
