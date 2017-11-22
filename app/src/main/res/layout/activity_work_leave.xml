@@ -217,7 +217,6 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content" />
 
-
          <View
              app:layout_marginRightPercent="2%w"
              android:layout_width="match_parent"
@@ -235,15 +234,16 @@
                  android:text="审批人"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rlv_leave"
-                android:layout_marginTop="5dp"
-                android:overScrollMode="never"
-                android:scrollbars="none"
+            <com.hsap.huisianpu.view.MyGridView
+                android:stretchMode="columnWidth"
+                android:layout_margin="5dp"
+                android:id="@+id/gv_leave"
+                android:numColumns="4"
+                android:horizontalSpacing="10dp"
+                android:verticalSpacing="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent">
+            </com.hsap.huisianpu.view.MyGridView>
          </com.zhy.android.percent.support.PercentLinearLayout>
 
      </com.zhy.android.percent.support.PercentLinearLayout>

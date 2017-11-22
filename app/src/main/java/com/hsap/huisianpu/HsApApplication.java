@@ -44,7 +44,7 @@ public class HsApApplication extends Application {
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
-        loggingInterceptor.setColorLevel(Level.INFO);
+        loggingInterceptor.setColorLevel(Level.WARNING);
         builder.addInterceptor(loggingInterceptor);
         //配置cookie  配置到sp中
         builder.cookieJar(new CookieJarImpl(new SPCookieStore(this)));

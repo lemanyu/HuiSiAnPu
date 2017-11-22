@@ -68,6 +68,8 @@
         </meta-data>
         <activity android:name=".activity.MainActivity">
         </activity>
+        <activity android:name=".activity.SelectApproverActivity"
+            android:theme="@style/BackTheme"></activity>
         <activity android:name=".activity.LoginActivity"></activity>
         <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
