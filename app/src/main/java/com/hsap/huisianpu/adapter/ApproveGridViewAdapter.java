@@ -52,8 +52,8 @@ public class ApproveGridViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        Log.e("adapter","aa");
-          view=View.inflate(context, R.layout.item_approve,null);
+
+         view=View.inflate(context, R.layout.item_approve,null);
         ImageView iv_approve_jiantou = view.findViewById(R.id.iv_approve_jiantou);
         TextView tv_approve_name = view.findViewById(R.id.tv_approve_name);
         if(position==nameList.size()){

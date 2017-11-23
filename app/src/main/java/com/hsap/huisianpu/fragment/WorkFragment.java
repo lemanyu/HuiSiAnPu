@@ -16,10 +16,15 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.activity.ContactsActivity;
 import com.hsap.huisianpu.activity.LeaveActivity;
 import com.hsap.huisianpu.activity.PunchActivity;
+import com.hsap.huisianpu.activity.WorkApprovalActivity;
 import com.hsap.huisianpu.activity.WorkCarActivity;
+import com.hsap.huisianpu.activity.WorkCheckReportActivity;
+import com.hsap.huisianpu.activity.WorkDayNewPaperActivity;
+import com.hsap.huisianpu.activity.WorkMonthNewPaperActivity;
 import com.hsap.huisianpu.activity.WorkOutActivity;
 import com.hsap.huisianpu.activity.WorkOvertimeActivity;
 import com.hsap.huisianpu.activity.WorkTripActivity;
+import com.hsap.huisianpu.activity.WorkWeekNewPaperActivity;
 import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
@@ -127,16 +132,16 @@ public class WorkFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                  switch (position){
                      case 0:
-                         ToastUtils.showToast(mActivity,"日报");
+                         startActivity(new Intent(mActivity, WorkDayNewPaperActivity.class));
                          break;
                      case 1:
-                         ToastUtils.showToast(mActivity,"周报");
+                         startActivity(new Intent(mActivity, WorkWeekNewPaperActivity.class));
                          break;
                      case 2:
-                         ToastUtils.showToast(mActivity,"月报");
+                        startActivity(new Intent(mActivity, WorkMonthNewPaperActivity.class));
                          break;
                      case 3:
-                         ToastUtils.showToast(mActivity,"查看汇报");
+                        startActivity(new Intent(mActivity, WorkCheckReportActivity.class));
                          break;
                  }
             }
@@ -183,7 +188,7 @@ public class WorkFragment extends BaseFragment {
                         ToastUtils.showToast(mActivity,"考勤统计");
                         break;
                     case 1:
-                        ToastUtils.showToast(mActivity,"待我审批");
+                        startActivity(new Intent(mActivity, WorkApprovalActivity.class));
                         break;
                     case 2:
                         ToastUtils.showToast(mActivity,"修改权限");

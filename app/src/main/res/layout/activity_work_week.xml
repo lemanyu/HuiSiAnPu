@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.Toolbar
+        app:titleTextColor="@color/text_blue"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        android:theme="@style/ToolBarTheme"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_scrollFlags="scroll|enterAlways|snap">
+        <ImageButton
+            android:id="@id/back"
+            android:layout_width="30dp"
+            android:background="@drawable/back"
+            android:layout_height="25dp" />
+        <TextView
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"
+            android:text="工作周报"
+            style="@style/CommonText" />
+        <Button
+            android:id="@+id/bt_learve_commit"
+            android:background="@null"
+            android:layout_gravity="right"
+            android:textSize="20sp"
+            android:text="提交"
+            style="@style/CommonText" />
+    </android.support.v7.widget.Toolbar>
+</android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <com.zhy.android.percent.support.PercentLinearLayout
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+             <TextView
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 android:layout_margin="5dp"
+                 android:text="本周完成工作："
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <EditText
+                 android:gravity="left|top"
+                 android:minLines="3"
+                 android:inputType="textMultiLine"
+                 android:padding="10dp"
+                 android:hint="请填写文字"
+                 android:background="@null"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <View
+                 android:background="@color/linecolor"
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"></View>
+             <TextView
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 android:layout_margin="5dp"
+                 android:text="本周工作总结："
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <EditText
+                 android:gravity="left|top"
+                 android:minLines="3"
+                 android:inputType="textMultiLine"
+                 android:padding="10dp"
+                 android:hint="请填写文字"
+                 android:background="@null"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <View
+                 android:background="@color/linecolor"
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"></View>
+
+             <TextView
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 android:layout_margin="5dp"
+                 android:text="下周工作计划："
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <EditText
+                 android:gravity="left|top"
+                 android:minLines="3"
+                 android:inputType="textMultiLine"
+                 android:padding="10dp"
+                 android:hint="请填写文字"
+                 android:background="@null"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <View
+                 android:background="@color/linecolor"
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"></View>
+             <TextView
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 android:layout_margin="5dp"
+                 android:text="需协调与帮助："
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <EditText
+                 android:gravity="left|top"
+                 android:minLines="3"
+                 android:inputType="textMultiLine"
+                 android:padding="10dp"
+                 android:hint="请填写文字"
+                 android:background="@null"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <View
+                 android:background="@color/linecolor"
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"></View>
+
+             <EditText
+                 android:gravity="left|top"
+                 android:minLines="5"
+                 android:inputType="textMultiLine"
+                 android:padding="10dp"
+                 android:hint="备注"
+                 android:background="@null"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <View
+                 android:background="@color/linecolor"
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"></View>
+
+
+             <TextView
+                 android:layout_margin="5dp"
+                 android:textSize="18sp"
+                 android:text="发给谁（点击头像可删除）"
+                 android:textStyle="bold"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <com.hsap.huisianpu.view.MyGridView
+                 android:horizontalSpacing="10dp"
+                 android:verticalSpacing="40dp"
+                 android:numColumns="4"
+                 android:layout_margin="5dp"
+                 android:stretchMode="columnWidth"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"/>
+             <View
+                 android:layout_marginTop="5dp"
+                 android:background="@color/linecolor"
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"></View>
+
+
+
+
+
+         </com.zhy.android.percent.support.PercentLinearLayout>
+     </android.support.v4.widget.NestedScrollView>
+
+
+
+
+</LinearLayout>

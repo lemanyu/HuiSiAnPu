@@ -61,4 +61,5 @@ dependencies {
     compile 'com.tencent.mid:mid:3.9.0-alpha'
     //圆形头像
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.github.hackware1993:MagicIndicator:1.5.0'
 }

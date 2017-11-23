@@ -2,11 +2,12 @@
 <com.zhy.android.percent.support.PercentLinearLayout
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
-        android:padding="5dp"
-        android:layout_margin="5dp"
+
+        android:padding="10dp"
+        android:layout_margin="3dp"
         android:gravity="center"
         android:id="@+id/tv_approve_name"
         android:textColor="@color/text_white"
@@ -14,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
+        android:layout_weight="4"
         android:id="@+id/iv_approve_jiantou"
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"

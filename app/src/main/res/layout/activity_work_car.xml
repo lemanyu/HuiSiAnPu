@@ -48,11 +48,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:layout_weight="2"
                     android:layout_marginLeft="5dp"
                     android:clickable="false"
-                    android:text="用车事由"
+                    android:text="用车时间"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -86,11 +87,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:layout_weight="3"
                     android:layout_marginLeft="5dp"
                     android:clickable="false"
-                    android:text="用车时间"
+                    android:text="还车时间"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -119,33 +121,142 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:gravity="center"
                 android:padding="5dp"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textStyle="bold"
                     android:textSize="18sp"
-                    android:layout_weight="3"
+                    android:layout_weight="2"
                     android:layout_marginLeft="5dp"
                     android:clickable="false"
-                    android:text="物品名称、数量"
+                    android:text="请选择车辆"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@color/text_blue"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:text="请选择（必填）" />
+                <ImageView
+                    android:clickable="false"
+                    android:layout_gravity="center_vertical"
+                    app:layout_marginRightPercent="2%w"
+                    app:layout_widthPercent="7%w"
+                    app:layout_heightPercent="7%w"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/right_gray"
+                    android:gravity="right" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="5dp"
+                    android:text="联系电话"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
-                    android:lines="5"
-                    android:hint="请输入物品的名称和数量"
-                    android:gravity="top|left"
-                    android:background="@drawable/et_backgroud"
-                    android:layout_margin="5dp"
-                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:hint="请输入您的联系电话"
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <View
-                    android:background="@color/linecolor"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"></View>
             </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="5dp"
+                    android:text="用车人数"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:hint="请输入用车人数"
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"></View>
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="办理事项："
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:gravity="left|top"
+                android:minLines="5"
+                android:inputType="textMultiLine"
+                android:padding="5dp"
+                android:hint="请填写文字"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="办事地点："
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:gravity="left|top"
+                android:minLines="5"
+                android:inputType="textMultiLine"
+                android:padding="5dp"
+                android:hint="请填写文字"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"></View>
+
             <TextView
                 android:textStyle="bold"
                 android:textSize="18sp"

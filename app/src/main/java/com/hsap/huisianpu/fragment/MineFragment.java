@@ -17,7 +17,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.activity.LoginActivity;
 import com.hsap.huisianpu.activity.MainActivity;
+import com.hsap.huisianpu.activity.MineApprovalActivity;
 import com.hsap.huisianpu.activity.MineInviteActivity;
+import com.hsap.huisianpu.activity.MineReportActivity;
 import com.hsap.huisianpu.adapter.MineRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
@@ -44,6 +46,7 @@ public class MineFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.bt_mine)
     Button btMine;
+    private ArrayList<Bean> list;
 
     @Override
     public View initView() {
@@ -56,9 +59,17 @@ public class MineFragment extends BaseFragment {
         setHasOptionsMenu(true);
         mineToolbar.setTitle("我的");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mineToolbar);
-        ArrayList<Bean> list = new ArrayList<>();
+        list = new ArrayList<>();
         list.add(new Bean("我的信息", R.drawable.wodexinxi));
         list.add(new Bean("我的邀请", R.drawable.wodeyaoqing));
+        list.add(new Bean("我的汇报", R.drawable.wodehuibao));
+        list.add(new Bean("我的审批", R.drawable.wodeshenpi));
+
+    }
+
+
+    @Override
+    public void initListener() {
         MineRecycleAdapter adapter = new MineRecycleAdapter(R.layout.item_mine, list);
         mineRlv.setLayoutManager(new LinearLayoutManager(mActivity));
         mineRlv.setAdapter(adapter);
@@ -72,16 +83,16 @@ public class MineFragment extends BaseFragment {
                         break;
                     case 1:
                         startActivity(new Intent(mActivity, MineInviteActivity.class));
-
+                        break;
+                    case 2:
+                        startActivity(new Intent(mActivity, MineReportActivity.class));
+                        break;
+                    case 3:
+                        startActivity(new Intent(mActivity, MineApprovalActivity.class));
                         break;
                 }
             }
         });
-    }
-
-
-    @Override
-    public void initListener() {
           btMine.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {

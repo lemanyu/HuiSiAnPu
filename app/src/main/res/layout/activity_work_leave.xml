@@ -52,6 +52,8 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content">
              <TextView
+                 android:textStyle="bold"
+                 android:textSize="18sp"
                  android:clickable="false"
                  android:layout_weight="5"
                  android:layout_marginLeft="5dp"
@@ -61,13 +63,13 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <TextView
+                 android:textSize="18sp"
                  android:textColor="@color/text_blue"
                  android:id="@+id/tv_qingjialeixing"
                  android:clickable="false"
                  android:layout_weight="1"
                  android:text="请选择类型"
                  android:layout_margin="5dp"
-                 style="@style/LeaveText"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <ImageView
@@ -99,18 +101,19 @@
                  android:layout_weight="5"
                  android:layout_marginLeft="5dp"
                  android:layout_margin="5dp"
-                 style="@style/LeaveText"
+                 android:textSize="18sp"
+                 android:textStyle="bold"
                  android:text="开始时间"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <TextView
+                 android:textSize="18sp"
                  android:id="@+id/tv_beginTime"
                  android:textColor="@color/text_blue"
                  android:clickable="false"
                  android:layout_weight="1"
                  android:text="请选择（必填）"
                  android:layout_margin="5dp"
-                 style="@style/LeaveText"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <ImageView
@@ -139,7 +142,8 @@
              android:orientation="horizontal">
 
              <TextView
-                 style="@style/LeaveText"
+                 android:textStyle="bold"
+                 android:textSize="18sp"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_margin="5dp"
@@ -151,7 +155,7 @@
              <TextView
                  android:id="@+id/tv_endTime"
                  android:textColor="@color/text_blue"
-                 style="@style/LeaveText"
+                 android:textSize="18sp"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_margin="5dp"
@@ -191,7 +195,8 @@
                  android:layout_weight="2"
                  android:layout_marginLeft="5dp"
                  android:layout_margin="5dp"
-                 style="@style/LeaveText"
+                 android:textSize="18sp"
+                 android:textStyle="bold"
                  android:text="时长（天）:"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
@@ -203,8 +208,9 @@
              android:background="@color/linecolor"
              app:layout_marginRightPercent="2%w" />
          <TextView
+             android:textStyle="bold"
               android:layout_margin="5dp"
-              android:textSize="16sp"
+              android:textSize="18sp"
               android:text="请假事由："
               android:layout_width="wrap_content"
               android:layout_height="wrap_content" />
@@ -212,11 +218,11 @@
              android:gravity="left|top"
              android:layout_margin="5dp"
              android:padding="5dp"
-             android:minLines="7"
+             android:minLines="4"
              android:inputType="textMultiLine"
              android:id="@+id/et_leave"
-             android:background="@drawable/et_backgroud"
-             android:hint="请输入请假信息"
+             android:background="@null"
+             android:hint="请输入请假事由"
              android:layout_width="match_parent"
              android:layout_height="wrap_content" />
 
@@ -233,6 +239,7 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content">
              <TextView
+                 android:textSize="18sp"
                  android:textStyle="bold"
                  style="@style/LeaveText"
                  android:text="请选择审批人:"

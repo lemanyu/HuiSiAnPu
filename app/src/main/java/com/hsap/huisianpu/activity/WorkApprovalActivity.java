@@ -6,13 +6,13 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
 
 /**
- * 外出界面
+ *
  */
 
-public class WorkOutActivity extends BaseBackActivity {
+public class WorkApprovalActivity extends BaseBackActivity {
     @Override
     public int getLayoutId() {
-        return R.layout.activity_wokr_out;
+        return R.layout.activity_work_approval;
     }
 
     @Override

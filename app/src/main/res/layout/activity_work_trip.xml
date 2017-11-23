@@ -52,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:layout_weight="2"
                     android:layout_marginLeft="5dp"
@@ -80,6 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:layout_weight="2"
                     android:layout_marginLeft="5dp"
@@ -98,7 +100,7 @@
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
+                android:layout_height="30dp"></View>
 
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:gravity="center"
@@ -107,6 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:layout_weight="3"
                     android:layout_marginLeft="5dp"
@@ -146,6 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:layout_weight="3"
                     android:layout_marginLeft="5dp"
@@ -185,6 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:layout_weight="3"
                     android:layout_marginLeft="5dp"
@@ -205,8 +210,20 @@
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
+                android:layout_height="30dp"></View>
+            <EditText
+                android:gravity="left|top"
+                android:minLines="5"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:hint="备注"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
-
             <TextView
                 android:textStyle="bold"
                 android:textSize="18sp"

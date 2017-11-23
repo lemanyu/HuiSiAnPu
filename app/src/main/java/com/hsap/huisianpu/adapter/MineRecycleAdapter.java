@@ -23,6 +23,7 @@ public class MineRecycleAdapter extends BaseQuickAdapter<Bean,BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Bean item) {
         helper.setText(R.id.tv_mine,item.getName());
-        Glide.with(mContext).load(item.getPic()).into((ImageView) helper.getView(R.id.iv_mine));
+        Glide.with(mContext).load(item.getPic()).into
+                ((ImageView) helper.getView(R.id.iv_mine));
     }
 }

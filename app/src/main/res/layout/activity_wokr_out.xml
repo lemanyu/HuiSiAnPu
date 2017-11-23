@@ -34,6 +34,7 @@
                 style="@style/CommonText" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -49,6 +50,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
               <TextView
+                  android:textStyle="bold"
                   android:textSize="18sp"
                   android:layout_weight="3"
                   android:layout_marginLeft="5dp"
@@ -88,6 +90,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
               <TextView
+                  android:textStyle="bold"
                   android:textSize="18sp"
                   android:layout_weight="3"
                   android:layout_marginLeft="5dp"
@@ -128,19 +131,21 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
               <TextView
+                  android:textStyle="bold"
                   android:textSize="18sp"
                   android:layout_weight="3"
                   android:layout_marginLeft="5dp"
                   android:clickable="false"
-                  android:text="物品名称、数量"
+                  android:text="物品名称、数量:"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content" />
                <EditText
-                   android:lines="5"
+                   android:inputType="textMultiLine"
+                   android:minLines="3"
                    android:hint="请输入物品的名称和数量"
                    android:gravity="top|left"
-                   android:background="@drawable/et_backgroud"
-                   android:layout_margin="5dp"
+                   android:background="@null"
+                   android:padding="5dp"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content" />
               <View

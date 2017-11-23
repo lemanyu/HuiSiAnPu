@@ -98,7 +98,23 @@
             android:theme="@style/BackTheme"></activity>
         <activity android:name=".activity.WorkCarActivity"
             android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkDayNewPaperActivity"
+            android:theme="@style/BackTheme"></activity>
 
+        <activity android:name=".activity.WorkWeekNewPaperActivity"
+            android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkMonthNewPaperActivity"
+            android:theme="@style/BackTheme"></activity>
+
+        <activity android:name=".activity.WorkCheckReportActivity"
+            android:theme="@style/BackTheme"></activity>
+
+       <activity android:name=".activity.MineReportActivity"
+           android:theme="@style/BackTheme"></activity>
+       <activity android:name=".activity.WorkApprovalActivity"
+           android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.MineApprovalActivity"
+            android:theme="@style/BackTheme"></activity>
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver android:name="com.tencent.android.tpush.XGPushReceiver"

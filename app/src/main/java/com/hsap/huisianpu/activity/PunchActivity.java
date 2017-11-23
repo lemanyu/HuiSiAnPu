@@ -100,16 +100,18 @@ public class PunchActivity extends BaseBackActivity {
         nowMonth = calendar.get(Calendar.MONTH) + 1;
         nowDay = calendar.get(Calendar.DAY_OF_MONTH);
         nowHour = calendar.get(Calendar.HOUR_OF_DAY);
-        timeAndLocalformNet(nowYear,nowMonth,nowDay);
+       // timeAndLocalformNet(nowYear,nowMonth,nowDay);
         if (nowHour>7&&nowHour<9){
             punchFab.setVisibility(View.VISIBLE);
         }else {
             punchFab.setVisibility(View.GONE);
+            tvZhuangtai.setText("当前时间不可以打卡");
         }
         if(nowHour>17&&nowHour<18){
             punchFab.setVisibility(View.VISIBLE);
         }else {
             punchFab.setVisibility(View.GONE);
+            tvZhuangtai.setText("当前时间不可以打卡");
         }
         tvPunchDate.setText(nowYear + "." + nowMonth + "." + nowDay);
     }
@@ -141,12 +143,17 @@ public class PunchActivity extends BaseBackActivity {
                                                                        int month = monthOfYear + 1;
                                                                        String date = year + "." + month + "." + dayOfMonth;
                                                                        tvPunchDate.setText(date);
-
-                                                                      timeAndLocalformNet(year,month,dayOfMonth);
+                                                                        if(nowYear==year&&nowMonth==month&&nowDay==dayOfMonth){
+                                                                            tvZhuangtai.setText("打开记录时间和位置");
+                                                                        }else {
+                                                                            tvZhuangtai.setText("当前时间不可以打卡");
+                                                                        }
+                                                                   //   timeAndLocalformNet(year,month,dayOfMonth);
 
 
                                                                    }
-                                                               }, calendar.get(Calendar.YEAR),
+                                                               },
+                calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH));
         dialog.setVersion(DatePickerDialog.Version.VERSION_2);
