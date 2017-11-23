@@ -16,6 +16,10 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.activity.ContactsActivity;
 import com.hsap.huisianpu.activity.LeaveActivity;
 import com.hsap.huisianpu.activity.PunchActivity;
+import com.hsap.huisianpu.activity.WorkCarActivity;
+import com.hsap.huisianpu.activity.WorkOutActivity;
+import com.hsap.huisianpu.activity.WorkOvertimeActivity;
+import com.hsap.huisianpu.activity.WorkTripActivity;
 import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
@@ -93,16 +97,16 @@ public class WorkFragment extends BaseFragment {
                         startActivity(new Intent(mActivity, LeaveActivity.class));
                          break;
                      case 2:
-                         ToastUtils.showToast(mActivity,"2");
+                         startActivity(new Intent(mActivity, WorkOutActivity.class));
                          break;
                      case 3:
-                         ToastUtils.showToast(mActivity,"3");
+                         startActivity(new Intent(mActivity, WorkTripActivity.class));
                          break;
                      case 4:
-                         ToastUtils.showToast(mActivity,"4");
+                         startActivity(new Intent(mActivity, WorkOvertimeActivity.class));
                          break;
                      case 5:
-                         ToastUtils.showToast(mActivity,"5");
+                         startActivity(new Intent(mActivity, WorkCarActivity.class));
                          break;
                  }
             }

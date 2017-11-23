@@ -233,8 +233,9 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content">
              <TextView
+                 android:textStyle="bold"
                  style="@style/LeaveText"
-                 android:text="审批人"
+                 android:text="请选择审批人:"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
             <com.hsap.huisianpu.view.MyGridView

@@ -90,10 +90,14 @@
         <service android:name="com.amap.api.location.APSService"></service>
         <activity android:name=".activity.MineInviteActivity"
             android:theme="@style/BackTheme"></activity>
-
-
-
-
+        <activity android:name=".activity.WorkOutActivity"
+            android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkTripActivity"
+            android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkOvertimeActivity"
+            android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkCarActivity"
+            android:theme="@style/BackTheme"></activity>
 
 
         <!-- 【必须】 信鸽receiver广播接收 -->
