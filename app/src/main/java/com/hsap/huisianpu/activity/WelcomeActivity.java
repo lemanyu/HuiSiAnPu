@@ -10,7 +10,11 @@ import android.view.WindowManager;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseActivity;
 import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 /**
  * Created by zhao on 2017/11/16.

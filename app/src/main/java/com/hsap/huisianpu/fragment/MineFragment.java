@@ -90,7 +90,6 @@ public class MineFragment extends BaseFragment {
                   builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialogInterface, int i) {
-                          ToastUtils.showToast(mActivity,"退出");
                           SpUtils.putString(ConstantUtils.Token,"",mActivity);
                           SpUtils.putBoolean(ConstantUtils.Login,false,mActivity);
                           SpUtils.putInt(ConstantUtils.UserId,0,mActivity);

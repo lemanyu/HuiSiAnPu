@@ -14,6 +14,7 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.fragment.MineFragment;
 import com.hsap.huisianpu.fragment.NewsFragment;
 import com.hsap.huisianpu.fragment.WorkFragment;
+import com.hsap.huisianpu.utils.ActivityManagerUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
 
 import butterknife.BindView;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        ActivityManagerUtils.getInstance().addActivity(this);
         RadioGroup rg_main = findViewById(R.id.rg_main);
         RadioButton rb_news=findViewById(R.id.rb_news);
         rg_main.setOnCheckedChangeListener(this);

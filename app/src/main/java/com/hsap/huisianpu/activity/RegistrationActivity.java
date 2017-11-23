@@ -142,18 +142,6 @@ public class RegistrationActivity extends BaseActivity {
                     RegistrationBean bean = new Gson().fromJson(response.body().toString(), RegistrationBean.class);
                     if(bean.isSuccess()){
                         //TODO 保存sp的值 跳转到主页
-                        XGPushManager.registerPush(getApplicationContext(), new XGIOperateCallback() {
-                            @Override
-                            public void onSuccess(Object data, int i) {
-                                Log.e("TPush", "注册成功，设备token为：" + data);
-                                SpUtils.putString(ConstantUtils.Token,data+"",RegistrationActivity.this);
-                            }
-
-                            @Override
-                            public void onFail(Object data, int errCode, String msg) {
-                                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
-                            }
-                        });
                         SpUtils.putInt(ConstantUtils.UserId,bean.getData(),RegistrationActivity.this);
                         ActivityManagerUtils.getInstance().finishActivityclass(LoginActivity.class);
                         startActivity(new Intent(RegistrationActivity.this, MainActivity.class));

@@ -15,6 +15,7 @@ public class NetAddressUtils {
     public static String signDownPush=url+"SignDownPush";//下班打卡
     public static String getDaySignPush=url+"getDaySignPush";//下班打卡
     public static String getWorkerAdmin=url+"getWorkerAdmin";//获取所有员工所在部门的管理员
-    public static String leave=url+"leave";
+    public static String leave=url+"leave";//请假接口
+    public static String setToken=url+"setToken";//推送token
 
 }

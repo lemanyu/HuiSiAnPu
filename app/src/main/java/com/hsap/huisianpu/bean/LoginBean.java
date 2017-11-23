@@ -49,4 +49,14 @@ public class LoginBean {
     public void setData(int data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "LoginBean{" +
+                "code=" + code +
+                ", msg=" + msg +
+                ", success=" + success +
+                ", data=" + data +
+                '}';
+    }
 }

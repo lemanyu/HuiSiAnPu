@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class LoginActivity extends BaseActivity {
     Button btZhuce;
     @BindView(R.id.bt_denglu)
     Button btdenglu;
+    private LoginBean bean;
 
     @Override
     public int getLayoutId() {
@@ -84,43 +86,47 @@ public class LoginActivity extends BaseActivity {
             ToastUtils.showToast(LoginActivity.this,"账号或密码不能为空");
             return;
         }
-
+        final String token=SpUtils.getString(ConstantUtils.Token,LoginActivity.this);
         OkGo.<String>post(NetAddressUtils.login).params("username", username).
                 params("password", password).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                XGPushManager.registerPush(getApplicationContext(), new XGIOperateCallback() {
-                    @Override
-                    public void onSuccess(Object data, int i) {
-                        Log.e("TPush", "注册成功，设备token为：" + data);
-                        SpUtils.putString(ConstantUtils.Token,data+"",LoginActivity.this);
-                    }
-
-                    @Override
-                    public void onFail(Object data, int errCode, String msg) {
-                        Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
-                    }
-                });
-                //TODO 保存sp的值 跳转到主页
-                LoginBean bean = new Gson().fromJson(response.body().toString(), LoginBean.class);
+                Log.e("aaa",SpUtils.getString(ConstantUtils.Token,LoginActivity.this));
+                bean = new Gson().fromJson(response.body().toString(), LoginBean.class);
                 if (bean.isSuccess()){
-                    SpUtils.putInt(ConstantUtils.UserId,bean.getData(),LoginActivity.this);
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                    finish();
                     SpUtils.putBoolean(ConstantUtils.Login,true,LoginActivity.this);
+                    SpUtils.putInt(ConstantUtils.UserId, bean.getData(),LoginActivity.this);
+                    setToken(bean.getData(),token);
                 }else {
-                    ToastUtils.showToast(LoginActivity.this,bean.getMsg()+"");
+                    ToastUtils.showToast(LoginActivity.this, bean.getMsg()+"");
                     return;
                 }
 
             }
 
-            @Override
-            public void onError(Response<String> response) {
-               ToastUtils.showToast(LoginActivity.this,"当前无网络");
-            }
         });
 
+
+
+
+    }
+
+    private void setToken(int data, String token) {
+        Log.e("aaa",SpUtils.getString(ConstantUtils.Token,LoginActivity.this));
+        OkGo.<String>post(NetAddressUtils.setToken)
+                .params("id",data)
+                .params("token",token).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                        finish();
+                        Log.e("bbb",response.body().toString());
+
+
+
+                    }
+                });
     }
 
     @Override
@@ -128,5 +134,16 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            finish();
+            System.exit(0);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
     }
 }
