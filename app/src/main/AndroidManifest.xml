@@ -85,7 +85,6 @@
             android:theme="@style/BackTheme"></activity>
         <activity android:name=".activity.PunchActivity"
             android:theme="@style/BackTheme">
-
         </activity>
         <service android:name="com.amap.api.location.APSService"></service>
         <activity android:name=".activity.MineInviteActivity"
@@ -115,6 +114,18 @@
            android:theme="@style/BackTheme"></activity>
         <activity android:name=".activity.MineApprovalActivity"
             android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkSummaryActivity"
+            android:theme="@style/BackTheme"></activity>
+
+
+
+
+
+
+
+
+
+
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver android:name="com.tencent.android.tpush.XGPushReceiver"

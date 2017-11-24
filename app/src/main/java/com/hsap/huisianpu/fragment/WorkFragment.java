@@ -23,6 +23,7 @@ import com.hsap.huisianpu.activity.WorkDayNewPaperActivity;
 import com.hsap.huisianpu.activity.WorkMonthNewPaperActivity;
 import com.hsap.huisianpu.activity.WorkOutActivity;
 import com.hsap.huisianpu.activity.WorkOvertimeActivity;
+import com.hsap.huisianpu.activity.WorkSummaryActivity;
 import com.hsap.huisianpu.activity.WorkTripActivity;
 import com.hsap.huisianpu.activity.WorkWeekNewPaperActivity;
 import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
@@ -124,6 +125,7 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("周报",R.drawable.week));
         list.add(new Bean("月报",R.drawable.month));
         list.add(new Bean("查看汇报",R.drawable.see));
+        list.add(new Bean("出差总结",R.drawable.chuchaizongjie));
         WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         business.setLayoutManager(new GridLayoutManager(mActivity,4));
         business.setAdapter(adapter);
@@ -142,6 +144,9 @@ public class WorkFragment extends BaseFragment {
                          break;
                      case 3:
                         startActivity(new Intent(mActivity, WorkCheckReportActivity.class));
+                         break;
+                     case 4:
+                         startActivity(new Intent(mActivity, WorkSummaryActivity.class));
                          break;
                  }
             }

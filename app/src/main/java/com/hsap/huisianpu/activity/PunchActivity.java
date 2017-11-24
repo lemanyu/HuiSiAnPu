@@ -256,6 +256,7 @@ public class PunchActivity extends BaseBackActivity {
                         //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                         ToastUtils.showToast(PunchActivity.this, "获取错误");
                         return;
+
                     }
                 }
             }
