@@ -116,9 +116,12 @@
             android:theme="@style/BackTheme"></activity>
         <activity android:name=".activity.WorkSummaryActivity"
             android:theme="@style/BackTheme"></activity>
-
-
-
+        <activity android:name=".activity.MineProjectActivity"
+            android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkPublishProjectActivity"
+            android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkSeeProjectActivity"
+            android:theme="@style/BackTheme"></activity>
 
 
 

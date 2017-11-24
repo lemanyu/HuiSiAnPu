@@ -19,6 +19,7 @@ import com.hsap.huisianpu.activity.LoginActivity;
 import com.hsap.huisianpu.activity.MainActivity;
 import com.hsap.huisianpu.activity.MineApprovalActivity;
 import com.hsap.huisianpu.activity.MineInviteActivity;
+import com.hsap.huisianpu.activity.MineProjectActivity;
 import com.hsap.huisianpu.activity.MineReportActivity;
 import com.hsap.huisianpu.adapter.MineRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
@@ -64,7 +65,7 @@ public class MineFragment extends BaseFragment {
         list.add(new Bean("我的邀请", R.drawable.wodeyaoqing));
         list.add(new Bean("我的汇报", R.drawable.wodehuibao));
         list.add(new Bean("我的审批", R.drawable.wodeshenpi));
-
+        list.add(new Bean("我的项目",R.drawable.wodexiangmu));
     }
 
 
@@ -89,6 +90,9 @@ public class MineFragment extends BaseFragment {
                         break;
                     case 3:
                         startActivity(new Intent(mActivity, MineApprovalActivity.class));
+                        break;
+                    case 4:
+                        startActivity(new Intent(mActivity, MineProjectActivity.class));
                         break;
                 }
             }

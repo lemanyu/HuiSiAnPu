@@ -1,20 +1,18 @@
-package com.hsap.huisianpu.pager;
+package com.hsap.huisianpu.pager.mine;
 
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 
 /**
- * 待我审批
+ * 已经拒绝
  */
 
-public class WorkMyApprovalPager extends BaseFragmentPager {
+public class MineRefusedPager extends BaseFragmentPager {
     @Override
     public View initView() {
-
-        View view = View.inflate(mActivity, R.layout.pager_work_my_approval, null);
+        View view = View.inflate(mActivity, R.layout.pager_mine_refused, null);
         return view;
     }
 

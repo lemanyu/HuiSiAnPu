@@ -11,11 +11,10 @@ import android.widget.ImageButton;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.ViewPagerFragmentAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
-import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.base.BaseFragmentPager;
-import com.hsap.huisianpu.pager.WorkDayPager;
-import com.hsap.huisianpu.pager.WorkMonthPager;
-import com.hsap.huisianpu.pager.WorkWeekPager;
+import com.hsap.huisianpu.pager.work.WorkDayPager;
+import com.hsap.huisianpu.pager.work.WorkMonthPager;
+import com.hsap.huisianpu.pager.work.WorkWeekPager;
 import com.hsap.huisianpu.view.MyViewPager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;

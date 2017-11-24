@@ -1,4 +1,4 @@
-package com.hsap.huisianpu.pager;
+package com.hsap.huisianpu.pager.work;
 
 import android.view.View;
 
@@ -6,13 +6,13 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 
 /**
- * 正在进行审批
+ * 进行项目
  */
 
-public class MineOngoingPager extends BaseFragmentPager {
+public class WorkCondutProjectPager extends BaseFragmentPager {
     @Override
     public View initView() {
-        View view = View.inflate(mActivity, R.layout.pager_mine_ongoing, null);
+        View view = View.inflate(mActivity, R.layout.pager_work_condut_project, null);
         return view;
     }
 

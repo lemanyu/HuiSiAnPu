@@ -23,6 +23,8 @@ import com.hsap.huisianpu.activity.WorkDayNewPaperActivity;
 import com.hsap.huisianpu.activity.WorkMonthNewPaperActivity;
 import com.hsap.huisianpu.activity.WorkOutActivity;
 import com.hsap.huisianpu.activity.WorkOvertimeActivity;
+import com.hsap.huisianpu.activity.WorkPublishProjectActivity;
+import com.hsap.huisianpu.activity.WorkSeeProjectActivity;
 import com.hsap.huisianpu.activity.WorkSummaryActivity;
 import com.hsap.huisianpu.activity.WorkTripActivity;
 import com.hsap.huisianpu.activity.WorkWeekNewPaperActivity;
@@ -165,10 +167,11 @@ public class WorkFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                  switch (position){
                      case 0:
-                            ToastUtils.showToast(mActivity,"发布项目");
+                         startActivity(new Intent(mActivity, WorkPublishProjectActivity.class));
                          break;
                      case 1:
-                         ToastUtils.showToast(mActivity,"查看项目");
+                         startActivity(new Intent(mActivity, WorkSeeProjectActivity.class));
+
                          break;
                  }
             }

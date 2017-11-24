@@ -10,9 +10,9 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.ViewPagerFragmentAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.base.BaseFragmentPager;
-import com.hsap.huisianpu.pager.MineAgreedPager;
-import com.hsap.huisianpu.pager.MineOngoingPager;
-import com.hsap.huisianpu.pager.MineRefusedPager;
+import com.hsap.huisianpu.pager.mine.MineAgreedPager;
+import com.hsap.huisianpu.pager.mine.MineOngoingPager;
+import com.hsap.huisianpu.pager.mine.MineRefusedPager;
 import com.hsap.huisianpu.view.MyViewPager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;

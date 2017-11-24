@@ -58,7 +58,7 @@ public class MineInviteActivity extends BaseBackActivity {
                     List<InviteBean.DataBean> data = bean.getData();
                     rlvMineInvite.setLayoutManager(new LinearLayoutManager(MineInviteActivity.this));
                     rlvMineInvite.setAdapter(new InviteRecycleAdapter(R.layout.item_mine_invite,data));
-                 }else {
+                }else {
                     ToastUtils.showToast(MineInviteActivity.this,"当前网络不好");
                 }
             }

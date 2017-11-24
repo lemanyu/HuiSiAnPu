@@ -1,4 +1,4 @@
-package com.hsap.huisianpu.pager;
+package com.hsap.huisianpu.pager.mine;
 
 import android.view.View;
 
@@ -9,10 +9,10 @@ import com.hsap.huisianpu.base.BaseFragmentPager;
  * Created by zhao on 2017/11/23.
  */
 
-public class MineDayPager extends BaseFragmentPager {
+public class MineMonthPager extends BaseFragmentPager {
     @Override
     public View initView() {
-        View view = View.inflate(mActivity, R.layout.pager_mine_day, null);
+        View view = View.inflate(mActivity, R.layout.pager_mine_month, null);
         return view;
     }
 

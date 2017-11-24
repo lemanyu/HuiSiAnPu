@@ -1,4 +1,4 @@
-package com.hsap.huisianpu.pager;
+package com.hsap.huisianpu.pager.work;
 
 import android.view.View;
 
@@ -9,10 +9,10 @@ import com.hsap.huisianpu.base.BaseFragmentPager;
  * Created by zhao on 2017/11/23.
  */
 
-public class WorkWeekPager extends BaseFragmentPager {
+public class WorkDayPager extends BaseFragmentPager {
     @Override
     public View initView() {
-        View view = View.inflate(mActivity, R.layout.pager_work_week, null);
+        View view = View.inflate(mActivity, R.layout.pager_work_day, null);
         return view;
     }
 

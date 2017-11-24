@@ -1,4 +1,4 @@
-package com.hsap.huisianpu.pager;
+package com.hsap.huisianpu.pager.work;
 
 import android.view.View;
 
@@ -6,13 +6,13 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 
 /**
- * 已经同意
+ * Created by zhao on 2017/11/23.
  */
 
-public class MineAgreedPager extends BaseFragmentPager {
+public class WorkMonthPager extends BaseFragmentPager {
     @Override
     public View initView() {
-        View view = View.inflate(mActivity, R.layout.pager_mine_agreed, null);
+        View view = View.inflate(mActivity, R.layout.pager_work_month, null);
         return view;
     }
 

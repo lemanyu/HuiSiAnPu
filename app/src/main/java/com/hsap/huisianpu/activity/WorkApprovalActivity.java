@@ -11,8 +11,8 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.ViewPagerFragmentAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.base.BaseFragmentPager;
-import com.hsap.huisianpu.pager.WorkHaveApprovalPager;
-import com.hsap.huisianpu.pager.WorkMyApprovalPager;
+import com.hsap.huisianpu.pager.work.WorkHaveApprovalPager;
+import com.hsap.huisianpu.pager.work.WorkMyApprovalPager;
 import com.hsap.huisianpu.view.MyViewPager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
