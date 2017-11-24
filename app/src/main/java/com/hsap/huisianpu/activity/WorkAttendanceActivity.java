@@ -7,16 +7,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.ViewPagerFragmentAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.base.BaseFragmentPager;
-import com.hsap.huisianpu.pager.mine.MineAllProjectPager;
-import com.hsap.huisianpu.pager.mine.MineComPleteProjectPager;
-import com.hsap.huisianpu.pager.mine.MineCondutProjectPager;
-import com.hsap.huisianpu.pager.mine.MineExamineProjectPager;
-import com.hsap.huisianpu.pager.mine.MineUploadProjectPager;
+import com.hsap.huisianpu.pager.work.WorkAbsencePager;
+import com.hsap.huisianpu.pager.work.WorkAttendancePager;
 import com.hsap.huisianpu.view.MyViewPager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -36,43 +35,43 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 我的项目
+ * 考勤统计
  */
 
-public class MineProjectActivity extends BaseBackActivity {
+public class WorkAttendanceActivity extends BaseBackActivity {
     @BindView(R.id.back)
     ImageButton back;
-    @BindView(R.id.mic_mine_project)
-    MagicIndicator micMineProject;
-    @BindView(R.id.vp_mine_project)
-    MyViewPager vpMineProject;
-    private List<BaseFragmentPager> frgamentList=new ArrayList<>();
+    @BindView(R.id.tv_punch_date)
+    TextView tvPunchDate;
+    @BindView(R.id.ll_time)
+    LinearLayout llTime;
+    @BindView(R.id.mic_work_attendance)
+    MagicIndicator micWorkAttendance;
+    @BindView(R.id.vp_work_attendance)
+    MyViewPager vpWorkAttendance;
+    private List<BaseFragmentPager> fragmentList=new ArrayList<>();
     @Override
     public int getLayoutId() {
-
-        return R.layout.activity_mine_project;
+        return R.layout.activity_work_attendance;
     }
 
     @Override
     public void initView() {
-        frgamentList.add(new MineAllProjectPager());
-        frgamentList.add(new MineCondutProjectPager());
-        frgamentList.add(new MineComPleteProjectPager());
-        frgamentList.add(new MineUploadProjectPager());
-        frgamentList.add(new MineExamineProjectPager());
+        fragmentList.add(new WorkAttendancePager());
+        fragmentList.add(new WorkAbsencePager());
+        initMic();
+        vpWorkAttendance.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(),fragmentList));
     }
 
     @Override
     public void initData() {
-        initMic();
-        vpMineProject.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(),frgamentList));
 
     }
 
     @Override
     public void initListener() {
         back.setOnClickListener(this);
-        vpMineProject.setOnPageChangeListener(getListener());
+        vpWorkAttendance.setOnPageChangeListener(getListener());
     }
 
     @NonNull
@@ -80,48 +79,51 @@ public class MineProjectActivity extends BaseBackActivity {
         return new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                 micMineProject.onPageScrolled(position,positionOffset,positionOffsetPixels);
+                 micWorkAttendance.onPageScrolled(position,positionOffset,positionOffsetPixels);
             }
 
             @Override
             public void onPageSelected(int position) {
-                micMineProject.onPageSelected(position);
+                micWorkAttendance.onPageSelected(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                micMineProject.onPageScrollStateChanged(state);
+                micWorkAttendance.onPageScrollStateChanged(state);
             }
         };
     }
 
+    @Override
+    public void processClick(View v) {
+
+    }
     private void initMic() {
         final ArrayList<String> list = new ArrayList<>();
-        list.add("全部项目");list.add("进行项目");list.add("完成项目");list.add("等待上传");list.add("等待审核");
-        micMineProject.setBackgroundColor(Color.WHITE);
+        list.add("全勤");list.add("缺勤");
+        micWorkAttendance.setBackgroundColor(Color.WHITE);
         CommonNavigator navigator = new CommonNavigator(this);
+        navigator.setAdjustMode(true);
         navigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
-
                 return list==null?0:list.size();
             }
 
             @Override
-            public IPagerTitleView getTitleView(Context context, final int i) {
+            public IPagerTitleView getTitleView(Context context, final int position) {
                 SimplePagerTitleView view = new ColorTransitionPagerTitleView(context);
-                view.setTextAppearance(context,R.style.LeaveText);
+                view.setText(list.get(position));
                 view.setTextSize(18);
-                view.setText(list.get(i));
+                view.setTextAppearance(WorkAttendanceActivity.this,R.style.LeaveText);
                 view.setNormalColor(Color.parseColor("#b3b3b3"));
                 view.setSelectedColor(Color.parseColor("#1296db"));
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        vpMineProject.setCurrentItem(i);
+                        vpWorkAttendance.setCurrentItem(position);
                     }
                 });
-
                 return view;
             }
 
@@ -131,14 +133,9 @@ public class MineProjectActivity extends BaseBackActivity {
                 return indicator;
             }
         });
-        micMineProject.setNavigator(navigator);
-        ViewPagerHelper.bind(micMineProject,vpMineProject);
+        micWorkAttendance.setNavigator(navigator);
+        ViewPagerHelper.bind(micWorkAttendance, vpWorkAttendance);
     }
-    @Override
-    public void processClick(View v) {
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

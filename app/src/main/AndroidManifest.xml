@@ -122,7 +122,8 @@
             android:theme="@style/BackTheme"></activity>
         <activity android:name=".activity.WorkSeeProjectActivity"
             android:theme="@style/BackTheme"></activity>
-
+         <activity android:name=".activity.WorkAttendanceActivity"
+             android:theme="@style/BackTheme"></activity>
 
 
 

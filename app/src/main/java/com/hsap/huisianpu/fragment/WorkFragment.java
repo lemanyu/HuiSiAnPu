@@ -17,6 +17,7 @@ import com.hsap.huisianpu.activity.ContactsActivity;
 import com.hsap.huisianpu.activity.LeaveActivity;
 import com.hsap.huisianpu.activity.PunchActivity;
 import com.hsap.huisianpu.activity.WorkApprovalActivity;
+import com.hsap.huisianpu.activity.WorkAttendanceActivity;
 import com.hsap.huisianpu.activity.WorkCarActivity;
 import com.hsap.huisianpu.activity.WorkCheckReportActivity;
 import com.hsap.huisianpu.activity.WorkDayNewPaperActivity;
@@ -193,7 +194,7 @@ public class WorkFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position){
                     case 0:
-                        ToastUtils.showToast(mActivity,"考勤统计");
+                        startActivity(new Intent(mActivity, WorkAttendanceActivity.class));
                         break;
                     case 1:
                         startActivity(new Intent(mActivity, WorkApprovalActivity.class));

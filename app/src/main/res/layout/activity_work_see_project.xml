@@ -34,7 +34,7 @@
 
      </net.lucode.hackware.magicindicator.MagicIndicator>
     <com.hsap.huisianpu.view.MyViewPager
-        android:id="@+id/vp_mine_project"
+        android:id="@+id/vp_work_project"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

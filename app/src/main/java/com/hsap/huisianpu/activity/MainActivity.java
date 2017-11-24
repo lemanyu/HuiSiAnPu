@@ -1,7 +1,9 @@
 package com.hsap.huisianpu.activity;
 
 import android.app.FragmentTransaction;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -42,12 +44,23 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ActivityManagerUtils.getInstance().addActivity(this);
+        initView();
         RadioGroup rg_main = findViewById(R.id.rg_main);
         RadioButton rb_news=findViewById(R.id.rb_news);
         rg_main.setOnCheckedChangeListener(this);
         rb_news.setChecked(true);
     }
-
+   private void initView(){
+       Drawable drawable = ContextCompat.getDrawable(this,R.drawable.news_selector);
+       drawable.setBounds(0,0,70,70);
+       rbNews.setCompoundDrawables(null,drawable,null,null);
+       Drawable drawable1 = ContextCompat.getDrawable(this, R.drawable.work_selector);
+       drawable1.setBounds(0,0,70,70);
+       rbWork.setCompoundDrawables(null,drawable1,null,null);
+       Drawable drawable2 = ContextCompat.getDrawable(this, R.drawable.mine_selector);
+       drawable2.setBounds(0,0,80,80);
+       rbMine.setCompoundDrawables(null,drawable2,null,null);
+   }
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {

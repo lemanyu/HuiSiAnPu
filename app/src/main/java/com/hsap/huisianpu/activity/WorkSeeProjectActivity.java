@@ -44,8 +44,8 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
     ImageButton back;
     @BindView(R.id.mic_work_project)
     MagicIndicator micWorkProject;
-    @BindView(R.id.vp_mine_project)
-    MyViewPager vpMineProject;
+    @BindView(R.id.vp_work_project)
+    MyViewPager vpWorkProject;
     private List<BaseFragmentPager> frgamentList=new ArrayList<>();
     @Override
     public int getLayoutId() {
@@ -60,7 +60,7 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
            frgamentList.add(new WorkUploadProjectPager());
            frgamentList.add(new WorkExamineProjectPager());
            initMic();
-           vpMineProject.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(),frgamentList));
+        vpWorkProject.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(),frgamentList));
     }
 
 
@@ -73,7 +73,7 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
     public void initListener() {
 
         back.setOnClickListener(this);
-        vpMineProject.setOnPageChangeListener(getListener());
+        vpWorkProject.setOnPageChangeListener(getListener());
     }
 
     @NonNull
@@ -106,10 +106,10 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
         list.add("全部项目");list.add("进行项目");list.add("完成项目");list.add("等待上传");list.add("等待审核");
         micWorkProject.setBackgroundColor(Color.WHITE);
         CommonNavigator navigator = new CommonNavigator(this);
-        navigator.setAdjustMode(true);
         navigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
+
                 return list==null?0:list.size();
             }
 
@@ -117,14 +117,14 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
             public IPagerTitleView getTitleView(Context context, final int i) {
                 SimplePagerTitleView view = new ColorTransitionPagerTitleView(context);
                 view.setTextAppearance(context,R.style.LeaveText);
-                view.setTextSize(15);
+                view.setTextSize(18);
                 view.setText(list.get(i));
                 view.setNormalColor(Color.parseColor("#b3b3b3"));
                 view.setSelectedColor(Color.parseColor("#1296db"));
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        vpMineProject.setCurrentItem(i);
+                        vpWorkProject.setCurrentItem(i);
                     }
                 });
 
@@ -138,7 +138,7 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
             }
         });
         micWorkProject.setNavigator(navigator);
-        ViewPagerHelper.bind(micWorkProject,vpMineProject);
+        ViewPagerHelper.bind(micWorkProject,vpWorkProject);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
