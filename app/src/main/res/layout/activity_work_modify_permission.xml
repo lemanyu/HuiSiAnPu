@@ -26,6 +26,7 @@
                 android:text="修改权限"
                 style="@style/CommonText" />
             <Button
+                android:id="@+id/bt_modify_commit"
                 android:background="@null"
                 android:layout_gravity="right"
                 android:textSize="20sp"
@@ -33,4 +34,72 @@
                 style="@style/CommonText" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:id="@+id/pll_modify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/text_white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="5"
+            android:clickable="false"
+            android:text="请选择修改的权限" />
+
+        <TextView
+            android:id="@+id/tv_modify"
+            android:textStyle="bold"
+            android:textColor="@color/text_blue"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:text="请选择（必填）" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/right_gray"
+            android:clickable="false"
+            android:gravity="right"
+            app:layout_heightPercent="7%w"
+            app:layout_marginRightPercent="2%w"
+            app:layout_widthPercent="7%w" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    <View
+        android:layout_marginTop="5dp"
+        android:background="@color/linecolor"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"></View>
+    <TextView
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:text="请选择修改人："
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <com.hsap.huisianpu.view.MyGridView
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="40dp"
+        android:numColumns="3"
+        android:layout_margin="5dp"
+        android:stretchMode="columnWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_marginTop="5dp"
+        android:background="@color/linecolor"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"></View>
 </LinearLayout>

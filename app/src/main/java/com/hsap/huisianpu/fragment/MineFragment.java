@@ -18,6 +18,7 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.activity.LoginActivity;
 import com.hsap.huisianpu.activity.MainActivity;
 import com.hsap.huisianpu.activity.MineApprovalActivity;
+import com.hsap.huisianpu.activity.MineInfoActivity;
 import com.hsap.huisianpu.activity.MineInviteActivity;
 import com.hsap.huisianpu.activity.MineProjectActivity;
 import com.hsap.huisianpu.activity.MineReportActivity;
@@ -79,8 +80,7 @@ public class MineFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
                     case 0:
-                        //TODO 个人信息
-
+                        startActivity(new Intent(mActivity, MineInfoActivity.class));
                         break;
                     case 1:
                         startActivity(new Intent(mActivity, MineInviteActivity.class));

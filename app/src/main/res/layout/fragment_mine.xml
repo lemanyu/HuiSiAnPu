@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/text_white">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,6 +20,8 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
      <android.support.v7.widget.RecyclerView
+
+         android:overScrollMode="never"
          android:id="@+id/mine_rlv"
          android:layout_width="match_parent"
          android:layout_height="wrap_content">

@@ -26,7 +26,7 @@
                 android:text="出差总结"
                 style="@style/CommonText" />
             <Button
-                android:id="@+id/bt_learve_commit"
+              android:id="@+id/bt_summary_commit"
                 android:background="@null"
                 android:layout_gravity="right"
                 android:textSize="20sp"
@@ -42,7 +42,7 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content">
          <com.zhy.android.percent.support.PercentLinearLayout
-             android:id="@+id/pll_qingjia"
+            android:id="@+id/pll_summary_time"
              android:layout_margin="5dp"
              android:background="@color/text_white"
              android:orientation="horizontal"
@@ -60,9 +60,10 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <TextView
+                 android:id="@+id/tv_summary_time"
+                 android:textStyle="bold"
                  android:textSize="18sp"
                  android:textColor="@color/text_blue"
-                 android:id="@+id/tv_qingjialeixing"
                  android:clickable="false"
                  android:layout_weight="1"
                  android:text="请选择（必填）"
@@ -104,6 +105,8 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <EditText
+                 android:id="@+id/et_summary_location"
+                 android:textStyle="bold"
                  android:layout_marginLeft="10dp"
                  android:background="@null"
                  android:hint="请输入出差地点"
@@ -135,6 +138,8 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <EditText
+                 android:textStyle="bold"
+                 android:id="@+id/et_summary_products"
                  android:layout_marginLeft="10dp"
                  android:background="@null"
                  android:hint="请输入产品类别"
@@ -166,6 +171,8 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
              <EditText
+                 android:id="@+id/et_summary_customer"
+                 android:textStyle="bold"
                  android:layout_marginLeft="10dp"
                  android:background="@null"
                  android:hint="请输入客户负责人"
@@ -187,6 +194,8 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content" />
          <EditText
+             android:id="@+id/et_summary_scene"
+             android:textStyle="bold"
              android:gravity="left|top"
              android:minLines="5"
              android:inputType="textMultiLine"
@@ -207,6 +216,8 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content" />
          <EditText
+             android:id="@+id/et_summary_preliminary"
+             android:textStyle="bold"
              android:gravity="left|top"
              android:minLines="5"
              android:inputType="textMultiLine"
@@ -227,6 +238,8 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content" />
          <EditText
+             android:id="@+id/et_summary_practice"
+             android:textStyle="bold"
              android:gravity="left|top"
              android:minLines="5"
              android:inputType="textMultiLine"
@@ -247,6 +260,8 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content" />
          <EditText
+             android:id="@+id/et_summary_technology"
+             android:textStyle="bold"
              android:gravity="left|top"
              android:minLines="5"
              android:inputType="textMultiLine"

@@ -1,7 +1,9 @@
 package com.hsap.huisianpu.activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -48,6 +50,8 @@ public class WorkOvertimeActivity extends BaseBackActivity {
     EditText etOvertimeCause;
     StringBuilder beginTime=new StringBuilder();
     StringBuilder endTime=new StringBuilder();
+    private StringBuffer Pm=new StringBuffer();//下午
+    private StringBuffer Am=new StringBuffer();//上午
     @Override
     public int getLayoutId() {
 
@@ -89,37 +93,68 @@ public class WorkOvertimeActivity extends BaseBackActivity {
 
     private void showEnd() {
         endTime.setLength(0);
+        Pm.setLength(0);
         if(tvOvertimeBegin.getText().toString().trim().equals("请选择（必填）")){
             ToastUtils.showToast(this,"请先选择开始时间");
             return;
         }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请选择上午/下午");
+        final int[] choose = {0};
+        final String[] item = {"上午", "下午"};
+        builder.setSingleChoiceItems(item, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                choose[0]=i;
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Pm.append(item[choose[0]]);
+                tvOvertimeEnd.setText(endTime+" "+Pm);
+                if(tvOvertimeBegin.getText().toString().equals(tvOvertimeEnd.getText().toString())){
+                    tvOvertimeDay.setText("0.5");
+                    return;
+                }
+                if(endTime.toString().equals(beginTime.toString())&&!Pm.toString().equals(Am.toString())){
+                    tvOvertimeDay.setText("1");
+                    return;
+                }
+                if(!endTime.toString().equals(beginTime.toString())&&Pm.toString().equals(Am.toString())){
+                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
+                    try {
+                        Date begin = sdf.parse(beginTime.toString());
+                        Date end = sdf.parse(endTime.toString());
+                        int day = (int) ((end.getTime() - begin.getTime()) / (1000 * 3600 * 24));
+                        tvOvertimeDay.setText(day+".5");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
+                    try {
+                        Date begin = sdf.parse(beginTime.toString());
+                        Date end = sdf.parse(endTime.toString());
+                        int day = (int) ((end.getTime() - begin.getTime()) / (1000 * 3600 * 24));
+                        tvOvertimeDay.setText(day+1+"");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+        builder.setNegativeButton("取消",null);
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-        final TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                endTime.append(" " + i + ":" + i1);
-                tvOvertimeEnd.setText(endTime);
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-                try {
-                    Date begin = format.parse(beginTime.toString());
-                    Date end=format.parse(endTime.toString());
-                    tvOvertimeDay.setText((end.getTime()-begin.getTime())/(60*60*1000*24)+"天");
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, hour, minute, true);
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 endTime.append(i + "-" + (i1 + 1) + "-" + i2);
-                timePickerDialog.show();
+                builder.show();
             }
         },year,month,day).show();
     }
@@ -127,24 +162,35 @@ public class WorkOvertimeActivity extends BaseBackActivity {
 
     private void showBegin() {
         beginTime.setLength(0);
+        Am.setLength(0);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请选择上午/下午");
+        final int[] choose = {0};
+        final String[] item = {"上午", "下午"};
+        builder.setSingleChoiceItems(item, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                choose[0]=i;
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Am.append(item[choose[0]]);
+                tvOvertimeBegin.setText(beginTime+" "+Am);
+            }
+        });
+        builder.setNegativeButton("取消",null);
+
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-        final TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                beginTime.append(" " + i + ":" + i1);
-                tvOvertimeBegin.setText(beginTime);
-            }
-        }, hour, minute, true);
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 beginTime.append(i + "-" + (i1 + 1) + "-" + i2);
-                timePickerDialog.show();
+                builder.show();
             }
         },year,month,day).show();
     }

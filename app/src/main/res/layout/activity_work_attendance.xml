@@ -26,18 +26,18 @@
                 android:text="考勤统计"
                 style="@style/CommonText" />
             <LinearLayout
-                android:id="@+id/ll_time"
+                android:id="@+id/ll_attendance_time"
                 android:layout_gravity="right"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/tv_attendance_time"
                     android:textStyle="bold"
-                    android:id="@+id/tv_punch_date"
                     android:layout_gravity="center_vertical"
                     android:clickable="false"
                     android:textColor="@color/text_blue"
-                    android:text="2017.11"
+                    android:text="2017.8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
