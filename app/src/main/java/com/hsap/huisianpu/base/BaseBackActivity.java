@@ -1,5 +1,6 @@
 package com.hsap.huisianpu.base;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SlidingPaneLayout;
@@ -21,6 +22,7 @@ public abstract class BaseBackActivity extends AppCompatActivity implements Slid
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         initSlideBackClose();
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         initView();

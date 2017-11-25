@@ -66,7 +66,8 @@
             android:value="cfa6de2cfa58161720fd7b0cbb7d4fad">//开发者申请的key
 
         </meta-data>
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.SelectApproverActivity"
             android:theme="@style/BackTheme"></activity>
@@ -124,7 +125,8 @@
             android:theme="@style/BackTheme"></activity>
          <activity android:name=".activity.WorkAttendanceActivity"
              android:theme="@style/BackTheme"></activity>
-
+         <activity android:name=".activity.WorkModifyPermissionsActivity"
+             android:theme="@style/BackTheme"></activity>
 
 
 

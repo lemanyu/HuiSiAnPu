@@ -1,6 +1,7 @@
 package com.hsap.huisianpu.base;
 
 import android.app.Fragment;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;

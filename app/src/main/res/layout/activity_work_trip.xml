@@ -26,6 +26,7 @@
                 android:text="出差"
                 style="@style/CommonText" />
             <Button
+                android:id="@+id/bt_trip_commit"
                 android:background="@null"
                 android:layout_gravity="right"
                 android:textSize="20sp"
@@ -37,37 +38,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.zhy.android.percent.support.PercentLinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-
-
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center"
-                android:padding="5dp"
-                android:orientation="horizontal"
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="出差事由（必填）"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="5dp"
-                    android:clickable="false"
-                    android:text="出差事由"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <EditText
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:hint="请输入出差事由（必填）"
-                    android:layout_weight="2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_trip_reason"
+                android:textStyle="bold"
+                android:gravity="left|top"
+                android:minLines="2"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:hint="请输入出差事由"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
@@ -90,6 +83,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:id="@+id/et_trip_city"
+                    android:textStyle="bold"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     android:hint="请输入出差城市"
@@ -101,8 +96,8 @@
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"></View>
-
             <com.zhy.android.percent.support.PercentLinearLayout
+                android:id="@+id/pll_trip_begin"
                 android:gravity="center"
                 android:padding="5dp"
                 android:orientation="horizontal"
@@ -117,8 +112,9 @@
                     android:text="开始时间"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
                 <TextView
+                    android:id="@+id/tv_trip_begin"
+                    android:textStyle="bold"
                     android:textColor="@color/text_blue"
                     android:layout_gravity="center"
                     android:textSize="18sp"
@@ -143,6 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
             <com.zhy.android.percent.support.PercentLinearLayout
+                android:id="@+id/pll_trip_end"
                 android:gravity="center"
                 android:padding="5dp"
                 android:orientation="horizontal"
@@ -157,8 +154,9 @@
                     android:text="结束时间"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
                 <TextView
+                    android:id="@+id/tv_trip_end"
+                    android:textStyle="bold"
                     android:textColor="@color/text_blue"
                     android:layout_gravity="center"
                     android:textSize="18sp"
@@ -198,6 +196,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_trip_day"
+                    android:textStyle="bold"
                     android:textColor="@color/text_blue"
                     android:layout_gravity="center"
                     android:textSize="18sp"
@@ -205,13 +205,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:clickable="false"
-                    android:text="请选择（必填）" />
+                    android:text="自动生成（必填）" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"></View>
             <EditText
+                android:id="@+id/et_trip_remark"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
@@ -239,7 +240,6 @@
                 android:stretchMode="columnWidth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
             <View
                 android:layout_marginTop="5dp"
                 android:background="@color/linecolor"
@@ -266,10 +266,6 @@
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
-
-
-
-
         </com.zhy.android.percent.support.PercentLinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

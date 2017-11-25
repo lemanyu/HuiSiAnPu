@@ -150,6 +150,11 @@ public class LeaveActivity extends BaseBackActivity {
     }
 
     private void showEndTime() {
+        if(tvBeginTime.getText().toString().trim().equals("请选择（必填）")){
+            ToastUtils.showToast(this,"请选择开始时间");
+            return;
+        }
+        endtime.setLength(0);
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -165,7 +170,7 @@ public class LeaveActivity extends BaseBackActivity {
                 try {
                     Date begin = format.parse(begintime.toString());
                     Date end=format.parse(endtime.toString());
-                    tvShichang.setText("时长（天）："+(end.getTime()-begin.getTime())/(60*60*1000*24));
+                    tvShichang.setText((end.getTime()-begin.getTime())/(60*60*1000*24)+"天");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -183,6 +188,9 @@ public class LeaveActivity extends BaseBackActivity {
     }
 
     private void showBeginTime() {
+//        TimePicker picker = new TimePicker(this);
+//        picker.setIs24HourView(false);
+        begintime.setLength(0);
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -197,7 +205,8 @@ public class LeaveActivity extends BaseBackActivity {
 
 
             }
-        }, hour, minute, true);
+        }, hour, minute, false);
+
         DatePickerDialog dateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {

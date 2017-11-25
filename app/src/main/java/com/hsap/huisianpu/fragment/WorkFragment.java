@@ -21,6 +21,7 @@ import com.hsap.huisianpu.activity.WorkAttendanceActivity;
 import com.hsap.huisianpu.activity.WorkCarActivity;
 import com.hsap.huisianpu.activity.WorkCheckReportActivity;
 import com.hsap.huisianpu.activity.WorkDayNewPaperActivity;
+import com.hsap.huisianpu.activity.WorkModifyPermissionsActivity;
 import com.hsap.huisianpu.activity.WorkMonthNewPaperActivity;
 import com.hsap.huisianpu.activity.WorkOutActivity;
 import com.hsap.huisianpu.activity.WorkOvertimeActivity;
@@ -200,7 +201,7 @@ public class WorkFragment extends BaseFragment {
                         startActivity(new Intent(mActivity, WorkApprovalActivity.class));
                         break;
                     case 2:
-                        ToastUtils.showToast(mActivity,"修改权限");
+                        startActivity(new Intent(mActivity, WorkModifyPermissionsActivity.class));
                         break;
                     case 3:
                         contactsPermission();

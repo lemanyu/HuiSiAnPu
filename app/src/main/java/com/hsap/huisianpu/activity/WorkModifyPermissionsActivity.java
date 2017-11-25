@@ -6,14 +6,14 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
 
 /**
- * Created by zhao on 2017/11/23.
+ *
+ * 修改权限
  */
 
-public class WorkMonthNewPaperActivity extends BaseBackActivity {
+public class WorkModifyPermissionsActivity extends BaseBackActivity {
     @Override
     public int getLayoutId() {
-
-        return R.layout.activity_work_month;
+        return R.layout.activity_work_modify_permission;
     }
 
     @Override

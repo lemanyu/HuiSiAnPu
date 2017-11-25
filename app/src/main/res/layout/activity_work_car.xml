@@ -26,6 +26,7 @@
                 android:text="用车"
                 style="@style/CommonText" />
             <Button
+                android:id="@+id/bt_car_commit"
                 android:background="@null"
                 android:layout_gravity="right"
                 android:textSize="20sp"
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content">
 
             <com.zhy.android.percent.support.PercentLinearLayout
+                android:id="@+id/pll_car_begin"
                 android:gravity="center"
                 android:padding="5dp"
                 android:orientation="horizontal"
@@ -57,46 +59,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:textColor="@color/text_blue"
-                    android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:text="请选择（必填）" />
-                <ImageView
-                    android:clickable="false"
-                    android:layout_gravity="center_vertical"
-                    app:layout_marginRightPercent="2%w"
-                    app:layout_widthPercent="7%w"
-                    app:layout_heightPercent="7%w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/right_gray"
-                    android:gravity="right" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:gravity="center"
-                android:padding="5dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
                     android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_weight="3"
-                    android:layout_marginLeft="5dp"
-                    android:clickable="false"
-                    android:text="还车时间"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
+                    android:id="@+id/tv_car_begin"
                     android:textColor="@color/text_blue"
                     android:layout_gravity="center"
                     android:textSize="18sp"
@@ -121,6 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
             <com.zhy.android.percent.support.PercentLinearLayout
+                android:id="@+id/pll_car_end"
                 android:gravity="center"
                 android:padding="5dp"
                 android:orientation="horizontal"
@@ -132,10 +97,55 @@
                     android:layout_weight="2"
                     android:layout_marginLeft="5dp"
                     android:clickable="false"
-                    android:text="请选择车辆"
+                    android:text="还车时间"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/tv_car_end"
+                    android:textColor="@color/text_blue"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:text="请选择（必填）" />
+                <ImageView
+                    android:clickable="false"
+                    android:layout_gravity="center_vertical"
+                    app:layout_marginRightPercent="2%w"
+                    app:layout_widthPercent="7%w"
+                    app:layout_heightPercent="7%w"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/right_gray"
+                    android:gravity="right" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:id="@+id/pll_car_choice"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="false"
+                    android:text="请选择车辆类型"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_car_choice"
+                    android:textStyle="bold"
                     android:textColor="@color/text_blue"
                     android:layout_gravity="center"
                     android:textSize="18sp"
@@ -176,6 +186,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:id="@+id/et_car_phone"
+                    android:inputType="phone"
+                    android:textStyle="bold"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     android:hint="请输入您的联系电话"
@@ -204,6 +217,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:id="@+id/et_car_number"
+                    android:inputType="number"
+                    android:textStyle="bold"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     android:hint="请输入用车人数"
@@ -224,6 +240,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <EditText
+                android:id="@+id/et_car_matters"
+                android:textStyle="bold"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
@@ -244,6 +262,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <EditText
+                android:id="@+id/et_car_location"
+                android:textStyle="bold"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
