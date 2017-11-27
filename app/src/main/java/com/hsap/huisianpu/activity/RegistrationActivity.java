@@ -134,8 +134,11 @@ public class RegistrationActivity extends BaseActivity {
                 return;
             }
         }
+        final String token=SpUtils.getString(ConstantUtils.Token,RegistrationActivity.this);
             OkGo.<String>post(NetAddressUtils.registration).
-                    params("username",account).params("password",cipher).params("activationCode",yaoqingma)
+                    params("username",account).
+                    params("password",cipher).
+                    params("activationCode",yaoqingma)
                     .execute(new StringCallback() {
                 @Override
                 public void onSuccess(Response<String> response) {
@@ -143,10 +146,9 @@ public class RegistrationActivity extends BaseActivity {
                     if(bean.isSuccess()){
                         //TODO 保存sp的值 跳转到主页
                         SpUtils.putInt(ConstantUtils.UserId,bean.getData(),RegistrationActivity.this);
-                        ActivityManagerUtils.getInstance().finishActivityclass(LoginActivity.class);
-                        startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
-                        finish();
                         SpUtils.putBoolean(ConstantUtils.Login,true,RegistrationActivity.this);
+                        setToken(bean.getData(),token);
+
                     }else {
                         ToastUtils.showToast(RegistrationActivity.this,bean.getMsg()+"");
                         return;
@@ -161,6 +163,20 @@ public class RegistrationActivity extends BaseActivity {
                         }
                     });
         }
+
+    private void setToken(int data, String token) {
+        OkGo.<String>post(NetAddressUtils.setToken)
+                .params("id",data)
+                .params("token",token).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        ActivityManagerUtils.getInstance().finishActivityclass(LoginActivity.class);
+                        startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                        finish();
+                    }
+                });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
