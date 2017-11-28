@@ -1,5 +1,6 @@
 package com.hsap.huisianpu.base;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.push.PushActivity;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushManager;
 
 import java.lang.reflect.Field;
 
@@ -99,4 +103,5 @@ public abstract class BaseBackActivity extends AppCompatActivity implements Slid
     public abstract void initData();
     public abstract void initListener();
     public abstract void processClick(View v);
+
 }

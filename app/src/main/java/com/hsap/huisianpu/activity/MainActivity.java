@@ -1,6 +1,7 @@
 package com.hsap.huisianpu.activity;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -16,8 +17,11 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.fragment.MineFragment;
 import com.hsap.huisianpu.fragment.NewsFragment;
 import com.hsap.huisianpu.fragment.WorkFragment;
+import com.hsap.huisianpu.push.PushActivity;
 import com.hsap.huisianpu.utils.ActivityManagerUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,4 +113,17 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
         return super.onKeyDown(keyCode, event);
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+      XGPushManager.onActivityStarted(this);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        XGPushManager.onActivityStoped(this);
+    }
+
 }

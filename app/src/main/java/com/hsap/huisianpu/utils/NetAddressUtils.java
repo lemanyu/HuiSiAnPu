@@ -17,5 +17,6 @@ public class NetAddressUtils {
     public static String getWorkerAdmin=url+"getWorkerAdmin";//获取所有员工所在部门的管理员
     public static String leave=url+"leave";//请假接口
     public static String setToken=url+"setToken";//推送token
+    public static String setReportForm=url+"setReportForm";//发送日周月报
 
 }

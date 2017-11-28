@@ -62,4 +62,6 @@ dependencies {
     //圆形头像
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
+    compile 'com.alibaba:fastjson:1.2.41'
+
 }

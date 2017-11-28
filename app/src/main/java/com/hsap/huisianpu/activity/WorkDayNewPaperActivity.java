@@ -1,5 +1,8 @@
 package com.hsap.huisianpu.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -7,9 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.push.PushActivity;
+import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
+import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,12 +36,6 @@ public class WorkDayNewPaperActivity extends BaseBackActivity {
     Button btWorkDayCommit;
     @BindView(R.id.et_day_finish_work)
     EditText etDayFinishWork;
-    @BindView(R.id.et_day_unfinish_work)
-    EditText etDayUnfinishWork;
-    @BindView(R.id.et_day_coordination_work)
-    EditText etDayCoordinationWork;
-    @BindView(R.id.et_day_remark)
-    EditText etDayRemark;
 
     @Override
     public int getLayoutId() {
@@ -68,18 +73,29 @@ public class WorkDayNewPaperActivity extends BaseBackActivity {
             ToastUtils.showToast(this,"请填写完成工作信息");
             return;
         }
-        if(TextUtils.isEmpty(etDayUnfinishWork.getText().toString().trim())){
-            ToastUtils.showToast(this,"请填写未完成工作信息");
-            return;
-        }
-        if(TextUtils.isEmpty(etDayCoordinationWork.getText().toString().trim())){
-            ToastUtils.showToast(this,"请填写协调工作信息");
-            return;
-        }
-        if (TextUtils.isEmpty(etDayRemark.getText().toString().trim())){
-            ToastUtils.showToast(this,"请填写备注信息");
-            return;
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定要提交吗？");
+        builder.setNegativeButton("取消",null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                final LoadingDailog 提交中 = ToastUtils.showDailog(WorkDayNewPaperActivity.this, "提交中");
+                提交中.show();
+                OkGo.<String>post(NetAddressUtils.setReportForm).
+                        params("id", SpUtils.getInt(ConstantUtils.UserId,WorkDayNewPaperActivity.this)).
+                        params("type",Integer.valueOf(0)).params("finishWork",etDayFinishWork.getText().toString().trim()).
+                        execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        提交中.dismiss();
+                        ToastUtils.showToast(WorkDayNewPaperActivity.this,"提交成功");
+                        finish();
+
+                    }
+                });
+            }
+        });
+       builder.show();
     }
 
     @Override

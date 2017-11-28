@@ -54,7 +54,6 @@ public class SelectApproverActivity extends BaseBackActivity {
                     public void onSuccess(Response<String> response) {
                         final SelectApproverBean bean = new Gson().fromJson(response.body().toString(), SelectApproverBean.class);
                         if(bean.isSuccess()){
-
                             rlvSelectApprover.setLayoutManager(new LinearLayoutManager(SelectApproverActivity.this));
                             SelectApproverRecycleAdapter adapter = new SelectApproverRecycleAdapter(R.layout.item_select, bean.getData());
                             rlvSelectApprover.setAdapter(adapter);

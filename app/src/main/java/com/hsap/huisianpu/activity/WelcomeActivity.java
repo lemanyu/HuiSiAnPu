@@ -9,19 +9,24 @@ import android.view.WindowManager;
 
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseActivity;
+import com.hsap.huisianpu.push.PushActivity;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushManager;
 
 /**
- * Created by zhao on 2017/11/16.
+ *
  */
 
 public class WelcomeActivity extends BaseActivity {
     private static final String TAG = "WelcomeActivity";
+
+
 
     @Override
     public int getLayoutId() {
@@ -71,5 +76,16 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     public void processClick(View v) {
 
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        XGPushManager.onActivityStarted(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        XGPushManager.onActivityStoped(this);
     }
 }

@@ -1,5 +1,6 @@
 package com.hsap.huisianpu.base;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.push.PushActivity;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushManager;
 
 import butterknife.ButterKnife;
 
@@ -26,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initListener();
 
     }
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
@@ -36,9 +41,29 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 break;
         }
     }
-    public abstract int  getLayoutId();
+
+    public abstract int getLayoutId();
+
     public abstract void initView();
+
     public abstract void initData();
+
     public abstract void initListener();
+
     public abstract void processClick(View v);
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        XGPushManager.onActivityStarted(this);
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        super.onPause();
+        XGPushManager.onActivityStoped(this);
+    }
 }

@@ -1,9 +1,13 @@
 package com.hsap.huisianpu;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.hsap.huisianpu.activity.LoginActivity;
+import com.hsap.huisianpu.push.PushActivity;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.SpUtils;
 import com.lzy.okgo.OkGo;
@@ -13,10 +17,14 @@ import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.SPCookieStore;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpParams;
+import com.tencent.android.tpush.XGCustomPushNotificationBuilder;
 import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGNotifaction;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.XGPushNotifactionCallback;
 
+import java.util.List;
 import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
@@ -34,15 +42,14 @@ public class HsApApplication extends Application {
     }
 
     private void initXGPush() {
-        XGPushConfig.enableDebug(getApplicationContext(),true);
-        XGPushConfig.setAccessId(getApplicationContext(),2100271315);
-        XGPushConfig.setAccessKey(getApplicationContext(),"A1T277UVH5JP");
+        XGPushConfig.enableDebug(getApplicationContext(), true);
+        XGPushConfig.setAccessId(getApplicationContext(), 2100271315);
+        XGPushConfig.setAccessKey(getApplicationContext(), "A1T277UVH5JP");
         XGPushManager.registerPush(getApplicationContext(), new XGIOperateCallback() {
             @Override
             public void onSuccess(Object data, int i) {
                 Log.e("TPush", "注册成功，设备token为：" + data);
-                SpUtils.putString(ConstantUtils.Token,String.valueOf(data),getApplicationContext());
-
+                SpUtils.putString(ConstantUtils.Token, String.valueOf(data), getApplicationContext());
             }
 
             @Override

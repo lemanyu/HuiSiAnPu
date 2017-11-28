@@ -23,16 +23,13 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
     ImageButton back;
     @BindView(R.id.bt_work_week_commit)
     Button btWorkWeekCommit;
-    @BindView(R.id.et_week_finish_work)
-    EditText etWeekFinishWork;
     @BindView(R.id.et_week_work_summary)
     EditText etWeekWorkSummary;
     @BindView(R.id.et_week_plan_next)
     EditText etWeekPlanNext;
     @BindView(R.id.et_week_coordination_work)
     EditText etWeekCoordinationWork;
-    @BindView(R.id.et_week_work_remark)
-    EditText etWeekWorkRemark;
+
 
     @Override
     public int getLayoutId() {
@@ -65,10 +62,6 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
     }
 
     private void commit() {
-        if (TextUtils.isEmpty(etWeekFinishWork.getText().toString().trim())){
-            ToastUtils.showToast(this,"请填写完成工作信息");
-            return;
-        }
         if(TextUtils.isEmpty(etWeekWorkSummary.getText().toString().trim())){
             ToastUtils.showToast(this,"请填写工作总结信息");
             return;
@@ -79,10 +72,6 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
         }
         if (TextUtils.isEmpty(etWeekCoordinationWork.getText().toString().trim())){
             ToastUtils.showToast(this,"请填写协调工作信息");
-            return;
-        }
-        if (TextUtils.isEmpty(etWeekWorkRemark.getText().toString().trim())){
-            ToastUtils.showToast(this,"请填写备注信息");
             return;
         }
 

@@ -23,16 +23,12 @@ public class WorkMonthNewPaperActivity extends BaseBackActivity {
     ImageButton back;
     @BindView(R.id.bt_work_month_commit)
     Button btWorkMonthCommit;
-    @BindView(R.id.et_month_finish_work)
-    EditText etMonthFinishWork;
     @BindView(R.id.et_month_work_summary)
     EditText etMonthWorkSummary;
     @BindView(R.id.et_month_plan_next)
     EditText etMonthPlanNext;
     @BindView(R.id.et_month_coordination_work)
     EditText etMonthCoordinationWork;
-    @BindView(R.id.et_month_work_remark)
-    EditText etMonthWorkRemark;
 
     @Override
     public int getLayoutId() {
@@ -67,10 +63,6 @@ public class WorkMonthNewPaperActivity extends BaseBackActivity {
     }
 
     private void commit() {
-        if(TextUtils.isEmpty(etMonthFinishWork.getText().toString().trim())){
-            ToastUtils.showToast(this,"请填写本月工作内容信息");
-            return;
-        }
         if(TextUtils.isEmpty(etMonthWorkSummary.getText().toString().trim())){
             ToastUtils.showToast(this,"请填写本月工作总结信息");
             return;
@@ -82,11 +74,7 @@ public class WorkMonthNewPaperActivity extends BaseBackActivity {
         if(TextUtils.isEmpty(etMonthCoordinationWork.getText().toString().trim())){
             ToastUtils.showToast(this,"请填写协调工作信息");
             return;
-        }
-        if (TextUtils.isEmpty(etMonthWorkRemark.getText().toString().trim())){
-            ToastUtils.showToast(this,"请填写备注信息");
-            return;
-        }
+    }
     }
 
     @Override
