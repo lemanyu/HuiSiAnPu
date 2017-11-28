@@ -133,6 +133,11 @@
              android:theme="@style/BackTheme"></activity>
          <activity android:name=".activity.WorkModifyPermissionsActivity"
              android:theme="@style/BackTheme"></activity>
+         <activity android:name=".details.DetailsMineDay"
+             android:theme="@style/BackTheme"></activity>
+
+
+
 
 
 

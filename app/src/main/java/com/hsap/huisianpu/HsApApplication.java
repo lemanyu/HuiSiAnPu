@@ -71,7 +71,6 @@ public class HsApApplication extends Application {
         //配置cookie  配置到sp中
         builder.cookieJar(new CookieJarImpl(new SPCookieStore(this)));
         HttpParams params = new HttpParams();
-        params.put("devType", "phone");
         OkGo.getInstance()
                 .init(this)
                 .addCommonParams(params)
@@ -79,6 +78,5 @@ public class HsApApplication extends Application {
                 .setCacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)
                 .setRetryCount(3);
-
     }
 }

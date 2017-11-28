@@ -5,7 +5,7 @@ package com.hsap.huisianpu.utils;
  */
 
 public class NetAddressUtils {
-    public static String url="http://192.168.9.100:8082/phone/";
+    public static String url="http://192.168.9.211:8082/phone/";
     public static String login=url+"login";//登录
     public static String registration=url+"registration";//注册
     public static String invitation=url+"invitation";//工作邀请
@@ -18,5 +18,9 @@ public class NetAddressUtils {
     public static String leave=url+"leave";//请假接口
     public static String setToken=url+"setToken";//推送token
     public static String setReportForm=url+"setReportForm";//发送日周月报
+    public static String getWorkersList=url+"getWorkersList";//获取所在部门所有员工及经理
+    public static String getMyReportForms=url+"getMyReportForms";//获取员工的日周月报
+    public static String getNowReportFormState=url+"getNowReportFormState";//获取当日周月是否已经提交过报
+
 
 }

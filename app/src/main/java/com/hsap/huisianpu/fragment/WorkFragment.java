@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,13 @@ import com.hsap.huisianpu.activity.WorkWeekNewPaperActivity;
 import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
+import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -138,6 +145,7 @@ public class WorkFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                  switch (position){
                      case 0:
+                         isReportFormState(0);
                          startActivity(new Intent(mActivity, WorkDayNewPaperActivity.class));
                          break;
                      case 1:
@@ -195,6 +203,7 @@ public class WorkFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position){
                     case 0:
+
                         startActivity(new Intent(mActivity, WorkAttendanceActivity.class));
                         break;
                     case 1:
@@ -223,6 +232,18 @@ public class WorkFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+    private Boolean isReportFormState(int type){
+        OkGo.<String>post(NetAddressUtils.getNowReportFormState).
+                params("id", SpUtils.getInt(ConstantUtils.UserId,mActivity)).
+                params("type",type).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                Log.e("isReportFormState",response.body().toString());
+            }
+        });
+
+        return false;
     }
 
     private void contactsPermission() {

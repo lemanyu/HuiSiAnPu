@@ -5,14 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.android.tu.loadingdialog.LoadingDailog;
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.bean.ReportFormStateBean;
 import com.hsap.huisianpu.push.PushActivity;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
@@ -73,7 +76,7 @@ public class WorkDayNewPaperActivity extends BaseBackActivity {
             ToastUtils.showToast(this,"请填写完成工作信息");
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("确定要提交吗？");
         builder.setNegativeButton("取消",null);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -81,18 +84,37 @@ public class WorkDayNewPaperActivity extends BaseBackActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 final LoadingDailog 提交中 = ToastUtils.showDailog(WorkDayNewPaperActivity.this, "提交中");
                 提交中.show();
-                OkGo.<String>post(NetAddressUtils.setReportForm).
+                OkGo.<String>post(NetAddressUtils.getNowReportFormState).
                         params("id", SpUtils.getInt(ConstantUtils.UserId,WorkDayNewPaperActivity.this)).
-                        params("type",Integer.valueOf(0)).params("finishWork",etDayFinishWork.getText().toString().trim()).
-                        execute(new StringCallback() {
+                        params("type",0).execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        ReportFormStateBean bean = new Gson().fromJson(response.body().toString(), ReportFormStateBean.class);
+                        if(bean.isSuccess()){
+                            OkGo.<String>post(NetAddressUtils.setReportForm).
+                                    params("id", SpUtils.getInt(ConstantUtils.UserId,WorkDayNewPaperActivity.this)).
+                                    params("type",Integer.valueOf(0)).params("finishWork",etDayFinishWork.getText().toString().trim()).
+                                    execute(new StringCallback() {
+                                        @Override
+                                        public void onSuccess(Response<String> response) {
+                                            提交中.dismiss();
+                                            ToastUtils.showToast(WorkDayNewPaperActivity.this,"提交成功");
+                                            finish();
+                                        }
+                                    });
+                        }else {
+                            提交中.dismiss();
+                            ToastUtils.showToast(WorkDayNewPaperActivity.this,"您今日已经提交过");
+                        }
+                    }
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
                         提交中.dismiss();
-                        ToastUtils.showToast(WorkDayNewPaperActivity.this,"提交成功");
-                        finish();
-
+                        ToastUtils.showToast(WorkDayNewPaperActivity.this,"当前网络不稳，提交失败");
                     }
                 });
+
             }
         });
        builder.show();

@@ -105,6 +105,10 @@
                  android:background="@null"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content" />
+             <View
+                 android:background="@color/linecolor"
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"></View>
              <TextView
                  android:layout_margin="5dp"
                  android:textSize="18sp"
@@ -113,6 +117,7 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content" />
              <com.hsap.huisianpu.view.MyGridView
+                 android:id="@+id/gv_work_week"
                  android:horizontalSpacing="10dp"
                  android:verticalSpacing="40dp"
                  android:numColumns="4"

@@ -86,8 +86,6 @@ public class LeaveActivity extends BaseBackActivity {
     private int year;
     private int month;
     private int day;
-    private int hour;
-    private int minute;
     private StringBuffer endtime = new StringBuffer();
     private StringBuffer begintime=new StringBuffer();
     private StringBuffer Pm=new StringBuffer();//下午
@@ -99,17 +97,17 @@ public class LeaveActivity extends BaseBackActivity {
 
     @Override
     public void initView() {
-
         adapter = new ApproveGridViewAdapter(LeaveActivity.this, list);
         gvLeave.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvLeave.setAdapter(adapter);
-
         gvLeave.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == list.size()) {
                     //跳到选择联系人页面
-                    startActivityForResult(new Intent(LeaveActivity.this, SelectApproverActivity.class), 100);
+                    startActivityForResult(
+                            new Intent(LeaveActivity.this,
+                                    SelectApproverActivity.class), 100);
                 } else {
                     list.remove(position);
                     idList.remove(position);
@@ -211,8 +209,7 @@ public class LeaveActivity extends BaseBackActivity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        hour = calendar.get(Calendar.HOUR_OF_DAY);
-        minute = calendar.get(Calendar.MINUTE);
+
         DatePickerDialog dateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -250,8 +247,6 @@ public class LeaveActivity extends BaseBackActivity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        hour = calendar.get(Calendar.HOUR_OF_DAY);
-        minute = calendar.get(Calendar.MINUTE);
         DatePickerDialog dateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {

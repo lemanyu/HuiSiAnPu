@@ -13,7 +13,7 @@ import java.util.List;
  * Created by zhao on 2017/11/23.
  */
 
-public class ViewPagerFragmentAdapter extends FragmentStatePagerAdapter{
+public class ViewPagerFragmentAdapter extends FragmentPagerAdapter{
     private  List<BaseFragmentPager>list;
 
     public ViewPagerFragmentAdapter(FragmentManager fm, List list) {

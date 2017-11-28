@@ -1,5 +1,7 @@
 package com.hsap.huisianpu.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -7,9 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.android.tu.loadingdialog.LoadingDailog;
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.bean.ReportFormStateBean;
+import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
+import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,7 +85,53 @@ public class WorkMonthNewPaperActivity extends BaseBackActivity {
         if(TextUtils.isEmpty(etMonthCoordinationWork.getText().toString().trim())){
             ToastUtils.showToast(this,"请填写协调工作信息");
             return;
-    }
+        }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定要提交吗？");
+        builder.setNegativeButton("取消",null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                final LoadingDailog 提交中 = ToastUtils.showDailog(WorkMonthNewPaperActivity.this, "提交中");
+                提交中.show();
+                OkGo.<String>post(NetAddressUtils.getNowReportFormState).
+                        params("id", SpUtils.getInt(ConstantUtils.UserId,WorkMonthNewPaperActivity.this)).
+                        params("type",0).execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        ReportFormStateBean bean = new Gson().fromJson(response.body().toString(), ReportFormStateBean.class);
+                        if(bean.isSuccess()){
+                            OkGo.<String>post(NetAddressUtils.setReportForm).
+                                    params("id", SpUtils.getInt(ConstantUtils.UserId,WorkMonthNewPaperActivity.this)).
+                                    params("type",Integer.valueOf(0)).
+                                    params("finishWork",etMonthWorkSummary.getText().toString().trim()).
+                                    params("workPlay",etMonthPlanNext.getText().toString().trim()).
+                                    params("summary",etMonthCoordinationWork.getText().toString().trim()).
+                                    execute(new StringCallback() {
+                                        @Override
+                                        public void onSuccess(Response<String> response) {
+                                            提交中.dismiss();
+                                            ToastUtils.showToast(WorkMonthNewPaperActivity.this,"提交成功");
+                                            finish();
+                                        }
+                                    });
+                        }else {
+                            提交中.dismiss();
+                            ToastUtils.showToast(WorkMonthNewPaperActivity.this,"您本月已经提交过");
+                        }
+                }
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        提交中.dismiss();
+                        ToastUtils.showToast(WorkMonthNewPaperActivity.this,"当前网络不稳，提交失败");
+                    }
+                });
+
+            }
+        });
+        builder.show();
+
     }
 
     @Override

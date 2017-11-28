@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by zhao on 2017/11/17.
+ * 注册页面
  */
 
 public class RegistrationActivity extends BaseActivity {

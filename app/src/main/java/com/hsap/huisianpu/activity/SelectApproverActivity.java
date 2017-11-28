@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by zhao on 2017/11/22.
+ * 选择审批人页面
  */
 
 public class SelectApproverActivity extends BaseBackActivity {
@@ -68,14 +68,13 @@ public class SelectApproverActivity extends BaseBackActivity {
                                     finish();
                                 }
                             });
-                        }else {
-                            ToastUtils.showToast(SelectApproverActivity.this,"当前网络不好");
-
-
                         }
-
                     }
-
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showToast(SelectApproverActivity.this,"当前网络不好");
+                    }
                 });
     }
 
