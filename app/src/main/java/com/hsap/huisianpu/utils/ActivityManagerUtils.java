@@ -73,7 +73,17 @@ public class ActivityManagerUtils {
         System.exit(0);
 
     }
+    public  void finishAll(){
 
+        for(Activity activity:activities){
+
+            if(activity.isFinishing()){
+
+                activity.finish();
+            }
+        }
+
+    }
     /**
      * 结束指定类名的Activity
      */

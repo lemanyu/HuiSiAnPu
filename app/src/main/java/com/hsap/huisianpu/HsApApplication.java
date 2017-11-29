@@ -45,18 +45,7 @@ public class HsApApplication extends Application {
         XGPushConfig.enableDebug(getApplicationContext(), true);
         XGPushConfig.setAccessId(getApplicationContext(), 2100271315);
         XGPushConfig.setAccessKey(getApplicationContext(), "A1T277UVH5JP");
-        XGPushManager.registerPush(getApplicationContext(), new XGIOperateCallback() {
-            @Override
-            public void onSuccess(Object data, int i) {
-                Log.e("TPush", "注册成功，设备token为：" + data);
-                SpUtils.putString(ConstantUtils.Token, String.valueOf(data), getApplicationContext());
-            }
 
-            @Override
-            public void onFail(Object data, int errCode, String msg) {
-                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
-            }
-        });
     }
 
     private void initOkGo() {

@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.push.PushActivity;
+import com.hsap.huisianpu.utils.ActivityManagerUtils;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -23,6 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ActivityManagerUtils.getInstance().addActivity(this);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         initView();
@@ -53,17 +55,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     public abstract void processClick(View v);
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        XGPushManager.onActivityStarted(this);
-
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        super.onPause();
-        XGPushManager.onActivityStoped(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityManagerUtils.getInstance().finishActivity(this);
     }
 }

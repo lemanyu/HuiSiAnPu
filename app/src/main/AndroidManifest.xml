@@ -45,8 +45,8 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
-
-
+    <!--系统的弹出窗口-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
 
 
@@ -91,8 +91,6 @@
         <activity android:name=".activity.PunchActivity"
             android:theme="@style/BackTheme">
         </activity>
-        <activity android:name=".push.PushActivity"
-            android:theme="@style/BackTheme"></activity>
         <service android:name="com.amap.api.location.APSService"></service>
         <activity android:name=".activity.MineInviteActivity"
             android:theme="@style/BackTheme"></activity>
@@ -106,15 +104,12 @@
             android:theme="@style/BackTheme"></activity>
         <activity android:name=".activity.WorkDayNewPaperActivity"
             android:theme="@style/BackTheme"></activity>
-
         <activity android:name=".activity.WorkWeekNewPaperActivity"
             android:theme="@style/BackTheme"></activity>
         <activity android:name=".activity.WorkMonthNewPaperActivity"
             android:theme="@style/BackTheme"></activity>
-
         <activity android:name=".activity.WorkCheckReportActivity"
             android:theme="@style/BackTheme"></activity>
-
        <activity android:name=".activity.MineReportActivity"
            android:theme="@style/BackTheme"></activity>
        <activity android:name=".activity.WorkApprovalActivity"
@@ -135,6 +130,18 @@
              android:theme="@style/BackTheme"></activity>
          <activity android:name=".details.DetailsMineDay"
              android:theme="@style/BackTheme"></activity>
+         <activity android:name=".details.DetailsWorkTime"
+             android:theme="@style/BackTheme"></activity>
+        <activity android:name=".push.PushWeekActivity"
+            android:theme="@style/BackTheme"></activity>
+        <service android:name=".service.ForceOfflineService"></service>
+
+
+
+
+
+
+
 
 
 

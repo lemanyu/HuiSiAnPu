@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -54,7 +55,7 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
     MyGridView gvWorkWeek;
     private ApproveGridViewAdapter adapter;
     private List<Bean> list = new ArrayList<>();//设置adapter的内容
-    private List<String> idList = new ArrayList<>();//存放 审批人的id
+    private List<Integer> idList = new ArrayList<>();//存放 审批人的id
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
 
@@ -110,9 +111,8 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==100){
             if(resultCode==101){
-                Bundle bundle = data.getExtras();
-                String name = bundle.getString("name");
-                String id = bundle.getString("id");
+                String name = data.getStringExtra("name");
+                int id = data.getIntExtra("id",0);
                 Bean bean = new Bean();
                 bean.setName(name);
                 bean.setPic(color[(int) (Math.random() * 6)]);
@@ -124,6 +124,7 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
     }
 
     private void commit() {
+        Log.e("ids","List:"+idList);
         if (TextUtils.isEmpty(etWeekWorkSummary.getText().toString().trim())) {
             ToastUtils.showToast(this, "请填写工作总结信息");
             return;
@@ -150,7 +151,7 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
                 提交中.show();
                 OkGo.<String>post(NetAddressUtils.getNowReportFormState).
                         params("id", SpUtils.getInt(ConstantUtils.UserId, WorkWeekNewPaperActivity.this)).
-                        params("type", 0).execute(new StringCallback() {
+                        params("type", 1).execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         ReportFormStateBean bean = new Gson().fromJson(response.body().toString(), ReportFormStateBean.class);
@@ -158,10 +159,11 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
                             OkGo.<String>post(NetAddressUtils.setReportForm).
                                     params("id", SpUtils.getInt(ConstantUtils.UserId, WorkWeekNewPaperActivity.this)).
                                     params("ids",new Gson().toJson(idList)).
-                                    params("type", Integer.valueOf(0)).
+                                    params("type", 1).
                                     params("finishWork", etWeekWorkSummary.getText().toString().trim()).
                                     params("workPlay", etWeekPlanNext.getText().toString().trim()).
                                     params("summary", etWeekCoordinationWork.getText().toString().trim()).
+                                    params("activity","com.hsap.huisianpu.push.PushWeekActivity").
                                     execute(new StringCallback() {
                                         @Override
                                         public void onSuccess(Response<String> response) {
@@ -169,11 +171,19 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
                                             ToastUtils.showToast(WorkWeekNewPaperActivity.this, "提交成功");
                                             finish();
                                         }
+
+                                        @Override
+                                        public void onError(Response<String> response) {
+                                            super.onError(response);
+                                            提交中.dismiss();
+                                            ToastUtils.showToast(WorkWeekNewPaperActivity.this, "当前网络不稳，提交失败");
+                                        }
                                     });
                         } else {
                             提交中.dismiss();
                             ToastUtils.showToast(WorkWeekNewPaperActivity.this, "您本周已经提交过");
                         }
+
                     }
 
                     @Override

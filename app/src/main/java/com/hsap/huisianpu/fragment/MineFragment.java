@@ -29,6 +29,7 @@ import com.hsap.huisianpu.utils.ActivityManagerUtils;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.tencent.android.tpush.XGPushManager;
 
 import java.util.ArrayList;
 
@@ -105,11 +106,12 @@ public class MineFragment extends BaseFragment {
                   builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialogInterface, int i) {
-                          SpUtils.putString(ConstantUtils.Token,"",mActivity);
+                          XGPushManager.registerPush(mActivity,SpUtils.getString(ConstantUtils.Username,mActivity));
+                          XGPushManager.unregisterPush(mActivity);
+                          SpUtils.putString(ConstantUtils.Username,null,mActivity);
                           SpUtils.putBoolean(ConstantUtils.Login,false,mActivity);
                           SpUtils.putInt(ConstantUtils.UserId,0,mActivity);
                           startActivity(new Intent(mActivity, LoginActivity.class));
-
                           ActivityManagerUtils.getInstance().finishActivityclass(MainActivity.class);
 
                       }

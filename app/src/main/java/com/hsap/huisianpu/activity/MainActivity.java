@@ -113,17 +113,4 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
         return super.onKeyDown(keyCode, event);
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-      XGPushManager.onActivityStarted(this);
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        XGPushManager.onActivityStoped(this);
-    }
-
 }

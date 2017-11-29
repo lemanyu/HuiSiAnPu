@@ -7,5 +7,5 @@ package com.hsap.huisianpu.utils;
 public class ConstantUtils {
     public static String Login="login";
     public static String UserId="userid";
-    public static String Token="token";
+    public static String Username="username";
 }

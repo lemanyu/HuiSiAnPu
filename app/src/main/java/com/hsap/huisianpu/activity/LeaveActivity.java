@@ -284,7 +284,6 @@ public class LeaveActivity extends BaseBackActivity {
                 params("workersId",
                         SpUtils.getInt(ConstantUtils.UserId,
                                 LeaveActivity.this)).
-                params("token",SpUtils.getString(ConstantUtils.Token,this)).
                 params("leaveType",tvQingjialeixing.getText().toString()).
                 params("startTime",begintime+"").
                 params("endTime",endtime+"").

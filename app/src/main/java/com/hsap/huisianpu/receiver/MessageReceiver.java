@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import com.hsap.huisianpu.push.PushActivity;
+import com.hsap.huisianpu.push.PushWeekActivity;
+import com.hsap.huisianpu.service.ForceOfflineService;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
@@ -91,13 +93,23 @@ public class MessageReceiver extends XGPushBaseReceiver {
             // APP自己处理点击的相关动作
             // 这个动作可以在activity的onResume也能监听，请看第3点相关内容
             text = "通知被打开 :" + message;
+            String name = message.getActivityName();
 
+            switch (name){
+                case "com.hsap.huisianpu.push.PushWeekActivity":
+                    Log.e("message","PushWeekActivity");
+                    Intent intent = new Intent(context, PushWeekActivity.class);
+                   // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    break;
+            }
         } else if (message.getActionType() == XGPushClickedResult.NOTIFACTION_DELETED_TYPE) {
             // 通知被清除啦。。。。
             // APP自己处理通知被清除后的相关动作
             text = "通知被清除 :" + message;
         }
         String customContent = message.getCustomContent();
+
         if (customContent != null && customContent.length() != 0) {
             try {
                 JSONObject obj = new JSONObject(customContent);
@@ -138,10 +150,15 @@ public class MessageReceiver extends XGPushBaseReceiver {
     public void onTextMessage(Context context, XGPushTextMessage message) {
         // TODO Auto-generated method stub
         String text = "收到消息:" + message.toString();
+        if("下线".equals(message.getTitle())){
+             context.getApplicationContext().startService(new Intent(context.getApplicationContext(), ForceOfflineService.class));
+
+        }
         // 获取自定义key-value
         String customContent = message.getCustomContent();
         if (customContent != null && customContent.length() != 0) {
             try {
+
                 JSONObject obj = new JSONObject(customContent);
                 // key1为前台配置的key
                 if (!obj.isNull("key")) {

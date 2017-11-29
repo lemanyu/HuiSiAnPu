@@ -77,15 +77,5 @@ public class WelcomeActivity extends BaseActivity {
     public void processClick(View v) {
 
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        XGPushManager.onActivityStarted(this);
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        XGPushManager.onActivityStoped(this);
-    }
 }

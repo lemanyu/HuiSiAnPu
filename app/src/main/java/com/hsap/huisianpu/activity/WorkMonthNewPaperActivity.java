@@ -96,14 +96,14 @@ public class WorkMonthNewPaperActivity extends BaseBackActivity {
                 提交中.show();
                 OkGo.<String>post(NetAddressUtils.getNowReportFormState).
                         params("id", SpUtils.getInt(ConstantUtils.UserId,WorkMonthNewPaperActivity.this)).
-                        params("type",0).execute(new StringCallback() {
+                        params("type",2).execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         ReportFormStateBean bean = new Gson().fromJson(response.body().toString(), ReportFormStateBean.class);
                         if(bean.isSuccess()){
                             OkGo.<String>post(NetAddressUtils.setReportForm).
                                     params("id", SpUtils.getInt(ConstantUtils.UserId,WorkMonthNewPaperActivity.this)).
-                                    params("type",Integer.valueOf(0)).
+                                    params("type",2).
                                     params("finishWork",etMonthWorkSummary.getText().toString().trim()).
                                     params("workPlay",etMonthPlanNext.getText().toString().trim()).
                                     params("summary",etMonthCoordinationWork.getText().toString().trim()).

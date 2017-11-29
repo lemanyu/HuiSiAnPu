@@ -24,6 +24,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
@@ -106,6 +107,17 @@ public class RegistrationActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.bt_registration:
                 account = etAccount.getText().toString().trim();
+                XGPushManager.registerPush(getApplicationContext(),account,new XGIOperateCallback() {
+                    @Override
+                    public void onSuccess(Object data, int i) {
+                        Log.e("TPush", "注册成功，设备token为：" + data);
+                    }
+
+                    @Override
+                    public void onFail(Object data, int errCode, String msg) {
+                        Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+                    }
+                });
                 cipher = etCipher.getText().toString().trim();
                 confirm = etConfirmCipher.getText().toString().trim();
                 if (pllZhuce.getVisibility()==View.VISIBLE){
@@ -134,7 +146,7 @@ public class RegistrationActivity extends BaseActivity {
                 return;
             }
         }
-        final String token=SpUtils.getString(ConstantUtils.Token,RegistrationActivity.this);
+//        final String token=SpUtils.getString(ConstantUtils.Token,RegistrationActivity.this);
             OkGo.<String>post(NetAddressUtils.registration).
                     params("username",account).
                     params("password",cipher).
@@ -147,7 +159,7 @@ public class RegistrationActivity extends BaseActivity {
                         //TODO 保存sp的值 跳转到主页
                         SpUtils.putInt(ConstantUtils.UserId,bean.getData(),RegistrationActivity.this);
                         SpUtils.putBoolean(ConstantUtils.Login,true,RegistrationActivity.this);
-                        setToken(bean.getData(),token);
+                        setToken(bean.getData());
 
                     }else {
                         ToastUtils.showToast(RegistrationActivity.this,bean.getMsg()+"");
@@ -164,13 +176,14 @@ public class RegistrationActivity extends BaseActivity {
                     });
         }
 
-    private void setToken(int data, String token) {
+    private void setToken(int data) {
         OkGo.<String>post(NetAddressUtils.setToken)
                 .params("id",data)
-                .params("token",token).
+                .params("token", XGPushConfig.getToken(this)).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        SpUtils.putString(ConstantUtils.Username,account,RegistrationActivity.this);
                         ActivityManagerUtils.getInstance().finishActivityclass(LoginActivity.class);
                         startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                         finish();

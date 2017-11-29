@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.push.PushActivity;
+import com.hsap.huisianpu.utils.ActivityManagerUtils;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -27,6 +28,7 @@ public abstract class BaseBackActivity extends AppCompatActivity implements Slid
         initSlideBackClose();
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ActivityManagerUtils.getInstance().addActivity(this);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         initView();
@@ -103,5 +105,9 @@ public abstract class BaseBackActivity extends AppCompatActivity implements Slid
     public abstract void initData();
     public abstract void initListener();
     public abstract void processClick(View v);
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityManagerUtils.getInstance().finishActivity(this);
+    }
 }

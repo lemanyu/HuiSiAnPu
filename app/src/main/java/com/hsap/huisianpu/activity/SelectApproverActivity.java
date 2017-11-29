@@ -64,7 +64,9 @@ public class SelectApproverActivity extends BaseBackActivity {
                                     Intent intent = new Intent();
                                     intent.putExtra("name",bean.getData().get(position).getName());
                                     intent.putExtra("id",bean.getData().get(position).getId());
+                                    Log.e("getWorkerAdmin",bean.getData().get(position).getId()+"");
                                     setResult(101,intent);
+
                                     finish();
                                 }
                             });

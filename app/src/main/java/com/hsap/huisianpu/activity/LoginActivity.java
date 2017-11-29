@@ -23,6 +23,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 
 import butterknife.BindView;
@@ -74,7 +75,18 @@ public class LoginActivity extends BaseActivity {
                    startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
                    break;
                case R.id.bt_denglu:
-                  String  username = etUsername.getText().toString().trim();
+                   String  username = etUsername.getText().toString().trim();
+                   XGPushManager.registerPush(getApplicationContext(),username, new XGIOperateCallback() {
+                       @Override
+                       public void onSuccess(Object data, int i) {
+                           Log.e("TPush", "注册成功，设备token为：" + data);
+                       }
+
+                       @Override
+                       public void onFail(Object data, int errCode, String msg) {
+                           Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+                       }
+                   });
                   String  password = etPassword.getText().toString().trim();
                   denglu(username,password);
                    break;
@@ -86,24 +98,20 @@ public class LoginActivity extends BaseActivity {
             ToastUtils.showToast(LoginActivity.this,"账号或密码不能为空");
             return;
         }
-        final String token=SpUtils.getString(ConstantUtils.Token,LoginActivity.this);
         OkGo.<String>post(NetAddressUtils.login).params("username", username).
                 params("password", password).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.e("aaa",SpUtils.getString(ConstantUtils.Token,LoginActivity.this));
                 bean = new Gson().fromJson(response.body().toString(), LoginBean.class);
                 if (bean.isSuccess()){
                     SpUtils.putBoolean(ConstantUtils.Login,true,LoginActivity.this);
                     SpUtils.putInt(ConstantUtils.UserId, bean.getData(),LoginActivity.this);
-                    setToken(bean.getData(),token);
+                    setToken(bean.getData());
                 }else {
                     ToastUtils.showToast(LoginActivity.this, bean.getMsg()+"");
                     return;
                 }
-
             }
-
         });
 
 
@@ -111,20 +119,16 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private void setToken(int data, String token) {
-        Log.e("aaa",SpUtils.getString(ConstantUtils.Token,LoginActivity.this));
+    private void setToken(int data) {
         OkGo.<String>post(NetAddressUtils.setToken)
                 .params("id",data)
-                .params("token",token).
+                .params("token",XGPushConfig.getToken(this)).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        SpUtils.putString(ConstantUtils.Username,etUsername.getText().toString().trim(),LoginActivity.this);
                         startActivity(new Intent(LoginActivity.this,MainActivity.class));
                         finish();
-                        Log.e("bbb",response.body().toString());
-
-
-
                     }
                 });
     }
