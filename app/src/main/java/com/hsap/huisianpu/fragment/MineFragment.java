@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.activity.LoginActivity;
 import com.hsap.huisianpu.activity.MainActivity;
@@ -25,10 +26,14 @@ import com.hsap.huisianpu.activity.MineReportActivity;
 import com.hsap.huisianpu.adapter.MineRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.bean.TokenBena;
 import com.hsap.huisianpu.utils.ActivityManagerUtils;
 import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
-import com.hsap.huisianpu.utils.ToastUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.tencent.android.tpush.XGPushManager;
 
 import java.util.ArrayList;
@@ -106,14 +111,24 @@ public class MineFragment extends BaseFragment {
                   builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialogInterface, int i) {
-                          XGPushManager.registerPush(mActivity,SpUtils.getString(ConstantUtils.Username,mActivity));
-                          XGPushManager.unregisterPush(mActivity);
-                          SpUtils.putString(ConstantUtils.Username,null,mActivity);
+                           XGPushManager.registerPush(mActivity.getApplicationContext(),"*");
+
                           SpUtils.putBoolean(ConstantUtils.Login,false,mActivity);
                           SpUtils.putInt(ConstantUtils.UserId,0,mActivity);
                           startActivity(new Intent(mActivity, LoginActivity.class));
                           ActivityManagerUtils.getInstance().finishActivityclass(MainActivity.class);
-
+                          OkGo.<String>post(NetAddressUtils.setToken).
+                                  params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
+                                  params("token","").execute(new StringCallback() {
+                              @Override
+                              public void onSuccess(Response<String> response) {
+                                  TokenBena bena = new Gson().fromJson(response.body().toString(), TokenBena.class);
+                                  if(bena.isSuccess()){
+                                      SpUtils.putBoolean(ConstantUtils.Login,false,mActivity);
+                                      SpUtils.putInt(ConstantUtils.UserId,0,mActivity);
+                                  }
+                              }
+                          });
                       }
                   });
                   builder.setNegativeButton("取消",null);

@@ -21,6 +21,6 @@ public class NetAddressUtils {
     public static String getWorkersList=url+"getWorkersList";//获取所在部门所有员工及经理
     public static String getMyReportForms=url+"getMyReportForms";//获取员工的日周月报
     public static String getNowReportFormState=url+"getNowReportFormState";//获取当日周月是否已经提交过报
-
+    public static String getOneReportForm=url+"getOneReportForm";//推送的周月报
 
 }

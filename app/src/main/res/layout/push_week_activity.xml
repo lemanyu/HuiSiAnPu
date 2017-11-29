@@ -31,7 +31,75 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+       <LinearLayout
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <TextView
+               android:textSize="18sp"
+               android:textStyle="bold"
+               android:layout_margin="5dp"
+               android:text="工作总结："
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@+id/tv_push_week_summary"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@null"
+               android:gravity="left|top"
+               android:inputType="textMultiLine"
+               android:minLines="10"
+               android:padding="10dp"
+               android:textStyle="bold" />
+           <View
+               android:layout_height="2dp"
+               android:background="@color/linecolor"
+               android:layout_width="match_parent"></View>
+           <TextView
+               android:textSize="18sp"
+               android:textStyle="bold"
+               android:layout_margin="5dp"
+               android:text="工作计划："
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@+id/tv_push_week_plan"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@null"
+               android:gravity="left|top"
+               android:inputType="textMultiLine"
+               android:minLines="10"
+               android:padding="10dp"
+               android:textStyle="bold" />
+           <View
+               android:layout_height="2dp"
+               android:background="@color/linecolor"
+               android:layout_width="match_parent"></View>
+           <TextView
+               android:textSize="18sp"
+               android:textStyle="bold"
+               android:layout_margin="5dp"
+               android:text="需协调与帮助："
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@+id/tv_push_week_coordination"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@null"
+               android:gravity="left|top"
+               android:inputType="textMultiLine"
+               android:minLines="10"
+               android:padding="10dp"
+               android:textStyle="bold" />
+           <View
+               android:layout_height="2dp"
+               android:background="@color/linecolor"
+               android:layout_width="match_parent"></View>
 
+       </LinearLayout>
 
 
 

@@ -2,11 +2,9 @@ package com.hsap.huisianpu.pager.mine;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.bean.MineDayBean;
 import com.hsap.huisianpu.details.DetailsMineDay;
-import com.hsap.huisianpu.fragment.NewsFragment;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
@@ -26,7 +23,6 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
-import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
@@ -77,7 +73,6 @@ public class MineDayPager extends BaseFragmentPager {
                             intent.putExtra("workplay",bean.getData().getList().get(position).getWorkPlay());
                             intent.putExtra("coordinatecork",bean.getData().getList().get(position).getCoordinateWork());
                             startActivity(intent);
-
                         }
                     });
                 }

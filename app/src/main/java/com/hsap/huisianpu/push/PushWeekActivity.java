@@ -6,9 +6,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.utils.NetAddressUtils;
+import com.hsap.huisianpu.utils.ToastUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -27,6 +31,13 @@ public class PushWeekActivity extends BaseBackActivity {
     ImageButton back;
     @BindView(R.id.tv_push_zhoubao)
     TextView tvPushZhoubao;
+    @BindView(R.id.tv_push_week_summary)
+    TextView tvPushWeekSummary;
+    @BindView(R.id.tv_push_week_plan)
+    TextView tvPushWeekPlan;
+    @BindView(R.id.tv_push_week_coordination)
+    TextView tvPushWeekCoordination;
+    private int id;
 
     @Override
     public int getLayoutId() {
@@ -36,12 +47,25 @@ public class PushWeekActivity extends BaseBackActivity {
     @Override
     public void initView() {
 
-        tvPushZhoubao.setText("我是推送过来的");
     }
 
     @Override
     public void initData() {
+        OkGo.<String>post(NetAddressUtils.getOneReportForm).
+                params("id",id).execute(new StringCallback() {
+                                            @Override
+                                            public void onSuccess(Response<String> response) {
+                                                Log.e("getOneReportForm",response.body().toString());
+                                            }
 
+                                            @Override
+                                            public void onError(Response<String> response) {
+                                                super.onError(response);
+                                                ToastUtils.showToast(PushWeekActivity.this,"当前网络不好，获取失败");
+                                            }
+                                        }
+
+        );
     }
 
     @Override
@@ -59,17 +83,17 @@ public class PushWeekActivity extends BaseBackActivity {
     protected void onResume() {
         super.onResume();
         XGPushClickedResult clickedResult = XGPushManager.onActivityStarted(this);
-        if(clickedResult!=null){
+        if (clickedResult != null) {
             String title = clickedResult.getTitle();
             tvPushZhoubao.setText(title);
             String content = clickedResult.getCustomContent();
             try {
-                int id = (int) new JSONObject(content).get("id");
+                id = (int) new JSONObject(content).get("id");
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.e("PushWeek",content);
+            Log.e("PushWeek", content);
         }
 
     }

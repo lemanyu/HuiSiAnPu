@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -124,7 +123,6 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
     }
 
     private void commit() {
-        Log.e("ids","List:"+idList);
         if (TextUtils.isEmpty(etWeekWorkSummary.getText().toString().trim())) {
             ToastUtils.showToast(this, "请填写工作总结信息");
             return;

@@ -144,7 +144,14 @@
 
 
 
-
+        <activity
+            android:name="com.tencent.android.tpush.XGPushActivity"
+            android:exported="false" >
+            <intent-filter>
+                <!-- 若使用AndroidStudio，请设置android:name="android.intent.action"-->
+                <action android:name="android.intent.action" />
+            </intent-filter>
+        </activity>
 
 
 
@@ -203,7 +210,7 @@
             android:name="com.tencent.android.tpush.SettingsContentProvider"
             android:authorities="com.hsap.huisianpu.TPUSH_PROVIDER"
             android:exported="false" />
-        !-- 【必须】 【注意】authorities修改为 包名.TENCENT.MID.V3, 如demo的包名为：com.qq.xgdemo-->
+
         <provider
             android:name="com.tencent.mid.api.MidProvider"
             android:authorities="com.hsap.huisianpu.TENCENT.MID.V3"
