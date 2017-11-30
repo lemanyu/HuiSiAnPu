@@ -1,15 +1,10 @@
 package com.hsap.huisianpu.receiver;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
-import com.hsap.huisianpu.push.PushActivity;
+
 import com.hsap.huisianpu.push.PushWeekActivity;
 import com.hsap.huisianpu.service.ForceOfflineService;
 import com.tencent.android.tpush.XGPushBaseReceiver;
@@ -18,16 +13,22 @@ import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MessageReceiver extends XGPushBaseReceiver {
     private Intent intent = new Intent("com.hsap.huisianpu.activity.UPDATE_LISTVIEW");
-    public static final String LogTag = "TPushReceiver";
+    public static final String TAG = "TPushReceiver";
 
 
     // 通知展示
     @Override
     public void onNotifactionShowedResult(Context context,
                                           XGPushShowedResult notifiShowedRlt) {
+        Log.d(TAG, "onNotifactionShowedResult: "+context);
+        Log.d(TAG, "onNotifactionShowedResult: "+notifiShowedRlt);
         if (context == null || notifiShowedRlt == null) {
+            Log.d(TAG, "onNotifactionShowedResult: return");
             return;
         }
 
@@ -46,7 +47,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
         } else {
             text = "反注册失败" + errorCode;
         }
-        Log.d(LogTag, text);
+        Log.d(TAG, text);
 
     }
 
@@ -61,7 +62,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
         } else {
             text = "\"" + tagName + "\"设置失败,错误码：" + errorCode;
         }
-        Log.d(LogTag, text);
+        Log.d(TAG, text);
 
     }
 
@@ -76,7 +77,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
         } else {
             text = "\"" + tagName + "\"删除失败,错误码：" + errorCode;
         }
-        Log.d(LogTag, text);
+        Log.d(TAG, text);
 
     }
 
@@ -95,11 +96,14 @@ public class MessageReceiver extends XGPushBaseReceiver {
             text = "通知被打开 :" + message;
             String name = message.getActivityName();
 
-            switch (name){
+            switch (name) {
                 case "com.hsap.huisianpu.push.PushWeekActivity":
-                    Log.e("message","PushWeekActivity");
+                    Log.e("message", "PushWeekActivity");
                     Intent intent = new Intent(context, PushWeekActivity.class);
-                   // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        intent.removeFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    }
                     context.startActivity(intent);
                     break;
             }
@@ -116,7 +120,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
                 // key1为前台配置的key
                 if (!obj.isNull("key")) {
                     String value = obj.getString("key");
-                    Log.d(LogTag, "get custom value:" + value);
+                    Log.d(TAG, "get custom value:" + value);
                 }
                 // ...
             } catch (JSONException e) {
@@ -124,7 +128,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
             }
         }
         // APP自主处理的过程。。。
-        Log.d(LogTag, text);
+        Log.d(TAG, text);
     }
 
     @Override
@@ -142,7 +146,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
         } else {
             text = message + "注册失败，错误码：" + errorCode;
         }
-        Log.d(LogTag, text);
+        Log.d(TAG, text);
     }
 
     // 消息透传
@@ -150,9 +154,8 @@ public class MessageReceiver extends XGPushBaseReceiver {
     public void onTextMessage(Context context, XGPushTextMessage message) {
         // TODO Auto-generated method stub
         String text = "收到消息:" + message.toString();
-        if("下线".equals(message.getTitle())){
-             context.getApplicationContext().startService(new Intent(context.getApplicationContext(), ForceOfflineService.class));
-
+        if ("下线".equals(message.getTitle())) {
+            context.getApplicationContext().startService(new Intent(context.getApplicationContext(), ForceOfflineService.class));
         }
         // 获取自定义key-value
         String customContent = message.getCustomContent();
@@ -163,7 +166,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
                 // key1为前台配置的key
                 if (!obj.isNull("key")) {
                     String value = obj.getString("key");
-                    Log.d(LogTag, "get custom value:" + value);
+                    Log.d(TAG, "get custom value:" + value);
                 }
                 // ...
             } catch (JSONException e) {
@@ -171,7 +174,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
             }
         }
         // APP自主处理消息的过程...
-        Log.d(LogTag, text);
+        Log.d(TAG, text);
 
     }
 

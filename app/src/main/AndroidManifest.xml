@@ -24,7 +24,7 @@
     <!--用于申请获取蓝牙信息进行室内定位-->
     <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
-
+   <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"></uses-permission>
     <!-- 【必须】 信鸽SDK所需权限   -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -47,7 +47,7 @@
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <!--系统的弹出窗口-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
+   <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"></uses-permission>
 
 
 
@@ -197,7 +197,7 @@
             android:exported="true">
             <intent-filter>
                 <!-- 【必须】 请修改为当前APP包名 .PUSH_ACTION, 如demo的包名为：com.qq.xgdemo -->
-                <action android:name="com.hsap.huisianpu" />
+                <action android:name="com.hsap.huisianpu.PUSH_ACTION" />
             </intent-filter>
         </service>
         <!-- 【必须】 【注意】authorities修改为 包名.AUTH_XGPUSH, 如demo的包名为：com.qq.xgdemo-->

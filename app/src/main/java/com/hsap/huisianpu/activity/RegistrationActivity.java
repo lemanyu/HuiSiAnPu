@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseActivity;
@@ -23,7 +23,6 @@ import com.hsap.huisianpu.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.zhy.android.percent.support.PercentLinearLayout;
@@ -60,6 +59,7 @@ public class RegistrationActivity extends BaseActivity {
     private String cipher;
     private String confirm;
     private String yaoqingma;
+    private LoadingDailog 注册中;
 
     @Override
     public int getLayoutId() {
@@ -107,17 +107,6 @@ public class RegistrationActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.bt_registration:
                 account = etAccount.getText().toString().trim();
-                XGPushManager.registerPush(getApplicationContext(),account,new XGIOperateCallback() {
-                    @Override
-                    public void onSuccess(Object data, int i) {
-                        Log.e("TPush", "注册成功，设备token为：" + data);
-                    }
-
-                    @Override
-                    public void onFail(Object data, int errCode, String msg) {
-                        Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
-                    }
-                });
                 cipher = etCipher.getText().toString().trim();
                 confirm = etConfirmCipher.getText().toString().trim();
                 if (pllZhuce.getVisibility()==View.VISIBLE){
@@ -146,8 +135,9 @@ public class RegistrationActivity extends BaseActivity {
                 return;
             }
         }
-//        final String token=SpUtils.getString(ConstantUtils.Token,RegistrationActivity.this);
-            OkGo.<String>post(NetAddressUtils.registration).
+        注册中 = ToastUtils.showDailog(this, "注册中");
+        注册中.show();
+        OkGo.<String>post(NetAddressUtils.registration).
                     params("username",account).
                     params("password",cipher).
                     params("activationCode",yaoqingma)
@@ -156,12 +146,13 @@ public class RegistrationActivity extends BaseActivity {
                 public void onSuccess(Response<String> response) {
                     RegistrationBean bean = new Gson().fromJson(response.body().toString(), RegistrationBean.class);
                     if(bean.isSuccess()){
-                        //TODO 保存sp的值 跳转到主页
+                        XGPushManager.registerPush(RegistrationActivity.this,account);
                         SpUtils.putInt(ConstantUtils.UserId,bean.getData(),RegistrationActivity.this);
                         SpUtils.putBoolean(ConstantUtils.Login,true,RegistrationActivity.this);
                         setToken(bean.getData());
 
                     }else {
+                        注册中.dismiss();
                         ToastUtils.showToast(RegistrationActivity.this,bean.getMsg()+"");
                         return;
                     }
@@ -170,6 +161,7 @@ public class RegistrationActivity extends BaseActivity {
 
                         @Override
                         public void onError(Response<String> response) {
+                            注册中.dismiss();
                             ToastUtils.showToast(RegistrationActivity.this,"当前无网络");
                             return;
                         }
@@ -183,6 +175,8 @@ public class RegistrationActivity extends BaseActivity {
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        注册中.dismiss();
+                        ToastUtils.showToast(RegistrationActivity.this,"登录成功");
                         SpUtils.putString(ConstantUtils.Username,account,RegistrationActivity.this);
                         ActivityManagerUtils.getInstance().finishActivityclass(LoginActivity.class);
                         startActivity(new Intent(RegistrationActivity.this, MainActivity.class));

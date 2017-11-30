@@ -70,14 +70,14 @@ public class DetailsMineDay extends BaseBackActivity {
             tvDetailsDayFinish.setText(finishwork);
         }
         if(llDetailsWeek.getVisibility()==View.VISIBLE){
-            tvDetailsWeekSummary.setText(summary);
+            tvDetailsWeekSummary.setText(finishwork);
             tvDetailsWeekPlanNext.setText(workplay);
-            tvDetailsWeekCoordination.setText(coordinatecork);
+            tvDetailsWeekCoordination.setText(summary);
         }
         if(llDetailsMonth.getVisibility()==View.VISIBLE){
-            tvDetailsMonthSummary.setText(summary);
+            tvDetailsMonthSummary.setText(finishwork);
             tvDetailsMonthPlan.setText(workplay);
-            tvDetailsMonthCoordination.setText(coordinatecork);
+            tvDetailsMonthCoordination.setText(summary);
         }
     }
 

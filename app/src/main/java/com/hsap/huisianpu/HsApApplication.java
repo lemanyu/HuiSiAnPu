@@ -29,8 +29,7 @@ public class HsApApplication extends Application {
 
     private void initXGPush() {
         XGPushConfig.enableDebug(getApplicationContext(), true);
-
-    }
+            }
 
     private void initOkGo() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();

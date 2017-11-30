@@ -3,11 +3,13 @@ package com.hsap.huisianpu.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseActivity;
@@ -20,6 +22,7 @@ import com.hsap.huisianpu.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -40,6 +43,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.bt_denglu)
     Button btdenglu;
     private LoginBean bean;
+    private LoadingDailog 登录中;
 
     @Override
     public int getLayoutId() {
@@ -73,38 +77,60 @@ public class LoginActivity extends BaseActivity {
                    break;
                case R.id.bt_denglu:
                    String  username = etUsername.getText().toString().trim();
-                   XGPushManager.registerPush(getApplicationContext(),username);
                   String  password = etPassword.getText().toString().trim();
-                  denglu(username,password);
+                   initXGPush(username,password);
+
                    break;
            }
     }
 
-    private void denglu(String username, String password) {
+    private void denglu(final String username, String password) {
         if (TextUtils.isEmpty(username)||TextUtils.isEmpty(password)){
             ToastUtils.showToast(LoginActivity.this,"账号或密码不能为空");
             return;
         }
+        登录中 = ToastUtils.showDailog(this, "登录中");
         OkGo.<String>post(NetAddressUtils.login).params("username", username).
                 params("password", password).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 bean = new Gson().fromJson(response.body().toString(), LoginBean.class);
                 if (bean.isSuccess()){
-                    SpUtils.putString(ConstantUtils.Username,etUsername.getText().toString().trim(),LoginActivity.this);
+                    XGPushManager.registerPush(LoginActivity.this,username);
                     SpUtils.putBoolean(ConstantUtils.Login,true,LoginActivity.this);
                     SpUtils.putInt(ConstantUtils.UserId, bean.getData(),LoginActivity.this);
                     setToken(bean.getData());
                 }else {
+                    登录中.dismiss();
                     ToastUtils.showToast(LoginActivity.this, bean.getMsg()+"");
                     return;
                 }
             }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                登录中.dismiss();
+                ToastUtils.showToast(LoginActivity.this,"当前网络不好");
+            }
         });
+    }
 
+    private void initXGPush(final String username, final String password) {
 
+        XGPushManager.registerPush(this,new XGIOperateCallback() {
+            @Override
+            public void onSuccess(Object o, int i) {
+                Log.d("TPush","注册成功"+o+"|"+i);
+                denglu(username,password);
+            }
 
-
+            @Override
+            public void onFail(Object o, int i, String s) {
+                Log.d("TPush","注册失败"+o+"|"+i+"|"+s);
+                initXGPush(username,password);
+            }
+        });
     }
 
     private void setToken(int data) {
@@ -114,7 +140,8 @@ public class LoginActivity extends BaseActivity {
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        SpUtils.putString(ConstantUtils.Username,etUsername.getText().toString().trim(),LoginActivity.this);
+                        登录中.dismiss();
+                        ToastUtils.showToast(LoginActivity.this,"登录成功");
                         startActivity(new Intent(LoginActivity.this,MainActivity.class));
                         finish();
                     }
@@ -139,3 +166,5 @@ public class LoginActivity extends BaseActivity {
 
     }
 }
+
+

@@ -71,7 +71,7 @@ public class MineWeekPager extends BaseFragmentPager {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                 Intent intent = new Intent(mActivity, DetailsMineDay.class);
-                                intent.putExtra("type",0);
+                                intent.putExtra("type",1);
                                 intent.putExtra("finishwork",bean.getData().getList().get(position).getFinishWork().toString());
                                 intent.putExtra("summary",bean.getData().getList().get(position).getSummary());
                                 intent.putExtra("workplay",bean.getData().getList().get(position).getWorkPlay());

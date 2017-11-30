@@ -6,8 +6,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.bean.IdBean;
+import com.hsap.huisianpu.bean.OneReportFromBean;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
@@ -15,9 +18,6 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +37,7 @@ public class PushWeekActivity extends BaseBackActivity {
     TextView tvPushWeekPlan;
     @BindView(R.id.tv_push_week_coordination)
     TextView tvPushWeekCoordination;
-    private int id;
+
 
     @Override
     public int getLayoutId() {
@@ -51,11 +51,19 @@ public class PushWeekActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
+
+    }
+
+    private void dataFromNet(int id) {
+        Log.e("getOneReportForm",":"+id);
         OkGo.<String>post(NetAddressUtils.getOneReportForm).
                 params("id",id).execute(new StringCallback() {
                                             @Override
                                             public void onSuccess(Response<String> response) {
-                                                Log.e("getOneReportForm",response.body().toString());
+                                                OneReportFromBean bean = new Gson().fromJson(response.body().toString(), OneReportFromBean.class);
+                                                tvPushWeekSummary.setText(bean.getData().getFinishWork());
+                                                tvPushWeekPlan.setText(bean.getData().getWorkPlay());
+                                                tvPushWeekCoordination.setText(bean.getData().getSummary());
                                             }
 
                                             @Override
@@ -84,16 +92,12 @@ public class PushWeekActivity extends BaseBackActivity {
         super.onResume();
         XGPushClickedResult clickedResult = XGPushManager.onActivityStarted(this);
         if (clickedResult != null) {
-            String title = clickedResult.getTitle();
+            String title = clickedResult.getContent();
             tvPushZhoubao.setText(title);
             String content = clickedResult.getCustomContent();
-            try {
-                id = (int) new JSONObject(content).get("id");
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Log.e("PushWeek", content);
+            IdBean bean = new Gson().fromJson(content, IdBean.class);
+           int id = bean.getId();
+            dataFromNet(id);
         }
 
     }

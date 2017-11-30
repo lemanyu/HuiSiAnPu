@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,7 @@ public class MineMonthPager extends BaseFragmentPager {
 
     @Override
     public void initData() {
-
+        dataFormNet();
     }
     private void dataFormNet() {
         OkGo.<String>post(NetAddressUtils.getMyReportForms).
@@ -66,7 +65,7 @@ public class MineMonthPager extends BaseFragmentPager {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                 Intent intent = new Intent(mActivity, DetailsMineDay.class);
-                                intent.putExtra("type",0);
+                                intent.putExtra("type",2);
                                 intent.putExtra("finishwork",bean.getData().getList().get(position).getFinishWork().toString());
                                 intent.putExtra("summary",bean.getData().getList().get(position).getSummary());
                                 intent.putExtra("workplay",bean.getData().getList().get(position).getWorkPlay());

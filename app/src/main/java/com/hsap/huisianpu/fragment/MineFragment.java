@@ -111,21 +111,18 @@ public class MineFragment extends BaseFragment {
                   builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialogInterface, int i) {
-                           XGPushManager.registerPush(mActivity.getApplicationContext(),"*");
-
-                          SpUtils.putBoolean(ConstantUtils.Login,false,mActivity);
-                          SpUtils.putInt(ConstantUtils.UserId,0,mActivity);
-                          startActivity(new Intent(mActivity, LoginActivity.class));
-                          ActivityManagerUtils.getInstance().finishActivityclass(MainActivity.class);
                           OkGo.<String>post(NetAddressUtils.setToken).
                                   params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
-                                  params("token","").execute(new StringCallback() {
+                                  params("token","*").execute(new StringCallback() {
                               @Override
                               public void onSuccess(Response<String> response) {
                                   TokenBena bena = new Gson().fromJson(response.body().toString(), TokenBena.class);
                                   if(bena.isSuccess()){
+                                      XGPushManager.registerPush(mActivity,SpUtils.getInt(ConstantUtils.UserId,mActivity)+"@HSAP");
                                       SpUtils.putBoolean(ConstantUtils.Login,false,mActivity);
                                       SpUtils.putInt(ConstantUtils.UserId,0,mActivity);
+                                      startActivity(new Intent(mActivity, LoginActivity.class));
+                                      ActivityManagerUtils.getInstance().finishActivityclass(MainActivity.class);
                                   }
                               }
                           });

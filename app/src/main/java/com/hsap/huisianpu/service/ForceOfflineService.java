@@ -19,7 +19,9 @@ public class ForceOfflineService extends Service {
         super.onCreate();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.hsap.huisianpu");
-        forceOfflineReceiver=new ForceOfflineReceiver();
+        if(forceOfflineReceiver==null){
+            forceOfflineReceiver=new ForceOfflineReceiver();
+        }
         registerReceiver(forceOfflineReceiver,intentFilter);
         Intent intent = new Intent("com.hsap.huisianpu");
         getApplication().sendBroadcast(intent);
