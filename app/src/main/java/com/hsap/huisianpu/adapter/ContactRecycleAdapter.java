@@ -1,33 +1,26 @@
 package com.hsap.huisianpu.adapter;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.bean.Bean;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * Created by zhao on 2017/11/18.
  */
 
 public class ContactRecycleAdapter extends BaseAdapter {
-    public static Map<Integer, Boolean> isSelected;
+    public  Map<Integer, Boolean> isSelected;
     private final List<Bean> list;
     private Context context;
     /**
@@ -40,6 +33,7 @@ public class ContactRecycleAdapter extends BaseAdapter {
         isSelected = new HashMap<>();
         this.context = context;
         this.list = list;
+        isCheck();
     }
 
 
@@ -76,6 +70,13 @@ public class ContactRecycleAdapter extends BaseAdapter {
         holder.tv_contact_number.setText("联系电话：" + list.get(position).getNumber());
 
         return convertView;
+    }
+
+    public void isCheck() {
+        for (int i = 0; i <list.size(); i++) {
+            isSelected.put(i,false);
+        }
+
     }
 
     public class ViewHolder {

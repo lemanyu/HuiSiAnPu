@@ -2,7 +2,6 @@ package com.hsap.huisianpu.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,8 +14,6 @@ import com.hsap.huisianpu.bean.Bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * Created by zhao on 2017/11/22.
  */
@@ -24,7 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ApproveGridViewAdapter extends BaseAdapter {
     private Context context;
     private List<Bean> nameList = new ArrayList<>();
-     public ApproveGridViewAdapter(Context context,List<Bean>nameList){
+    public ApproveGridViewAdapter(Context context,List<Bean>nameList){
          this.context=context;
          this.nameList=nameList;
      }
@@ -52,7 +49,7 @@ public class ApproveGridViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-         view=View.inflate(context, R.layout.item_approve,null);
+        view=View.inflate(context, R.layout.item_approve,null);
         ImageView iv_approve_jiantou = view.findViewById(R.id.iv_approve_jiantou);
         TextView tv_approve_name = view.findViewById(R.id.tv_approve_name);
         if(position==nameList.size()){

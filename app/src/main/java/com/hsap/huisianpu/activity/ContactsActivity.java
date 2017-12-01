@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -27,10 +28,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +45,6 @@ public class ContactsActivity extends BaseBackActivity {
     ListView rlvYaoqing;
     @BindView(R.id.back)
     ImageButton back;
-    private Map<Integer, Boolean> map = new HashMap<>();// 存放已被选中的CheckBox
     private ContactRecycleAdapter adapter;
     private List<Bean> list;
 
@@ -69,23 +66,25 @@ public class ContactsActivity extends BaseBackActivity {
         list = getContacts(dailog);
 
         adapter = new ContactRecycleAdapter(ContactsActivity.this, list);
-
         rlvYaoqing.setAdapter(adapter);
         rlvYaoqing.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ContactRecycleAdapter.ViewHolder holder = (ContactRecycleAdapter.ViewHolder) view.getTag();
                 holder.cb_contact.toggle();
+                Log.e(TAG, "onItemClick: ");
                 adapter.isSelected.put(i, holder.cb_contact.isChecked());
                 //判断是否已经存在，如果已经，则移除，否则添加
                 if (adapter.hasSelected == null) {
-                    adapter.hasSelected = new LinkedList<>();
+                    adapter.hasSelected = new ArrayList<>();
                 }
-                if (adapter.hasSelected.contains(i)) {
-                    adapter.hasSelected.remove((Integer) i);
-                } else {
-                    adapter.hasSelected.add(i);
-                }
+//                if (adapter.hasSelected.contains(i)) {
+//                    adapter.hasSelected.remove((Integer) i);
+//                } else {
+//                    adapter.hasSelected.add(i);
+//                }
+
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -109,6 +108,7 @@ public class ContactsActivity extends BaseBackActivity {
             final LoadingDailog dailog = ToastUtils.showDailog(ContactsActivity.this, "正在邀请中");
             ArrayList<String> nameList = new ArrayList<>();
             for (int i = 0; i < adapter.hasSelected.size(); i++) {
+                Log.e(TAG,list.get(adapter.hasSelected.get(i)).getNumber());
                 nameList.add(list.get(adapter.hasSelected.get(i)).getNumber());
             }
             Gson gson = new Gson();

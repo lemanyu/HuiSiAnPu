@@ -233,6 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <com.hsap.huisianpu.view.MyGridView
+                android:id="@+id/gv_trip_person"
                 android:horizontalSpacing="10dp"
                 android:verticalSpacing="40dp"
                 android:numColumns="3"
@@ -254,6 +255,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <com.hsap.huisianpu.view.MyGridView
+                android:id="@+id/gv_trip"
                 android:horizontalSpacing="10dp"
                 android:verticalSpacing="40dp"
                 android:numColumns="4"

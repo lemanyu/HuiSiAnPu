@@ -77,7 +77,7 @@ public class LoginActivity extends BaseActivity {
                    break;
                case R.id.bt_denglu:
                    String  username = etUsername.getText().toString().trim();
-                  String  password = etPassword.getText().toString().trim();
+                   String  password = etPassword.getText().toString().trim();
                    initXGPush(username,password);
 
                    break;
@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity {
             public void onSuccess(Response<String> response) {
                 bean = new Gson().fromJson(response.body().toString(), LoginBean.class);
                 if (bean.isSuccess()){
-                    XGPushManager.registerPush(LoginActivity.this,username);
+                    XGPushManager.registerPush(getApplicationContext(),username);
                     SpUtils.putBoolean(ConstantUtils.Login,true,LoginActivity.this);
                     SpUtils.putInt(ConstantUtils.UserId, bean.getData(),LoginActivity.this);
                     setToken(bean.getData());
@@ -117,8 +117,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initXGPush(final String username, final String password) {
-
-        XGPushManager.registerPush(this,new XGIOperateCallback() {
+        XGPushManager.registerPush(getApplicationContext(),new XGIOperateCallback() {
             @Override
             public void onSuccess(Object o, int i) {
                 Log.d("TPush","注册成功"+o+"|"+i);

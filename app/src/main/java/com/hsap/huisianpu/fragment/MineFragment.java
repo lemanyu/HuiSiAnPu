@@ -118,7 +118,8 @@ public class MineFragment extends BaseFragment {
                               public void onSuccess(Response<String> response) {
                                   TokenBena bena = new Gson().fromJson(response.body().toString(), TokenBena.class);
                                   if(bena.isSuccess()){
-                                      XGPushManager.registerPush(mActivity,SpUtils.getInt(ConstantUtils.UserId,mActivity)+"@HSAP");
+                                     XGPushManager.registerPush(mActivity.getApplicationContext(),"*");
+                                     //XGPushManager.unregisterPush(mActivity.getApplicationContext());
                                       SpUtils.putBoolean(ConstantUtils.Login,false,mActivity);
                                       SpUtils.putInt(ConstantUtils.UserId,0,mActivity);
                                       startActivity(new Intent(mActivity, LoginActivity.class));

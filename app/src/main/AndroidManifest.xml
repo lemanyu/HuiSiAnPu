@@ -135,7 +135,8 @@
         <activity android:name=".push.PushWeekActivity"
             android:theme="@style/BackTheme"></activity>
         <service android:name=".service.ForceOfflineService"></service>
-
+       <activity android:name=".activity.ChooseAccompanyActivity"
+           android:theme="@style/BackTheme"></activity>
 
 
 
