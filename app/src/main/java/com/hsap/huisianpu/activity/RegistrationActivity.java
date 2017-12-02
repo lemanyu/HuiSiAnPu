@@ -20,6 +20,7 @@ import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.hsap.huisianpu.utils.Utils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -123,6 +124,10 @@ public class RegistrationActivity extends BaseActivity {
     private void registration() {
         if (TextUtils.isEmpty(account) || TextUtils.isEmpty(cipher) || TextUtils.isEmpty(confirm)) {
             ToastUtils.showToast(RegistrationActivity.this, "账号密码不能为空");
+            return;
+        }
+        if (!Utils.isPhone(account)){
+            ToastUtils.showToast(RegistrationActivity.this, "请输入正确的手机号码");
             return;
         }
         if(!cipher.equals(confirm)) {

@@ -241,7 +241,6 @@
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_car_matters"
-                android:textStyle="bold"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
@@ -263,7 +262,6 @@
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_car_location"
-                android:textStyle="bold"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
@@ -285,8 +283,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <com.hsap.huisianpu.view.MyGridView
+                android:id="@+id/gv_car"
                 android:horizontalSpacing="10dp"
-                android:verticalSpacing="40dp"
                 android:numColumns="4"
                 android:layout_margin="5dp"
                 android:stretchMode="columnWidth"

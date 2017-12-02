@@ -66,7 +66,10 @@ public class ContactsActivity extends BaseBackActivity {
         list = getContacts(dailog);
 
         adapter = new ContactRecycleAdapter(ContactsActivity.this, list);
+        rlvYaoqing.setItemsCanFocus(false);
+        rlvYaoqing.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         rlvYaoqing.setAdapter(adapter);
+        rlvYaoqing.getCheckedItemPositions();
         rlvYaoqing.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -78,13 +81,11 @@ public class ContactsActivity extends BaseBackActivity {
                 if (adapter.hasSelected == null) {
                     adapter.hasSelected = new ArrayList<>();
                 }
-//                if (adapter.hasSelected.contains(i)) {
-//                    adapter.hasSelected.remove((Integer) i);
-//                } else {
-//                    adapter.hasSelected.add(i);
-//                }
-
-                adapter.notifyDataSetChanged();
+                if (adapter.hasSelected.contains(i)) {
+                    adapter.hasSelected.remove((Integer) i);
+                } else {
+                    adapter.hasSelected.add(i);
+                }
             }
         });
     }
@@ -108,8 +109,8 @@ public class ContactsActivity extends BaseBackActivity {
             final LoadingDailog dailog = ToastUtils.showDailog(ContactsActivity.this, "正在邀请中");
             ArrayList<String> nameList = new ArrayList<>();
             for (int i = 0; i < adapter.hasSelected.size(); i++) {
-                Log.e(TAG,list.get(adapter.hasSelected.get(i)).getNumber());
-                nameList.add(list.get(adapter.hasSelected.get(i)).getNumber());
+                    Log.e(TAG,list.get(adapter.hasSelected.get(i)).getNumber());
+                    nameList.add(list.get(i).getNumber());
             }
             Gson gson = new Gson();
             String json = gson.toJson(nameList);

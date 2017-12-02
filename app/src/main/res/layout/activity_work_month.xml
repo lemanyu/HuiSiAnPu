@@ -74,7 +74,6 @@
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_month_plan_next"
-                android:textStyle="bold"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
@@ -118,7 +117,6 @@
             <com.hsap.huisianpu.view.MyGridView
                 android:id="@+id/gv_work_month"
                 android:horizontalSpacing="10dp"
-                android:verticalSpacing="40dp"
                 android:numColumns="4"
                 android:layout_margin="5dp"
                 android:stretchMode="columnWidth"

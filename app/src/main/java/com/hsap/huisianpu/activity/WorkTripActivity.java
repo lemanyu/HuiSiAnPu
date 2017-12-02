@@ -1,11 +1,14 @@
 package com.hsap.huisianpu.activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,13 +17,21 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.tu.loadingdialog.LoadingDailog;
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.AccompanyGvidViewAdapter;
 import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
+import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
 import com.hsap.huisianpu.view.MyGridView;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
 import java.text.ParseException;
@@ -38,6 +49,7 @@ import butterknife.ButterKnife;
  */
 
 public class WorkTripActivity extends BaseBackActivity {
+    private static final String TAG ="WorkTripActivity" ;
     @BindView(R.id.back)
     ImageButton back;
     @BindView(R.id.bt_trip_commit)
@@ -64,8 +76,10 @@ public class WorkTripActivity extends BaseBackActivity {
     MyGridView gvTrip;
     private StringBuilder beginTime = new StringBuilder();
     private StringBuilder endTime = new StringBuilder();
-    private List<Bean> list = new ArrayList<>();
-    private List<String> idList = new ArrayList<>();//存放 审批人的id
+    private StringBuffer Pm=new StringBuffer();//下午
+    private StringBuffer Am=new StringBuffer();//上午
+    private List<Bean> list = new ArrayList<>(); //审批人
+    private List<Integer> idList = new ArrayList<>();//存放 审批人的id
     private List<Bean> personList=new ArrayList<>();//陪同人
     private List<Integer> personIdList=new ArrayList<>();//陪同人id
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
@@ -149,43 +163,103 @@ public class WorkTripActivity extends BaseBackActivity {
 
     private void showBegin() {
         beginTime.setLength(0);
+        Am.setLength(0);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请选择上午/下午");
+        final int[] choose = {0};
+        final String[] item = {"上午", "下午"};
+        builder.setSingleChoiceItems(item, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                choose[0]=i;
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Am.append(item[choose[0]]);
+                tvTripBegin.setText(beginTime+" "+Am);
+            }
+        });
+        builder.setNegativeButton("取消",null);
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
+        int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 beginTime.append(i + "-" + (i1 + 1) + "-" + i2);
-                tvTripBegin.setText(beginTime);
+                builder.show();
             }
         }, year, month, day).show();
     }
 
     private void showEnd() {
         endTime.setLength(0);
+        Pm.setLength(0);
         if (tvTripBegin.getText().toString().trim().equals("请选择（必填）")) {
             ToastUtils.showToast(this, "请先选择开始时间");
             return;
         }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请选择上午/下午");
+        final int[] choose = {0};
+        final String[] item = {"上午", "下午"};
+        builder.setSingleChoiceItems(item, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                choose[0]=i;
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Pm.append(item[choose[0]]);
+                tvTripEnd.setText(endTime+" "+Pm);
+                if(tvTripBegin.getText().toString().equals(tvTripEnd.getText().toString())){
+                    tvTripDay.setText("0.5");
+                    return;
+                }
+                if(endTime.toString().equals(beginTime.toString())&&!Pm.toString().equals(Am.toString())){
+                    tvTripDay.setText("1");
+                    return;
+                }
+                if(!endTime.toString().equals(beginTime.toString())&&Pm.toString().equals(Am.toString())){
+                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
+                    try {
+                        Date begin = sdf.parse(beginTime.toString());
+                        Date end = sdf.parse(endTime.toString());
+                        int day = (int) ((end.getTime() - begin.getTime()) / (1000 * 3600 * 24));
+                        tvTripDay.setText(day+".5");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
+                    try {
+                        Date begin = sdf.parse(beginTime.toString());
+                        Date end = sdf.parse(endTime.toString());
+                        int day = (int) ((end.getTime() - begin.getTime()) / (1000 * 3600 * 24));
+                        tvTripDay.setText(day+1+"");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+        builder.setNegativeButton("取消",null);
+
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
+        int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 endTime.append(i + "-" + (i1 + 1) + "-" + i2);
-                tvTripEnd.setText(endTime);
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    Date begin = format.parse(beginTime.toString());
-                    Date end = format.parse(endTime.toString());
-                    int day = (int) ((end.getTime() - begin.getTime()) / (60 * 60 * 1000 * 24));
-                    tvTripDay.setText(day + 1 + "");
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+               builder.show();
             }
         }, year, month, day).show();
     }
@@ -207,11 +281,57 @@ public class WorkTripActivity extends BaseBackActivity {
             ToastUtils.showToast(this, "请选择结束时间");
             return;
         }
+        if (Float.valueOf(tvTripDay.getText().toString().trim())<0.0){
+            ToastUtils.showToast(this,"请选择正确的返回日期");
+            return;
+        }
         if (TextUtils.isEmpty(etTripRemark.getText().toString().trim())) {
             ToastUtils.showToast(this, "请填写备注信息");
             return;
         }
-        //TOdo 访问网络
+        if ("上午".indexOf(tvTripBegin.getText().toString().trim())==-1){
+              String begin=beginTime+"08:30";
+        }else {
+
+
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定要提交吗？");
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                final LoadingDailog 提交中 = ToastUtils.showDailog(WorkTripActivity.this, "提交中");
+                提交中.show();
+                //TOdo 访问网络
+                OkGo.<String>post(NetAddressUtils.BusinessTrip).
+                        params("ids",new Gson().toJson(idList)).
+                        params("activity","com.hsap.huisianpu.push.PushTirpActivity").
+                        params("workersId", SpUtils.getInt(ConstantUtils.UserId,WorkTripActivity.this)).
+                        params("reason",etTripReason.getText().toString().trim()).
+                        params("comment",etTripRemark.getText().toString().trim()).
+                        params("place",etTripCity.getText().toString().trim()).
+                        params("newDepartureTime",tvTripBegin.getText().toString().trim()).
+                        params("newReturnTime",tvTripEnd.getText().toString().trim()).
+                        params("associateId",new Gson().toJson(personIdList)).
+                        params("total",Float.valueOf(tvTripDay.getText().toString().trim())).
+                        execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                提交中.dismiss();
+                                ToastUtils.showToast(WorkTripActivity.this, "提交成功");
+                                Log.e(TAG, "onSuccess: "+response.body().toString());
+                            }
+                            @Override
+                            public void onError(Response<String> response) {
+                                super.onError(response);
+                                提交中.dismiss();
+                                ToastUtils.showToast(WorkTripActivity.this, "提交失败，当前网络不好");
+                            }
+                        });
+            }
+        });
+        builder.show();
 
     }
 
@@ -228,7 +348,7 @@ public class WorkTripActivity extends BaseBackActivity {
             if (resultCode == 101) {
                 Bundle bundle = data.getExtras();
                 String name = bundle.getString("name");
-                String id = bundle.getString("id");
+                int id = bundle.getInt("id");
                 Bean bean = new Bean();
                 bean.setName(name);
                 bean.setPic(color[(int) (Math.random() * 6)]);
@@ -247,8 +367,9 @@ public class WorkTripActivity extends BaseBackActivity {
                     bean.setPic(color[(int) (Math.random() * 6)]);
                     personList.add(bean);
                 }
-                accompanyGvidViewAdapter.notifyDataSetChanged();
                 personIdList.addAll(idlist);
+                accompanyGvidViewAdapter.notifyDataSetChanged();
+
             }
         }
     }

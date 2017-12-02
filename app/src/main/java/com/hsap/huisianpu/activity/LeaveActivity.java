@@ -2,7 +2,6 @@ package com.hsap.huisianpu.activity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,9 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,7 +17,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.android.tu.loadingdialog.LoadingDailog;
 import com.google.gson.Gson;
@@ -37,13 +33,11 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -92,6 +86,7 @@ public class LeaveActivity extends BaseBackActivity {
     private StringBuffer Am=new StringBuffer();//上午
     @Override
     public int getLayoutId() {
+
         return R.layout.activity_work_leave;
     }
 
@@ -270,6 +265,10 @@ public class LeaveActivity extends BaseBackActivity {
             ToastUtils.showToast(this,"请选择结束时间");
             return;
         }
+        if (Long.valueOf(tvShichang.getText().toString().trim())<0){
+            ToastUtils.showToast(this,"请选择正确的结束日期");
+            return;
+        }
         if(list.size()==0){
             ToastUtils.showToast(this,"请选择审批人");
             return;
@@ -293,7 +292,14 @@ public class LeaveActivity extends BaseBackActivity {
                     @Override
                     public void onSuccess(Response<String> response) {
                         dailog.dismiss();
-                        Log.e("bt_learve_commit", response.body().toString());
+                       ToastUtils.showToast(LeaveActivity.this,"提交成功");
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        dailog.dismiss();
+                        ToastUtils.showToast(LeaveActivity.this,"提交失败，当前网络不好");
                     }
                 });
     }

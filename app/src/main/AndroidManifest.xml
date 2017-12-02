@@ -137,8 +137,10 @@
         <service android:name=".service.ForceOfflineService"></service>
        <activity android:name=".activity.ChooseAccompanyActivity"
            android:theme="@style/BackTheme"></activity>
-
-
+       <activity android:name=".push.PushTirpActivity"
+           android:theme="@style/BackTheme"></activity>
+       <activity android:name=".activity.MineOutDoorActivity"
+           android:theme="@style/BackTheme"></activity>
 
 
 

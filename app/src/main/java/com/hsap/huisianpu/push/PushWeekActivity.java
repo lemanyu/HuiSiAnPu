@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 推送的周报
+ * 推送的周月报
  */
 
 public class PushWeekActivity extends BaseBackActivity {

@@ -4,9 +4,13 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,14 +19,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.bean.Bean;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.hsap.huisianpu.utils.Utils;
+import com.hsap.huisianpu.view.MyGridView;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +63,13 @@ public class WorkCarActivity extends BaseBackActivity {
     EditText etCarMatters;
     @BindView(R.id.et_car_location)
     EditText etCarLocation;
-
+    @BindView(R.id.gv_car)
+    MyGridView gvCar;
+    private ApproveGridViewAdapter adapter;
+    private List<Bean> list = new ArrayList<>();
+    private List<String> idList = new ArrayList<>();//存放 审批人的id
+    private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
+            R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
     @Override
     public int getLayoutId() {
 
@@ -65,7 +78,24 @@ public class WorkCarActivity extends BaseBackActivity {
 
     @Override
     public void initView() {
-
+        adapter = new ApproveGridViewAdapter(this, list);
+        gvCar.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        gvCar.setAdapter(adapter);
+        gvCar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position == list.size()) {
+                    //跳到选择联系人页面
+                    startActivityForResult(
+                            new Intent(WorkCarActivity.this,
+                                    SelectApproverActivity.class), 100);
+                } else {
+                    list.remove(position);
+                    idList.remove(position);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override
@@ -84,20 +114,20 @@ public class WorkCarActivity extends BaseBackActivity {
 
     @Override
     public void processClick(View v) {
-          switch (v.getId()){
-              case R.id.bt_car_commit:
-                  showCommit();
-                  break;
-              case R.id.pll_car_begin:
-                  showBegin();
-                  break;
-              case R.id.pll_car_end:
-                  showEnd();
-                  break;
-              case R.id.pll_car_choice:
-                  showChoice();
-                  break;
-          }
+        switch (v.getId()) {
+            case R.id.bt_car_commit:
+                showCommit();
+                break;
+            case R.id.pll_car_begin:
+                showBegin();
+                break;
+            case R.id.pll_car_end:
+                showEnd();
+                break;
+            case R.id.pll_car_choice:
+                showChoice();
+                break;
+        }
     }
 
     private void showChoice() {
@@ -122,8 +152,8 @@ public class WorkCarActivity extends BaseBackActivity {
 
     private void showEnd() {
         final StringBuilder endTime = new StringBuilder();
-        if(tvCarBegin.getText().toString().trim().equals("请选择（必填）")){
-            ToastUtils.showToast(this,"请先选择开始时间");
+        if (tvCarBegin.getText().toString().trim().equals("请选择（必填）")) {
+            ToastUtils.showToast(this, "请先选择开始时间");
             return;
         }
         Calendar calendar = Calendar.getInstance();
@@ -145,7 +175,7 @@ public class WorkCarActivity extends BaseBackActivity {
                 endTime.append(i + "-" + (i1 + 1) + "-" + i2);
                 timePickerDialog.show();
             }
-        },year,month,day).show();
+        }, year, month, day).show();
 
     }
 
@@ -170,36 +200,40 @@ public class WorkCarActivity extends BaseBackActivity {
                 beginTime.append(i + "-" + (i1 + 1) + "-" + i2);
                 timePickerDialog.show();
             }
-        },year,month,day).show();
+        }, year, month, day).show();
     }
 
     private void showCommit() {
-        if(tvCarBegin.getText().toString().trim().equals("请选择（必填）")){
-            ToastUtils.showToast(this,"请选择用车时间");
+        if (tvCarBegin.getText().toString().trim().equals("请选择（必填）")) {
+            ToastUtils.showToast(this, "请选择用车时间");
             return;
         }
-        if(tvCarEnd.getText().toString().trim().equals("请选择（必填）")){
-            ToastUtils.showToast(this,"请选择还车时间");
+        if (tvCarEnd.getText().toString().trim().equals("请选择（必填）")) {
+            ToastUtils.showToast(this, "请选择还车时间");
             return;
         }
-        if(tvCarChoice.getText().toString().trim().equals("请选择（必填）")){
-            ToastUtils.showToast(this,"请选择车辆类型");
+        if (tvCarChoice.getText().toString().trim().equals("请选择（必填）")) {
+            ToastUtils.showToast(this, "请选择车辆类型");
             return;
         }
-        if(TextUtils.isEmpty(etCarPhone.getText().toString().trim())){
-            ToastUtils.showToast(this,"请输入您的手机号");
+        if (TextUtils.isEmpty(etCarPhone.getText().toString().trim())) {
+            ToastUtils.showToast(this, "请输入您的手机号");
             return;
         }
-        if(TextUtils.isEmpty(etCarNumber.getText().toString().trim())){
-            ToastUtils.showToast(this,"请输入用车人数");
+        if(!Utils.isPhone(etCarPhone.getText().toString().trim())){
+            ToastUtils.showToast(this, "请输入正确的手机号");
             return;
         }
-        if(TextUtils.isEmpty(etCarMatters.getText().toString().trim())){
-            ToastUtils.showToast(this,"请输入办理事项");
+        if (TextUtils.isEmpty(etCarNumber.getText().toString().trim())) {
+            ToastUtils.showToast(this, "请输入用车人数");
             return;
         }
-        if(TextUtils.isEmpty(etCarLocation.getText().toString().trim())){
-            ToastUtils.showToast(this,"请输入办事地点");
+        if (TextUtils.isEmpty(etCarMatters.getText().toString().trim())) {
+            ToastUtils.showToast(this, "请输入办理事项");
+            return;
+        }
+        if (TextUtils.isEmpty(etCarLocation.getText().toString().trim())) {
+            ToastUtils.showToast(this, "请输入办事地点");
             return;
         }
     }
@@ -209,5 +243,22 @@ public class WorkCarActivity extends BaseBackActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            if (resultCode == 101) {
+                Bundle bundle = data.getExtras();
+                String name = bundle.getString("name");
+                String id = bundle.getString("id");
+                Bean bean = new Bean();
+                bean.setName(name);
+                bean.setPic(color[(int) (Math.random() * 6)]);
+                list.add(bean);
+                idList.add(id);
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 }

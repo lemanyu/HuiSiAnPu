@@ -20,7 +20,9 @@ import java.util.Map;
  */
 
 public class ChooseAdapter extends BaseAdapter {
-    public static Map<Integer, Boolean> isSelected;
+
+
+    public  Map<Integer, Boolean> isSelected;
     private final List<SelectApproverBean.DataBean> list;
     private Context context;
     public List<Integer> hasSelected;
@@ -29,6 +31,14 @@ public class ChooseAdapter extends BaseAdapter {
         isSelected = new HashMap<>();
         this.context = context;
         this.list = list;
+        isCheck();
+    }
+    public Map<Integer, Boolean> getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(Map<Integer, Boolean> isSelected) {
+        this.isSelected = isSelected;
     }
     @Override
     public int getCount() {
@@ -58,12 +68,19 @@ public class ChooseAdapter extends BaseAdapter {
             holder= (ViewHolder) view.getTag();
         }
            holder.tv_choose_name.setText(list.get(i).getName());
-
+          holder.cb_choose.setChecked(getIsSelected().get(i));
+        holder.cb_choose.setOnCheckedChangeListener(null);
         return view;
     }
     public class ViewHolder {
         public TextView tv_choose_name;
 
         public CheckBox cb_choose;
+    }
+    public void isCheck() {
+        for (int i = 0; i <list.size(); i++) {
+            isSelected.put(i,false);
+        }
+
     }
 }

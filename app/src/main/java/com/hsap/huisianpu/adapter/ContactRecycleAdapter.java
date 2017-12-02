@@ -20,6 +20,7 @@ import java.util.Map;
  */
 
 public class ContactRecycleAdapter extends BaseAdapter {
+
     public  Map<Integer, Boolean> isSelected;
     private final List<Bean> list;
     private Context context;
@@ -34,6 +35,13 @@ public class ContactRecycleAdapter extends BaseAdapter {
         this.context = context;
         this.list = list;
         isCheck();
+    }
+    public Map<Integer, Boolean> getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(Map<Integer, Boolean> isSelected) {
+        this.isSelected = isSelected;
     }
 
 
@@ -68,7 +76,8 @@ public class ContactRecycleAdapter extends BaseAdapter {
         }
         holder.tv_contact_name.setText("联系人：" + list.get(position).getName());
         holder.tv_contact_number.setText("联系电话：" + list.get(position).getNumber());
-
+         holder.cb_contact.setChecked(getIsSelected().get(position));
+         holder.cb_contact.setOnCheckedChangeListener(null);
         return convertView;
     }
 

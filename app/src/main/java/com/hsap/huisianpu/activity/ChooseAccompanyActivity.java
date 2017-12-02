@@ -60,6 +60,8 @@ public class ChooseAccompanyActivity extends BaseBackActivity {
                 if (bean.isSuccess()){
                     dailog.dismiss();
                     adapter = new ChooseAdapter(ChooseAccompanyActivity.this, bean.getData());
+                    rlvChoose.setItemsCanFocus(false);
+                    rlvChoose.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                     rlvChoose.setAdapter(adapter);
                     rlvChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -72,11 +74,10 @@ public class ChooseAccompanyActivity extends BaseBackActivity {
                             if (adapter.hasSelected == null) {
                                 adapter.hasSelected = new ArrayList<>();
                             }
-                            if (adapter.isSelected.get(i)){
-                                Log.e(TAG, "fff");
+                            if (adapter.hasSelected.contains(i)) {
+                                adapter.hasSelected.remove((Integer) i);
+                            } else {
                                 adapter.hasSelected.add(i);
-                            }else {
-                                adapter.hasSelected.remove(i);
                             }
                         }
                     });
@@ -117,7 +118,6 @@ public class ChooseAccompanyActivity extends BaseBackActivity {
 
     private void choose() {
          if (adapter.hasSelected.size()>0){
-
              ArrayList<Integer> idlist = new ArrayList<>();
              ArrayList<String> namelist = new ArrayList<>();
              for (int i = 0; i <adapter.hasSelected.size(); i++) {

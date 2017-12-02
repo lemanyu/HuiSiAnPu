@@ -62,7 +62,7 @@
                 android:inputType="textMultiLine"
                 android:minLines="5"
                 android:padding="10dp"
-                android:textStyle="bold" />
+                />
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
