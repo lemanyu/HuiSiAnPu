@@ -204,7 +204,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
         builder.setNegativeButton("取消", null);
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
+        int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -240,7 +240,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
+        int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -265,6 +265,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
             return;
         }
         //提交
+
     }
 
 

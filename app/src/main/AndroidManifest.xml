@@ -141,7 +141,8 @@
            android:theme="@style/BackTheme"></activity>
        <activity android:name=".activity.MineOutDoorActivity"
            android:theme="@style/BackTheme"></activity>
-
+        <activity android:name=".details.DetailsMineTrip"
+            android:theme="@style/BackTheme"></activity>
 
 
 

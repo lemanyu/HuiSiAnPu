@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.activity.ContactsActivity;
 import com.hsap.huisianpu.activity.LeaveActivity;
@@ -34,6 +35,7 @@ import com.hsap.huisianpu.activity.WorkWeekNewPaperActivity;
 import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.bean.HavePermissionBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
@@ -100,8 +102,8 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("出差",R.drawable.chuchai));
         list.add(new Bean("加班",R.drawable.jiaban));
         list.add(new Bean("用车",R.drawable.car));
-        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         internalField.setLayoutManager(new GridLayoutManager(mActivity,4));
+        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         internalField.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -137,8 +139,8 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("月报",R.drawable.month));
         list.add(new Bean("查看汇报",R.drawable.see));
         list.add(new Bean("出差总结",R.drawable.chuchaizongjie));
-        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         business.setLayoutManager(new GridLayoutManager(mActivity,4));
+        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         business.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -169,8 +171,8 @@ public class WorkFragment extends BaseFragment {
         ArrayList<Bean> list = new ArrayList<>();
         list.add(new Bean("发布项目",R.drawable.fabuxiangmu));
         list.add(new Bean("查看项目",R.drawable.chaknaxiangmu));
-        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         project.setLayoutManager(new GridLayoutManager(mActivity,4));
+        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         project.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -195,31 +197,132 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("待我审批",R.drawable.shenpi));
         list.add(new Bean("修改权限",R.drawable.xiugaiquanxian));
         list.add(new Bean("邀请注册",R.drawable.yaoqingzhuce));
-        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         statistics.setLayoutManager(new GridLayoutManager(mActivity,4));
+        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         statistics.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position){
                     case 0:
-
-                        startActivity(new Intent(mActivity, WorkAttendanceActivity.class));
+                        workAttendanceActivity();
                         break;
                     case 1:
-                        startActivity(new Intent(mActivity, WorkApprovalActivity.class));
+                        workApprovalActivity();
                         break;
                     case 2:
-                        startActivity(new Intent(mActivity, WorkModifyPermissionsActivity.class));
+                        workModifyPermissionsActivity();
+
                         break;
                     case 3:
-                        contactsPermission();
+                        contactsActivity();
                         break;
                 }
             }
         });
 
     }
+
+    private void contactsActivity() {
+        OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                        if (bean.isSuccess()){
+                            contactsPermission();
+                        }else {
+                            ToastUtils.showToast(mActivity,"您没有权限打开此服务");
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showToast(mActivity,"您没有权限打开此服务");
+
+                    }
+                });
+    }
+
+    private void workModifyPermissionsActivity() {
+        OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                        if (bean.isSuccess()){
+                            startActivity(new Intent(mActivity, WorkModifyPermissionsActivity.class));
+                        }else {
+                            ToastUtils.showToast(mActivity,"您没有权限打开此服务");
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showToast(mActivity,"您没有权限打开此服务");
+
+                    }
+                });
+    }
+
+    private void workApprovalActivity() {
+        OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                        if (bean.isSuccess()){
+                            startActivity(new Intent(mActivity, WorkApprovalActivity.class));
+                        }else {
+                            ToastUtils.showToast(mActivity,"您没有权限打开此服务");
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showToast(mActivity,"您没有权限打开此服务");
+
+                    }
+                });
+    }
+
+    private void workAttendanceActivity() {
+        OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                        if (bean.isSuccess()){
+                            startActivity(new Intent(mActivity, WorkAttendanceActivity.class));
+                        }else {
+                            ToastUtils.showToast(mActivity,"您没有权限打开此服务");
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showToast(mActivity,"您没有权限打开此服务");
+
+                    }
+                });
+
+    }
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view

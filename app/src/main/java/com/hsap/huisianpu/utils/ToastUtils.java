@@ -18,8 +18,8 @@ public class ToastUtils {
     public static LoadingDailog showDailog(Context context, String text){
         LoadingDailog dailog = new LoadingDailog.Builder(context)
                 .setMessage(text)
-                .setCancelable(false)
-                .setCancelOutside(false).create();
+                .setCancelable(true)
+                .setCancelOutside(true).create();
         dailog.show();
         return dailog;
     }

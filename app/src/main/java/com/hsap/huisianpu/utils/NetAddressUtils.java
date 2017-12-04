@@ -24,5 +24,7 @@ public class NetAddressUtils {
     public static String getNowReportFormState=url+"getNowReportFormState";//获取当日周月是否已经提交过报
     public static String getOneReportForm=url+"getOneReportForm";//推送的周月报
     public static String BusinessTrip=attend+"BusinessTrip";//出差审核
-
+    public static String getMyBusinessTrips=attend+"getMyBusinessTrips";//获取自己出差信息
+    public static String getJurisdiction=url+"getJurisdiction";//获取权限信息
+    public static String getAuditList=url+"getAuditList";//获取获取所有审核
 }
