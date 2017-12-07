@@ -4,36 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.Toolbar
-            app:titleTextColor="@color/text_blue"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
-            android:theme="@style/ToolBarTheme"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
-            <ImageButton
-                android:id="@id/back"
-                android:layout_width="30dp"
-                android:background="@drawable/back"
-                android:layout_height="25dp" />
-            <TextView
-                android:textSize="20sp"
-                android:layout_gravity="center_horizontal"
-                android:text="用车"
-                style="@style/CommonText" />
-            <Button
-                android:id="@+id/bt_car_commit"
-                android:background="@null"
-                android:layout_gravity="right"
-                android:textSize="20sp"
-                android:text="提交"
-                style="@style/CommonText" />
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -41,134 +11,42 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/pll_car_begin"
-                android:gravity="center"
-                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:background="@color/text_white"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="5dp"
                     android:clickable="false"
-                    android:text="用车时间"
+                    android:layout_weight="5"
+                    android:layout_marginLeft="5dp"
+                    android:layout_margin="5dp"
+                    style="@style/LeaveText"
+                    android:text="出差时间"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_summary_time"
                     android:textStyle="bold"
-                    android:id="@+id/tv_car_begin"
+                    android:textSize="18sp"
                     android:textColor="@color/text_blue"
-                    android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:clickable="false"
                     android:layout_weight="1"
-                    android:clickable="false"
-                    android:text="请选择（必填）" />
-                <ImageView
-                    android:clickable="false"
-                    android:layout_gravity="center_vertical"
-                    app:layout_marginRightPercent="2%w"
-                    app:layout_widthPercent="7%w"
-                    app:layout_heightPercent="7%w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/right_gray"
-                    android:gravity="right" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/pll_car_end"
-                android:gravity="center"
-                android:padding="5dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="5dp"
-                    android:clickable="false"
-                    android:text="还车时间"
+                    android:text="请选择（必填）"
+                    android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
-                <TextView
-                    android:textStyle="bold"
-                    android:id="@+id/tv_car_end"
-                    android:textColor="@color/text_blue"
-                    android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:text="请选择（必填）" />
-                <ImageView
-                    android:clickable="false"
-                    android:layout_gravity="center_vertical"
-                    app:layout_marginRightPercent="2%w"
-                    app:layout_widthPercent="7%w"
-                    app:layout_heightPercent="7%w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/right_gray"
-                    android:gravity="right" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
-                android:background="@color/linecolor"
+                app:layout_marginLeftPercent="2%w"
+                app:layout_marginRightPercent="2%w"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/pll_car_choice"
-                android:gravity="center"
-                android:padding="5dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="5dp"
-                    android:clickable="false"
-                    android:text="请选择车辆类型"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_car_choice"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_blue"
-                    android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:text="请选择（必填）" />
-                <ImageView
-                    android:clickable="false"
-                    android:layout_gravity="center_vertical"
-                    app:layout_marginRightPercent="2%w"
-                    app:layout_widthPercent="7%w"
-                    app:layout_heightPercent="7%w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/right_gray"
-                    android:gravity="right" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -182,24 +60,26 @@
                     android:textSize="18sp"
                     android:layout_weight="2"
                     android:layout_marginLeft="5dp"
-                    android:text="联系电话"
+                    android:text="出差地点"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <EditText
-                    android:id="@+id/et_car_phone"
-                    android:inputType="phone"
+                <TextView
+                    android:id="@+id/et_summary_location"
                     android:textStyle="bold"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
-                    android:hint="请输入您的联系电话"
+                    android:hint="请输入出差地点"
                     android:layout_weight="2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
-                android:background="@color/linecolor"
+                app:layout_marginLeftPercent="2%w"
+                app:layout_marginRightPercent="2%w"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -213,34 +93,68 @@
                     android:textSize="18sp"
                     android:layout_weight="2"
                     android:layout_marginLeft="5dp"
-                    android:text="用车人数"
+                    android:text="产品类别"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <EditText
-                    android:id="@+id/et_car_number"
-                    android:inputType="number"
+                <TextView
                     android:textStyle="bold"
+                    android:id="@+id/et_summary_products"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
-                    android:hint="请输入用车人数"
+                    android:hint="请输入产品类别"
                     android:layout_weight="2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </com.zhy.android.percent.support.PercentLinearLayout>
-
             <View
-                android:background="@color/linecolor"
+                app:layout_marginLeftPercent="2%w"
+                app:layout_marginRightPercent="2%w"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"></View>
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="5dp"
+                    android:text="客户负责人"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/et_summary_customer"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:hint="请输入客户负责人"
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />
+
             <TextView
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_margin="5dp"
-                android:text="办理事项："
+                android:text="现场情况："
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_car_matters"
+            <TextView
+                android:id="@+id/et_summary_scene"
+                android:textStyle="bold"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
@@ -257,11 +171,56 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_margin="5dp"
-                android:text="办事地点："
+                android:text="初步解决方案："
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_car_location"
+            <TextView
+                android:id="@+id/et_summary_preliminary"
+                android:textStyle="bold"
+                android:gravity="left|top"
+                android:minLines="5"
+                android:inputType="textMultiLine"
+                android:padding="5dp"
+                android:hint="请填写文字"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="实际解决方案："
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/et_summary_practice"
+                android:textStyle="bold"
+                android:gravity="left|top"
+                android:minLines="5"
+                android:inputType="textMultiLine"
+                android:padding="5dp"
+                android:hint="请填写文字"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="技术经验总结："
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/et_summary_technology"
+                android:textStyle="bold"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
@@ -274,38 +233,27 @@
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"></View>
-           <!-- <TextView
+            <TextView
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:text="请选择审批人："
+                android:text="出差陪同人："
                 android:layout_margin="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <com.hsap.huisianpu.view.MyGridView
-                android:id="@+id/gv_car"
                 android:horizontalSpacing="10dp"
-                android:numColumns="4"
+                android:verticalSpacing="40dp"
+                android:numColumns="3"
                 android:layout_margin="5dp"
                 android:stretchMode="columnWidth"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </com.hsap.huisianpu.view.MyGridView>
+                android:layout_height="wrap_content"/>
             <View
                 android:layout_marginTop="5dp"
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"></View>-->
-
+                android:layout_height="2dp"></View>
         </com.zhy.android.percent.support.PercentLinearLayout>
-
-
-
-
-
     </android.support.v4.widget.NestedScrollView>
-
-
-
-
 
 </LinearLayout>

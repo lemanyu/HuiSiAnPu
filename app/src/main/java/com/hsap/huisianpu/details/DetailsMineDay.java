@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 我的日报详情
+ * 日周月报详情
  */
 
 public class DetailsMineDay extends BaseBackActivity {

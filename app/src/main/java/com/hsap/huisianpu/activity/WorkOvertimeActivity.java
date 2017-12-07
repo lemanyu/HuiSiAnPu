@@ -60,8 +60,8 @@ public class WorkOvertimeActivity extends BaseBackActivity {
     StringBuilder endTime = new StringBuilder();
     @BindView(R.id.gv_overtime_person)
     MyGridView gvOvertimePerson;
-    @BindView(R.id.gv_overtime)
-    MyGridView gvOvertime;
+    /*@BindView(R.id.gv_overtime)
+    MyGridView gvOvertime;*/
     private StringBuffer Pm = new StringBuffer();//下午
     private StringBuffer Am = new StringBuffer();//上午
     private List<Bean> list = new ArrayList<>(); //审批人
@@ -100,7 +100,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
         });
 
         adapter = new ApproveGridViewAdapter(this, list);
-        gvOvertime.setSelector(new ColorDrawable(Color.TRANSPARENT));
+       /* gvOvertime.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvOvertime.setAdapter(adapter);
         gvOvertime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,7 +116,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
                     adapter.notifyDataSetChanged();
                 }
             }
-        });
+        });*/
     }
 
     @Override

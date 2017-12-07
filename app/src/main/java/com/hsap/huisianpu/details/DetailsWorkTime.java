@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.MineDayBean;
-import com.hsap.huisianpu.bean.WorkNameBean;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -43,7 +42,7 @@ public class DetailsWorkTime extends BaseBackActivity {
     @Override
     public void initView() {
         int id = getIntent().getIntExtra("id", 0);
-        int type = getIntent().getIntExtra("type", 0);
+        final int type = getIntent().getIntExtra("type", 0);
         OkGo.<String>post(NetAddressUtils.getMyReportForms).
                 params("id",id).params("type",type).
                 params("page",0).execute(new StringCallback() {
@@ -57,7 +56,7 @@ public class DetailsWorkTime extends BaseBackActivity {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                         Intent intent = new Intent(DetailsWorkTime.this, DetailsMineDay.class);
-                        intent.putExtra("type",0);
+                        intent.putExtra("type",type);
                         intent.putExtra("finishwork",bean.getData().getList().get(position).getFinishWork().toString());
                         intent.putExtra("summary",bean.getData().getList().get(position).getSummary());
                         intent.putExtra("workplay",bean.getData().getList().get(position).getWorkPlay());

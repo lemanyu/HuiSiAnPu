@@ -21,225 +21,64 @@
                 android:background="@drawable/back"
                 android:layout_height="25dp" />
             <TextView
+                android:id="@+id/details_mine_trip"
                 android:textSize="20sp"
                 android:layout_gravity="center_horizontal"
                 android:text="我的出差"
                 style="@style/CommonText" />
+            <Button
+                android:visibility="gone"
+                android:id="@+id/bt_details_finish"
+                android:textSize="18sp"
+                android:layout_gravity="right"
+                android:background="@null"
+                android:text="完成"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_margin="5dp"
-                android:text="我的出差事由"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textColor="@color/text_blue"
-                android:textSize="18sp"
-                android:id="@+id/et_trip_reason"
-                android:textStyle="bold"
-                android:gravity="left|top"
-                android:minLines="2"
-                android:inputType="textMultiLine"
-                android:padding="10dp"
-                android:background="@null"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center"
-                android:padding="5dp"
-                android:orientation="horizontal"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
+                <ViewStub
+                    android:id="@+id/ps_leave"
+                    android:layout="@layout/approval_leave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <ViewStub
+                    android:id="@+id/ps_out"
+                    android:layout="@layout/approval_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <ViewStub
+                    android:id="@+id/ps_trip"
+                    android:layout="@layout/approval_trip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <ViewStub
+                    android:id="@+id/ps_overtime"
+                    android:layout="@layout/approval_overtime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <ViewStub
+                    android:id="@+id/ps_car"
+                    android:layout="@layout/approval_car"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/details_bt_cancel"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="5dp"
-                    android:clickable="false"
-                    android:text="目的城市"
-                    android:layout_width="wrap_content"
+                    android:text="撤销本次请求"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:textColor="@color/text_blue"
-                    android:textSize="18sp"
-                    android:id="@+id/et_trip_city"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:layout_weight="2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"></View>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/pll_trip_begin"
-                android:gravity="center"
-                android:padding="5dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_weight="3"
-                    android:layout_marginLeft="5dp"
-                    android:clickable="false"
-                    android:text="开始时间"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
+            </LinearLayout>
 
-                    android:id="@+id/tv_trip_begin"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_blue"
-                    android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/pll_trip_end"
-                android:gravity="center"
-                android:padding="5dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_weight="3"
-                    android:layout_marginLeft="5dp"
-                    android:clickable="false"
-                    android:text="结束时间"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_trip_end"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_blue"
-                    android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:gravity="center"
-                android:padding="5dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_weight="3"
-                    android:layout_marginLeft="5dp"
-                    android:clickable="false"
-                    android:text="出差天数"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_trip_day"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_blue"
-                    android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"></View>
-            <TextView
-                android:textColor="@color/text_blue"
-                android:textSize="18sp"
-                android:id="@+id/et_trip_remark"
-                android:gravity="left|top"
-                android:minLines="5"
-                android:inputType="textMultiLine"
-                android:padding="10dp"
-                android:background="@null"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <TextView
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="您选择的陪同人："
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.hsap.huisianpu.view.MyGridView
-                android:id="@+id/gv_trip_person"
-                android:horizontalSpacing="10dp"
-                android:numColumns="4"
-                android:layout_margin="5dp"
-                android:stretchMode="columnWidth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <View
-                android:layout_marginTop="5dp"
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <TextView
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="您选择的审批人："
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.hsap.huisianpu.view.MyGridView
-                android:id="@+id/gv_trip"
-                android:horizontalSpacing="10dp"
-                android:numColumns="4"
-                android:layout_margin="5dp"
-                android:stretchMode="columnWidth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <View
-                android:layout_marginTop="5dp"
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-        </com.zhy.android.percent.support.PercentLinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

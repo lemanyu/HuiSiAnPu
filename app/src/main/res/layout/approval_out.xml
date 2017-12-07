@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="false"
+                    android:text="出厂事由"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/tv_out_reason"
+                    android:textColor="@color/text_blue"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:text="请选择（必填）" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="false"
+                    android:text="出厂时间"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/tv_out_time"
+                    android:textColor="@color/text_blue"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:text="请选择（必填）" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="false"
+                    android:text="返厂时间"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/tv_return_time"
+                    android:textColor="@color/text_blue"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:text="请选择（必填）" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:visibility="gone"
+                android:id="@+id/pll_out_articles"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="5dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="false"
+                    android:text="物品名称、数量:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/et_out_articles"
+                    android:inputType="textMultiLine"
+                    android:minLines="4"
+                    android:hint="请输入物品的名称和数量"
+                    android:gravity="top|left"
+                    android:background="@null"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:background="@color/linecolor"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"></View>
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

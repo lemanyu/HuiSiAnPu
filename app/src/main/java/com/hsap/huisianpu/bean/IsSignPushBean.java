@@ -6,17 +6,18 @@ package com.hsap.huisianpu.bean;
 
 public class IsSignPushBean {
 
+
     /**
      * code : 200
      * msg : null
      * success : true
-     * data : 未打卡
+     * data : {"type":0,"localTime":{"hour":9,"minute":34,"second":54,"nano":226000000}}
      */
 
     private int code;
     private Object msg;
     private boolean success;
-    private String data;
+    private DataBean data;
 
     public int getCode() {
         return code;
@@ -42,11 +43,83 @@ public class IsSignPushBean {
         this.success = success;
     }
 
-    public String getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(DataBean data) {
         this.data = data;
+    }
+
+    public static class DataBean {
+        /**
+         * type : 0
+         * localTime : {"hour":9,"minute":34,"second":54,"nano":226000000}
+         */
+
+        private int type;
+        private LocalTimeBean localTime;
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public LocalTimeBean getLocalTime() {
+            return localTime;
+        }
+
+        public void setLocalTime(LocalTimeBean localTime) {
+            this.localTime = localTime;
+        }
+
+        public static class LocalTimeBean {
+            /**
+             * hour : 9
+             * minute : 34
+             * second : 54
+             * nano : 226000000
+             */
+
+            private int hour;
+            private int minute;
+            private int second;
+            private int nano;
+
+            public int getHour() {
+                return hour;
+            }
+
+            public void setHour(int hour) {
+                this.hour = hour;
+            }
+
+            public int getMinute() {
+                return minute;
+            }
+
+            public void setMinute(int minute) {
+                this.minute = minute;
+            }
+
+            public int getSecond() {
+                return second;
+            }
+
+            public void setSecond(int second) {
+                this.second = second;
+            }
+
+            public int getNano() {
+                return nano;
+            }
+
+            public void setNano(int nano) {
+                this.nano = nano;
+            }
+        }
     }
 }

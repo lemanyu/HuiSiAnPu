@@ -243,7 +243,7 @@
              android:layout_height="2dp"
              android:layout_marginTop="2dp"
              android:background="@color/linecolor" />
-         <com.zhy.android.percent.support.PercentLinearLayout
+    <!--     <com.zhy.android.percent.support.PercentLinearLayout
              android:layout_margin="5dp"
              android:background="@color/text_white"
              android:orientation="vertical"
@@ -265,7 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </com.hsap.huisianpu.view.MyGridView>
-         </com.zhy.android.percent.support.PercentLinearLayout>
+         </com.zhy.android.percent.support.PercentLinearLayout>-->
 
      </com.zhy.android.percent.support.PercentLinearLayout>
 

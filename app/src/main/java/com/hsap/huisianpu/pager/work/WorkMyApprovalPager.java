@@ -1,23 +1,45 @@
 package com.hsap.huisianpu.pager.work;
 
-import android.util.Log;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
+import com.hsap.huisianpu.bean.ApprovalBean;
+import com.hsap.huisianpu.details.DetailsWorkApproval;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
+import com.hsap.huisianpu.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 待我审批
  */
 
 public class WorkMyApprovalPager extends BaseFragmentPager {
-    private static final String TAG="WorkMyApprovalPager";
+    private static final String TAG = "WorkMyApprovalPager";
+    @BindView(R.id.rlv_work_my_approval)
+    RecyclerView rlvWorkMyApproval;
+    Unbinder unbinder;
+
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.pager_work_my_approval, null);
@@ -27,18 +49,80 @@ public class WorkMyApprovalPager extends BaseFragmentPager {
     @Override
     public void initData() {
         OkGo.<String>post(NetAddressUtils.getAuditList).
-                params("managerId", SpUtils.getInt(ConstantUtils.UserId,mActivity)).
-                params("opinion",0).
+                params("managerId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
+                params("opinion", 0).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Log.e(TAG,response.body().toString() );
+                        final ApprovalBean bean = new Gson().fromJson(response.body().toString(), ApprovalBean.class);
+                        if (bean.isSuccess()){
+                            if (!(bean.getData()==null&&bean.getData().size()==0)){
+                                rlvWorkMyApproval.setLayoutManager(new LinearLayoutManager(mActivity));
+                                MyAdapter adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
+                                rlvWorkMyApproval.setAdapter(adapter);
+                                adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        Intent intent = new Intent(mActivity, DetailsWorkApproval.class);
+                                        intent.putExtra("name",bean.getData().get(position).getName());
+                                        intent.putExtra("type",bean.getData().get(position).getType());
+                                        intent.putExtra("projectId",bean.getData().get(position).getProjectId());
+                                        startActivity(intent);
+                                    }
+                                });
+                            }else {
+                                ToastUtils.showToast(mActivity,"当前没有待审批记录");
+                            }
+
+                        }else {
+                            ToastUtils.showToast(mActivity,"当前没有待审批记录");
+                        }
+
                     }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showToast(mActivity,"当前网络不好");
+                    }
+
                 });
     }
 
     @Override
     public void initListener() {
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    class MyAdapter extends BaseQuickAdapter<ApprovalBean.DataBean, BaseViewHolder> {
+
+        public MyAdapter(int layoutResId, @Nullable List<ApprovalBean.DataBean> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, ApprovalBean.DataBean item) {
+
+            helper.setText(R.id.tv_work_approval_name, "申请人：" + item.getName())
+                    .setText(R.id.tv_work_approval_type, "申请类型：" + item.getTypeName())
+                    .setText(R.id.tv_work_approval_time, "申请时间：" +
+                            item.getCreateTime().getYear() + "-" + item.getCreateTime().getMonthValue()
+                            + "-" + item.getCreateTime().getDayOfMonth());
+
+        }
     }
 }

@@ -20,7 +20,7 @@ public class ToastUtils {
                 .setMessage(text)
                 .setCancelable(true)
                 .setCancelOutside(true).create();
-        dailog.show();
+
         return dailog;
     }
 }

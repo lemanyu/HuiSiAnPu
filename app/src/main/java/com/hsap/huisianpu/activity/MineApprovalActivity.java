@@ -65,7 +65,7 @@ public class MineApprovalActivity extends BaseBackActivity {
 
     @Override
     public void initListener() {
-
+        back.setOnClickListener(this);
     }
 
     @Override

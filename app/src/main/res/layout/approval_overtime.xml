@@ -1,41 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.design.widget.AppBarLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <android.support.v7.widget.Toolbar
-        app:titleTextColor="@color/text_blue"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
-        android:theme="@style/ToolBarTheme"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_scrollFlags="scroll|enterAlways|snap">
-        <ImageButton
-            android:id="@id/back"
-            android:layout_width="30dp"
-            android:background="@drawable/back"
-            android:layout_height="25dp" />
-        <TextView
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
-            android:text="加班"
-            style="@style/CommonText" />
-        <Button
-            android:id="@+id/bt_overtime_commit"
-            android:background="@null"
-            android:layout_gravity="right"
-            android:textSize="20sp"
-            android:text="提交"
-            style="@style/CommonText" />
-    </android.support.v7.widget.Toolbar>
-
-</android.support.design.widget.AppBarLayout>
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -45,9 +12,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/pll_overtime_begin"
                 android:gravity="center"
                 android:padding="5dp"
                 android:orientation="horizontal"
@@ -62,7 +27,6 @@
                     android:text="开始时间"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
                 <TextView
                     android:id="@+id/tv_overtime_begin"
                     android:textStyle="bold"
@@ -74,24 +38,12 @@
                     android:layout_weight="1"
                     android:clickable="false"
                     android:text="请选择（必填）" />
-                <ImageView
-                    android:clickable="false"
-                    android:layout_gravity="center_vertical"
-                    app:layout_marginRightPercent="2%w"
-                    app:layout_widthPercent="7%w"
-                    app:layout_heightPercent="7%w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/right_gray"
-                    android:gravity="right" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
-
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/pll_overtime_end"
                 android:gravity="center"
                 android:padding="5dp"
                 android:orientation="horizontal"
@@ -106,7 +58,6 @@
                     android:text="结束时间"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
                 <TextView
                     android:textStyle="bold"
                     android:id="@+id/tv_overtime_end"
@@ -118,22 +69,11 @@
                     android:layout_weight="1"
                     android:clickable="false"
                     android:text="请选择（必填）" />
-                <ImageView
-                    android:clickable="false"
-                    android:layout_gravity="center_vertical"
-                    app:layout_marginRightPercent="2%w"
-                    app:layout_widthPercent="7%w"
-                    app:layout_heightPercent="7%w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/right_gray"
-                    android:gravity="right" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
-
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:gravity="center"
                 android:padding="5dp"
@@ -149,7 +89,6 @@
                     android:text="时长（天）"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
                 <TextView
                     android:textStyle="bold"
                     android:id="@+id/tv_overtime_day"
@@ -166,24 +105,24 @@
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"></View>
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_margin="5dp"
-                    android:text="加班原因："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <EditText
-                    android:id="@+id/et_overtime_cause"
-                    android:inputType="textMultiLine"
-                    android:background="@null"
-                    android:padding="5dp"
-                    android:minLines="5"
-                    android:gravity="left|top"
-                    android:textSize="18sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入加班原因" />
+            <TextView
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_margin="5dp"
+                android:text="加班原因："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/et_overtime_cause"
+                android:inputType="textMultiLine"
+                android:background="@null"
+                android:padding="5dp"
+                android:minLines="5"
+                android:gravity="left|top"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入加班原因" />
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
@@ -191,7 +130,7 @@
             <TextView
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:text="请选择加班人员："
+                android:text="加班陪同人员："
                 android:layout_margin="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -208,29 +147,6 @@
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
-            <!--<TextView
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="请选择审批人："
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.hsap.huisianpu.view.MyGridView
-                android:id="@+id/gv_overtime"
-                android:horizontalSpacing="10dp"
-                android:numColumns="4"
-                android:layout_margin="5dp"
-                android:stretchMode="columnWidth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <View
-                android:layout_marginTop="5dp"
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>-->
-
-
-
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -240,5 +156,4 @@
 
 
     </android.support.v4.widget.NestedScrollView>
-
 </LinearLayout>

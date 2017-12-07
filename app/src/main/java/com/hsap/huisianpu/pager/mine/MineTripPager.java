@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,6 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,8 +40,7 @@ public class MineTripPager extends BaseFragmentPager {
     @BindView(R.id.mine_rlv_trip)
     RecyclerView mineRlvTrip;
     Unbinder unbinder;
-     private StringBuilder begin=new StringBuilder();
-     private StringBuilder end=new StringBuilder();
+
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.pager_mine_trip, null);
@@ -50,55 +49,74 @@ public class MineTripPager extends BaseFragmentPager {
 
     @Override
     public void initData() {
-        OkGo.<String>post(NetAddressUtils.getMyBusinessTrips).
+        OkGo.<String>post(NetAddressUtils.getMyAttendance).
                 params("id", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
+                params("type",2).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        Log.e(TAG, response.body().toString() );
                         final WorkTripBean bean = new Gson().fromJson(response.body().toString(), WorkTripBean.class);
-                        if (bean.isSuccess()) {
+                        if(bean.isSuccess()){
                             mineRlvTrip.setLayoutManager(new LinearLayoutManager(mActivity));
                             MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
                             mineRlvTrip.setAdapter(adapter);
                             adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    if(bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getHour()==8){
-                                        begin.setLength(0);
-                                        begin.append("上午");
-                                    }else {
-                                        begin.setLength(0);
-                                        begin.append("下午");
-                                    }
-                                    if(bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getHour()==13){
-                                        end.setLength(0);
-                                        end.append("上午");
-                                    }else {
-                                       end.setLength(0);
-                                        end.append("下午");
-                                    }
                                     Intent intent = new Intent(mActivity, DetailsMineTrip.class);
-                                    intent.putExtra("reason",bean.getData().get(position).getWaTravelBusiness().getReason());
-                                    intent.putExtra("city",bean.getData().get(position).getWaTravelBusiness().getPlace());
-                                    intent.putExtra("begin",
-                                            bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getYear() + "-" +
-                                                    bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getMonthValue() + "-" +
-                                                    bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getDayOfMonth()+" "+begin);
-                                    intent.putExtra("end",bean.getData().get(position).getWaTravelBusiness().getReturnTime().getYear() + "-" +
-                                            bean.getData().get(position).getWaTravelBusiness().getReturnTime().getMonthValue() + "-" +
-                                            bean.getData().get(position).getWaTravelBusiness().getReturnTime().getDayOfMonth()+" "+end);
-                                    intent.putExtra("total",bean.getData().get(position).getWaTravelBusiness().getTotal());
-                                    intent.putExtra("comment",bean.getData().get(position).getWaTravelBusiness().getComment());
-                                    intent.putStringArrayListExtra("accompanying", (ArrayList<String>) bean.getData().get(position).getAccompanying());
-                                    intent.putStringArrayListExtra("verifier", (ArrayList<String>) bean.getData().get(position).getVerifier());
+                                    intent.putExtra("type",2);
+                                    intent.putExtra("workid",bean.getData().get(position).getTypeId());
                                     startActivity(intent);
-
                                 }
                             });
-                        } else {
+                        }else {
                             ToastUtils.showToast(mActivity, "当前没有出差记录");
                         }
-                    }
+                       /* final WorkTripBean bean = new Gson().fromJson(response.body().toString(), WorkTripBean.class);
+                        if (bean.isSuccess()) {
+                        mineRlvTrip.setLayoutManager(new LinearLayoutManager(mActivity));
+                        MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
+                        mineRlvTrip.setAdapter(adapter);
+                        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                if(bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getHour()==8){
+                                    begin.setLength(0);
+                                    begin.append("上午");
+                                }else {
+                                    begin.setLength(0);
+                                    begin.append("下午");
+                                }
+                                if(bean.getData().get(position).getWaTravelBusiness().getReturnTime().getHour()==8){
+                                    end.setLength(0);
+                                    end.append("上午");
+                                }else {
+                                    end.setLength(0);
+                                    end.append("下午");
+                                }
+                                Intent intent = new Intent(mActivity, DetailsMineTrip.class);
+                                intent.putExtra("reason",bean.getData().get(position).getWaTravelBusiness().getReason());
+                                intent.putExtra("city",bean.getData().get(position).getWaTravelBusiness().getPlace());
+                                intent.putExtra("begin",
+                                        bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getYear() + "-" +
+                                                bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getMonthValue() + "-" +
+                                                bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getDayOfMonth()+" "+begin);
+                                intent.putExtra("end",bean.getData().get(position).getWaTravelBusiness().getReturnTime().getYear() + "-" +
+                                        bean.getData().get(position).getWaTravelBusiness().getReturnTime().getMonthValue() + "-" +
+                                        bean.getData().get(position).getWaTravelBusiness().getReturnTime().getDayOfMonth()+" "+end);
+                                intent.putExtra("total",bean.getData().get(position).getWaTravelBusiness().getTotal());
+                                intent.putExtra("comment",bean.getData().get(position).getWaTravelBusiness().getComment());
+                                intent.putStringArrayListExtra("accompanying", (ArrayList<String>) bean.getData().get(position).getAccompanying());
+                                intent.putStringArrayListExtra("verifier", (ArrayList<String>) bean.getData().get(position).getVerifier());
+                                startActivity(intent);
+
+                            }
+                        });
+                    } else {
+                        ToastUtils.showToast(mActivity, "当前没有出差记录");
+                    }*/
+                }
 
                     @Override
                     public void onError(Response<String> response) {
@@ -135,11 +153,10 @@ public class MineTripPager extends BaseFragmentPager {
 
         @Override
         protected void convert(BaseViewHolder helper, WorkTripBean.DataBean item) {
-            helper.setText(R.id.mine_tv_place, "出差地点：" + item.getWaTravelBusiness().getPlace()).
-                    setText(R.id.mine_tv_time, "出差时间：" +
-                            item.getWaTravelBusiness().getDepartureTime().getYear() + "-" +
-                            item.getWaTravelBusiness().getDepartureTime().getMonth() + "-" +
-                            item.getWaTravelBusiness().getDepartureTime().getDayOfMonth());
+            helper.setText(R.id.mine_tv_time, "出差时间：" +
+                            item.getCreateTime().getYear() + "-" +
+                            item.getCreateTime().getMonthValue() + "-" +
+                            item.getCreateTime().getDayOfMonth());
 
         }
     }

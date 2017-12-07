@@ -5,12 +5,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,16 +15,25 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
+import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
-import com.hsap.huisianpu.view.MyGridView;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,14 +60,19 @@ public class WorkOutActivity extends BaseBackActivity {
     EditText etOutArticles;
     @BindView(R.id.pll_out_articles)
     PercentLinearLayout pllOutArticles;//是否为送货 提货
-    @BindView(R.id.gv_out)
-    MyGridView gvOut;
+    @BindView(R.id.tv_return_time)
+    TextView tvReturnTime;
+    @BindView(R.id.pll_return_time)
+    PercentLinearLayout pllReturnTime;
+    /*@BindView(R.id.gv_out)
+    MyGridView gvOut;*/
     private boolean isArticles;
     private ApproveGridViewAdapter adapter;
     private List<Bean> list = new ArrayList<>();
     private List<String> idList = new ArrayList<>();//存放 审批人的id
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
+
     @Override
     public int getLayoutId() {
 
@@ -71,7 +82,7 @@ public class WorkOutActivity extends BaseBackActivity {
     @Override
     public void initView() {
         adapter = new ApproveGridViewAdapter(this, list);
-        gvOut.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        /*gvOut.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvOut.setAdapter(adapter);
         gvOut.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -87,7 +98,7 @@ public class WorkOutActivity extends BaseBackActivity {
                     adapter.notifyDataSetChanged();
                 }
             }
-        });
+        });*/
     }
 
     @Override
@@ -101,6 +112,7 @@ public class WorkOutActivity extends BaseBackActivity {
         btOutCommit.setOnClickListener(this);
         pllOutReason.setOnClickListener(this);
         pllOutTime.setOnClickListener(this);
+        pllReturnTime.setOnClickListener(this);
     }
 
     @Override
@@ -117,8 +129,14 @@ public class WorkOutActivity extends BaseBackActivity {
                 //选择事由
                 showtime();
                 break;
+            case R.id.pll_return_time:
+                showend();
+                break;
+            default:
         }
     }
+
+
 
     private void showcommit() {
         if (tvOutReason.getText().toString().trim().equals("请选择（必填）")) {
@@ -129,12 +147,52 @@ public class WorkOutActivity extends BaseBackActivity {
             ToastUtils.showToast(this, "请选择出厂时间");
             return;
         }
+        if (TextUtils.isEmpty(tvReturnTime.getText().toString().trim())) {
+            ToastUtils.showToast(this, "请选择返厂时间");
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh-mm");
+        try {
+            Date begin = sdf.parse(tvOutTime.getText().toString().trim());
+            Date end = sdf.parse(tvReturnTime.getText().toString().trim());
+            if (end.getTime()-begin.getTime()<=0){
+                ToastUtils.showToast(this, "请选择正确的返厂时间");
+                return;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         if (pllOutArticles.getVisibility() == View.VISIBLE && TextUtils.isEmpty(etOutArticles.getText().toString().trim())) {
             ToastUtils.showToast(this, "请输入物品的名称和数量");
             return;
         }
+        final LoadingDailog dailog = ToastUtils.showDailog(this, "提交中");
+        dailog.show();
         //提交
+        OkGo.<String>post(NetAddressUtils.insertIntegration).
+                params("startTime", tvOutTime.getText().toString().trim()).
+                params("reasion", tvOutReason.getText().toString().trim()).
+                params("type", 1).
+                params("endTime", tvReturnTime.getText().toString().trim()).
+                params("type2", etOutArticles.getText().toString().trim()).
+                params("workersId", SpUtils.getInt(ConstantUtils.UserId, this)).
+                params("activity", "com.hsap.huisianpu.push.PushTirpActivity").
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        dailog.dismiss();
+                        ToastUtils.showToast(WorkOutActivity.this, "提交成功");
+                    }
 
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        dailog.dismiss();
+                        ToastUtils.showToast(WorkOutActivity.this, "提交失败，当前网络不好");
+                    }
+                });
     }
 
 
@@ -163,7 +221,29 @@ public class WorkOutActivity extends BaseBackActivity {
 
         builder.show();
     }
-
+    private void showend() {
+        final StringBuilder string = new StringBuilder();
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                string.append(" " + i + ":" + i1);
+                tvReturnTime.setText(string);
+            }
+        }, hour, minute, true);
+        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                string.append(i + "-" + (i1 + 1) + "-" + i2);
+                timePickerDialog.show();
+            }
+        }, year, month, day).show();
+    }
     private void showtime() {
         final StringBuilder string = new StringBuilder();
         Calendar calendar = Calendar.getInstance();
@@ -195,6 +275,7 @@ public class WorkOutActivity extends BaseBackActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

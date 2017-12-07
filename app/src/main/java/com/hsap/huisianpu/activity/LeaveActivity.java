@@ -4,22 +4,18 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.tu.loadingdialog.LoadingDailog;
-import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
@@ -41,13 +37,14 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 请假页面
  */
 
 public class LeaveActivity extends BaseBackActivity {
+    private static final String TAG = "LeaveActivity";
+
     @BindView(R.id.back)
     ImageButton back;
     @BindView(R.id.bt_learve_commit)
@@ -64,8 +61,6 @@ public class LeaveActivity extends BaseBackActivity {
     EditText etLeave;
     @BindView(R.id.tv_qingjialeixing)
     TextView tvQingjialeixing;
-    @BindView(R.id.gv_leave)
-    GridView gvLeave;
     @BindView(R.id.tv_beginTime)
     TextView tvBeginTime;
     @BindView(R.id.tv_endTime)
@@ -93,23 +88,23 @@ public class LeaveActivity extends BaseBackActivity {
     @Override
     public void initView() {
         adapter = new ApproveGridViewAdapter(LeaveActivity.this, list);
-        gvLeave.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        gvLeave.setAdapter(adapter);
-        gvLeave.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                if (position == list.size()) {
-                    //跳到选择联系人页面
-                    startActivityForResult(
-                            new Intent(LeaveActivity.this,
-                                    SelectApproverActivity.class), 100);
-                } else {
-                    list.remove(position);
-                    idList.remove(position);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
+//        gvLeave.setSelector(new ColorDrawable(Color.TRANSPARENT));
+//        gvLeave.setAdapter(adapter);
+//        gvLeave.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                if (position == list.size()) {
+//                    //跳到选择联系人页面
+//                    startActivityForResult(
+//                            new Intent(LeaveActivity.this,
+//                                    SelectApproverActivity.class), 100);
+//                } else {
+//                    list.remove(position);
+//                    idList.remove(position);
+//                    adapter.notifyDataSetChanged();
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -142,6 +137,7 @@ public class LeaveActivity extends BaseBackActivity {
             case R.id.pll_end:
                 showEndTime();
                 break;
+                default:
         }
     }
 
@@ -210,7 +206,6 @@ public class LeaveActivity extends BaseBackActivity {
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 endtime.append(i + "-" + (i1 + 1) + "-" + i2);
                 builder.show();
-
             }
         }, year, month, day);
         dateDialog.show();
@@ -265,29 +260,28 @@ public class LeaveActivity extends BaseBackActivity {
             ToastUtils.showToast(this,"请选择结束时间");
             return;
         }
-        if (Long.valueOf(tvShichang.getText().toString().trim())<0){
+        if (Float.valueOf(tvShichang.getText().toString().trim())<0.0){
             ToastUtils.showToast(this,"请选择正确的结束日期");
-            return;
-        }
-        if(list.size()==0){
-            ToastUtils.showToast(this,"请选择审批人");
             return;
         }
         if(TextUtils.isEmpty(etLeave.getText().toString().trim())){
             ToastUtils.showToast(this,"请输入请假事由");
             return;
         }
-        final LoadingDailog dailog = ToastUtils.showDailog(LeaveActivity.this, "审批中");
+        final LoadingDailog dailog = ToastUtils.showDailog(LeaveActivity.this, "提交中");
         dailog.show();
-        OkGo.<String>post(NetAddressUtils.leave).
+        Log.e(TAG, begintime+"" );
+        OkGo.<String>post(NetAddressUtils.insertIntegration).
                 params("workersId",
                         SpUtils.getInt(ConstantUtils.UserId,
                                 LeaveActivity.this)).
-                params("leaveType",tvQingjialeixing.getText().toString()).
-                params("startTime",begintime+"").
-                params("endTime",endtime+"").
+                params("type",0).
+                params("type2",tvQingjialeixing.getText().toString()).
+                params("startTime",tvBeginTime.getText().toString().trim()).
+                params("endTime",tvEndTime.getText().toString().trim()).
+                params("totalTime",tvShichang.getText().toString().trim()).
                 params("reason",etLeave.getText().toString()).
-                params("ids",new Gson().toJson(idList))
+                params("activity","com.hsap.huisianpu.push.PushTirpActivity")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -324,12 +318,6 @@ public class LeaveActivity extends BaseBackActivity {
         builder.show();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

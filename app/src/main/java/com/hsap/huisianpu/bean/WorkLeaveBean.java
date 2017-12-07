@@ -3,16 +3,17 @@ package com.hsap.huisianpu.bean;
 import java.util.List;
 
 /**
- * Created by zhao on 2017/12/2.
+ * Created by zhao on 2017/12/7.
  */
 
-public class WorkTripBean {
+public class WorkLeaveBean {
+
 
     /**
      * code : 200
      * msg : null
      * success : true
-     * data : [{"type":2,"typeId":52,"workersId":2,"type2":1,"createTime":{"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":39,"nano":0,"second":30,"chronology":{"id":"ISO","calendarType":"iso8601"}}},{"type":2,"typeId":53,"workersId":2,"type2":1,"createTime":{"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":52,"nano":0,"second":26,"chronology":{"id":"ISO","calendarType":"iso8601"}}},{"type":2,"typeId":54,"workersId":2,"type2":1,"createTime":{"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":57,"nano":0,"second":35,"chronology":{"id":"ISO","calendarType":"iso8601"}}}]
+     * data : [{"type":0,"typeId":4,"workersId":2,"type2":0,"createTime":{"hour":9,"minute":3,"nano":0,"second":12,"month":"DECEMBER","year":2017,"monthValue":12,"dayOfMonth":7,"dayOfWeek":"THURSDAY","dayOfYear":341,"chronology":{"id":"ISO","calendarType":"iso8601"}}}]
      */
 
     private int code;
@@ -54,11 +55,11 @@ public class WorkTripBean {
 
     public static class DataBean {
         /**
-         * type : 2
-         * typeId : 52
+         * type : 0
+         * typeId : 4
          * workersId : 2
-         * type2 : 1
-         * createTime : {"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":39,"nano":0,"second":30,"chronology":{"id":"ISO","calendarType":"iso8601"}}
+         * type2 : 0
+         * createTime : {"hour":9,"minute":3,"nano":0,"second":12,"month":"DECEMBER","year":2017,"monthValue":12,"dayOfMonth":7,"dayOfWeek":"THURSDAY","dayOfYear":341,"chronology":{"id":"ISO","calendarType":"iso8601"}}
          */
 
         private int type;
@@ -109,78 +110,30 @@ public class WorkTripBean {
 
         public static class CreateTimeBean {
             /**
-             * dayOfMonth : 6
-             * dayOfWeek : WEDNESDAY
+             * hour : 9
+             * minute : 3
+             * nano : 0
+             * second : 12
              * month : DECEMBER
              * year : 2017
-             * dayOfYear : 340
              * monthValue : 12
-             * hour : 11
-             * minute : 39
-             * nano : 0
-             * second : 30
+             * dayOfMonth : 7
+             * dayOfWeek : THURSDAY
+             * dayOfYear : 341
              * chronology : {"id":"ISO","calendarType":"iso8601"}
              */
 
-            private int dayOfMonth;
-            private String dayOfWeek;
-            private String month;
-            private int year;
-            private int dayOfYear;
-            private int monthValue;
             private int hour;
             private int minute;
             private int nano;
             private int second;
+            private String month;
+            private int year;
+            private int monthValue;
+            private int dayOfMonth;
+            private String dayOfWeek;
+            private int dayOfYear;
             private ChronologyBean chronology;
-
-            public int getDayOfMonth() {
-                return dayOfMonth;
-            }
-
-            public void setDayOfMonth(int dayOfMonth) {
-                this.dayOfMonth = dayOfMonth;
-            }
-
-            public String getDayOfWeek() {
-                return dayOfWeek;
-            }
-
-            public void setDayOfWeek(String dayOfWeek) {
-                this.dayOfWeek = dayOfWeek;
-            }
-
-            public String getMonth() {
-                return month;
-            }
-
-            public void setMonth(String month) {
-                this.month = month;
-            }
-
-            public int getYear() {
-                return year;
-            }
-
-            public void setYear(int year) {
-                this.year = year;
-            }
-
-            public int getDayOfYear() {
-                return dayOfYear;
-            }
-
-            public void setDayOfYear(int dayOfYear) {
-                this.dayOfYear = dayOfYear;
-            }
-
-            public int getMonthValue() {
-                return monthValue;
-            }
-
-            public void setMonthValue(int monthValue) {
-                this.monthValue = monthValue;
-            }
 
             public int getHour() {
                 return hour;
@@ -212,6 +165,54 @@ public class WorkTripBean {
 
             public void setSecond(int second) {
                 this.second = second;
+            }
+
+            public String getMonth() {
+                return month;
+            }
+
+            public void setMonth(String month) {
+                this.month = month;
+            }
+
+            public int getYear() {
+                return year;
+            }
+
+            public void setYear(int year) {
+                this.year = year;
+            }
+
+            public int getMonthValue() {
+                return monthValue;
+            }
+
+            public void setMonthValue(int monthValue) {
+                this.monthValue = monthValue;
+            }
+
+            public int getDayOfMonth() {
+                return dayOfMonth;
+            }
+
+            public void setDayOfMonth(int dayOfMonth) {
+                this.dayOfMonth = dayOfMonth;
+            }
+
+            public String getDayOfWeek() {
+                return dayOfWeek;
+            }
+
+            public void setDayOfWeek(String dayOfWeek) {
+                this.dayOfWeek = dayOfWeek;
+            }
+
+            public int getDayOfYear() {
+                return dayOfYear;
+            }
+
+            public void setDayOfYear(int dayOfYear) {
+                this.dayOfYear = dayOfYear;
             }
 
             public ChronologyBean getChronology() {

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.hsap.huisianpu.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 回显时的gridview
@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 public class MyAdapter extends BaseAdapter {
     private  Context context;
-    private  ArrayList<String> accompanying;
+    private List<String> accompanying;
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
-    public MyAdapter(Context context,ArrayList<String> accompanying){
+    public MyAdapter(Context context,List<String> accompanying){
            this.context=context;
            this.accompanying=accompanying;
        }

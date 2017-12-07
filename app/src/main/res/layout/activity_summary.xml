@@ -294,26 +294,26 @@
              android:background="@color/linecolor"
              android:layout_width="match_parent"
              android:layout_height="2dp"></View>
-         <TextView
-             android:textStyle="bold"
-             android:textSize="18sp"
-             android:text="请选择审批人："
-             android:layout_margin="10dp"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content" />
-         <com.hsap.huisianpu.view.MyGridView
-             android:horizontalSpacing="10dp"
-             android:verticalSpacing="40dp"
-             android:numColumns="3"
-             android:layout_margin="5dp"
-             android:stretchMode="columnWidth"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"/>
-         <View
-             android:layout_marginTop="5dp"
-             android:background="@color/linecolor"
-             android:layout_width="match_parent"
-             android:layout_height="2dp"></View>
+         <!--<TextView-->
+             <!--android:textStyle="bold"-->
+             <!--android:textSize="18sp"-->
+             <!--android:text="请选择审批人："-->
+             <!--android:layout_margin="10dp"-->
+             <!--android:layout_width="wrap_content"-->
+             <!--android:layout_height="wrap_content" />-->
+         <!--<com.hsap.huisianpu.view.MyGridView-->
+             <!--android:horizontalSpacing="10dp"-->
+             <!--android:verticalSpacing="40dp"-->
+             <!--android:numColumns="3"-->
+             <!--android:layout_margin="5dp"-->
+             <!--android:stretchMode="columnWidth"-->
+             <!--android:layout_width="match_parent"-->
+             <!--android:layout_height="wrap_content"/>-->
+         <!--<View-->
+             <!--android:layout_marginTop="5dp"-->
+             <!--android:background="@color/linecolor"-->
+             <!--android:layout_width="match_parent"-->
+             <!--android:layout_height="2dp"></View>-->
 
 
      </com.zhy.android.percent.support.PercentLinearLayout>

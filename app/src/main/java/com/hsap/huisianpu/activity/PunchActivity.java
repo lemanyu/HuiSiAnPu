@@ -1,9 +1,10 @@
 package com.hsap.huisianpu.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +48,7 @@ import butterknife.ButterKnife;
  */
 
 public class PunchActivity extends BaseBackActivity {
+    private static final String TAG = "PunchActivity";
     @BindView(R.id.back)
     ImageButton back;
     @BindView(R.id.ll_time)
@@ -100,20 +102,8 @@ public class PunchActivity extends BaseBackActivity {
         nowMonth = calendar.get(Calendar.MONTH) + 1;
         nowDay = calendar.get(Calendar.DAY_OF_MONTH);
         nowHour = calendar.get(Calendar.HOUR_OF_DAY);
-       // timeAndLocalformNet(nowYear,nowMonth,nowDay);
-        if (nowHour>7&&nowHour<9){
-            punchFab.setVisibility(View.VISIBLE);
-        }else {
-            punchFab.setVisibility(View.GONE);
-            tvZhuangtai.setText("当前时间不可以打卡");
-        }
-        if(nowHour>17&&nowHour<18){
-            punchFab.setVisibility(View.VISIBLE);
-        }else {
-            punchFab.setVisibility(View.GONE);
-            tvZhuangtai.setText("当前时间不可以打卡");
-        }
         tvPunchDate.setText(nowYear + "." + nowMonth + "." + nowDay);
+        timeAndLocalformNet(nowYear,nowMonth,nowDay);
     }
 
     @Override
@@ -127,7 +117,7 @@ public class PunchActivity extends BaseBackActivity {
     public void processClick(View v) {
         switch (v.getId()) {
             case R.id.ll_time:
-                updateTime(v);
+                updateTime();
                 break;
             case R.id.punch_fab:
                 punchPermission();
@@ -135,7 +125,7 @@ public class PunchActivity extends BaseBackActivity {
         }
     }
 
-    private void updateTime(final View v) {
+    private void updateTime() {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog dialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
                                                                    @Override
@@ -145,12 +135,12 @@ public class PunchActivity extends BaseBackActivity {
                                                                        tvPunchDate.setText(date);
                                                                         if(nowYear==year&&nowMonth==month&&nowDay==dayOfMonth){
                                                                             tvZhuangtai.setText("打开记录时间和位置");
+                                                                            punchFab.setVisibility(View.VISIBLE);
                                                                         }else {
                                                                             tvZhuangtai.setText("当前时间不可以打卡");
+                                                                            punchFab.setVisibility(View.GONE);
                                                                         }
-                                                                   //   timeAndLocalformNet(year,month,dayOfMonth);
-
-
+                                                                      timeAndLocalformNet(year,month,dayOfMonth);
                                                                    }
                                                                },
                 calendar.get(Calendar.YEAR),
@@ -190,7 +180,7 @@ public class PunchActivity extends BaseBackActivity {
                             }
 
                         }else {
-                            tvZhuangtai.setText(bean.getMsg()+"");
+                            tvZhuangtai.setText("当前时间不可以打卡");
                             tvShangbantime.setText("");
                             tvShangbandidian.setText("");
                             tvXiabantime.setText("");
@@ -287,46 +277,84 @@ public class PunchActivity extends BaseBackActivity {
         OkGo.<String>post(NetAddressUtils.isSignPush).params("id", SpUtils.getInt(ConstantUtils.UserId, PunchActivity.this)).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
+                Log.e(TAG, response.body().toString() );
                 IsSignPushBean bean = new Gson().fromJson(response.body().toString(), IsSignPushBean.class);
-                s = bean.getData();
+                if(bean.isSuccess()){
+                    int type = bean.getData().getType();
+                    switch (type){
+                        case 0:
+                            TopPush(locale);
+                            break;
+                        case 1:
+                            DownPush(bean,locale);
+                            break;
+                        case 2:
+                            ToastUtils.showToast(getApplicationContext(),"您今天考勤已完成");
+                            break;
+                }
+                }else {
+                    ToastUtils.showToast(getApplicationContext(),"未在打卡时间范围内");
+                }
 
             }
-        });
-        if (s.equals("未打卡")) {
-            OkGo.<String>post(NetAddressUtils.signTopPush).
-                    params("id", SpUtils.getInt(ConstantUtils.UserId, PunchActivity.this))
-                    .params("position", locale).execute(new StringCallback() {
-                @Override
-                public void onSuccess(Response<String> response) {
-                    Calendar calendar = Calendar.getInstance();
-                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                    int minute = calendar.get(Calendar.MINUTE);
-                    //上班打卡
-                    ToastUtils.showToast(PunchActivity.this, "上班打卡成功");
-                    llShangban.setVisibility(View.VISIBLE);
-                    tvShangbantime.setText("上班打卡时间" + hour + ":" + minute);
-                    tvShangbandidian.setText(locale);
-                    punchFab.setVisibility(View.GONE);
-                }
-            });
-        } else {
-            OkGo.<String>post(NetAddressUtils.signDownPush).params("id", SpUtils.getInt(ConstantUtils.UserId, PunchActivity.this))
-                    .params("position", locale).execute(new StringCallback() {
-                @Override
-                public void onSuccess(Response<String> response) {
-                    Calendar calendar = Calendar.getInstance();
-                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                    int minute = calendar.get(Calendar.MINUTE);
-                    //下班打卡
-                    ToastUtils.showToast(PunchActivity.this, "下班打卡成功");
-                    llXiaban.setVisibility(View.VISIBLE);
-                    tvXiabantime.setText("下班打卡时间" + hour + ":" + minute);
-                    tvXiabandidian.setText(locale);
-                    punchFab.setVisibility(View.GONE);
-                }
-            });
 
-        }
+        });
+
+
+    }
+
+    private void DownPush(IsSignPushBean bean, final String locale) {
+          if(bean.getData().getLocalTime().getHour()<17){
+              AlertDialog.Builder builder = new AlertDialog.Builder(this);
+              builder.setMessage("此时打卡会影响您的工资，是否打卡");
+              builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialogInterface, int i) {
+                        push(locale);
+                  }
+              });
+              builder.setNegativeButton("取消",null);
+              builder.show();
+          }else {
+              push(locale);
+          }
+
+    }
+
+    private void push(final String locale) {
+        OkGo.<String>post(NetAddressUtils.signTopPush).
+                params("id", SpUtils.getInt(ConstantUtils.UserId, PunchActivity.this))
+                .params("position", locale).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                Calendar calendar = Calendar.getInstance();
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+                //上班打卡
+                ToastUtils.showToast(PunchActivity.this, "下班打卡成功");
+                llShangban.setVisibility(View.VISIBLE);
+                tvXiabantime.setText("下班班打卡时间" + hour + ":" + minute);
+                tvXiabantime.setText(locale);
+            }
+        });
+    }
+
+    private void TopPush(final String locale) {
+        OkGo.<String>post(NetAddressUtils.signTopPush).
+                params("id", SpUtils.getInt(ConstantUtils.UserId, PunchActivity.this))
+                .params("position", locale).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                Calendar calendar = Calendar.getInstance();
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+                //上班打卡
+                ToastUtils.showToast(PunchActivity.this, "上班打卡成功");
+                llShangban.setVisibility(View.VISIBLE);
+                tvShangbantime.setText("上班打卡时间" + hour + ":" + minute);
+                tvShangbandidian.setText(locale);
+            }
+        });
     }
 
     @Override

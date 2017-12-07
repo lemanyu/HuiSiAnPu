@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
-
+        android:padding="10dp"
+         android:id="@+id/rlv_work_have_approval"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

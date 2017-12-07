@@ -68,12 +68,12 @@ public class WorkTripActivity extends BaseBackActivity {
     PercentLinearLayout pllTripEnd;
     @BindView(R.id.tv_trip_day)
     TextView tvTripDay;
-    @BindView(R.id.et_trip_remark)
-    EditText etTripRemark;
+   /* @BindView(R.id.et_trip_remark)
+    EditText etTripRemark;*/
     @BindView(R.id.gv_trip_person)
     MyGridView gvTripPerson;
-    @BindView(R.id.gv_trip)
-    MyGridView gvTrip;
+    /*@BindView(R.id.gv_trip)
+    MyGridView gvTrip;*/
     private StringBuilder beginTime = new StringBuilder();
     private StringBuilder endTime = new StringBuilder();
     private StringBuffer Pm=new StringBuffer();//下午
@@ -113,7 +113,7 @@ public class WorkTripActivity extends BaseBackActivity {
         });
 
         adapter = new ApproveGridViewAdapter(WorkTripActivity.this, list);
-        gvTrip.setSelector(new ColorDrawable(Color.TRANSPARENT));
+       /* gvTrip.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvTrip.setAdapter(adapter);
         gvTrip.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -129,7 +129,7 @@ public class WorkTripActivity extends BaseBackActivity {
                     adapter.notifyDataSetChanged();
                 }
             }
-        });
+        });*/
     }
 
     @Override
@@ -158,6 +158,7 @@ public class WorkTripActivity extends BaseBackActivity {
             case R.id.pll_trip_end:
                 showEnd();
                 break;
+                default:
         }
     }
 
@@ -285,16 +286,6 @@ public class WorkTripActivity extends BaseBackActivity {
             ToastUtils.showToast(this,"请选择正确的返回日期");
             return;
         }
-        if (TextUtils.isEmpty(etTripRemark.getText().toString().trim())) {
-            ToastUtils.showToast(this, "请填写备注信息");
-            return;
-        }
-        if ("上午".indexOf(tvTripBegin.getText().toString().trim())==-1){
-              String begin=beginTime+"08:30";
-        }else {
-
-
-        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("确定要提交吗？");
         builder.setNegativeButton("取消", null);
@@ -304,17 +295,15 @@ public class WorkTripActivity extends BaseBackActivity {
                 final LoadingDailog 提交中 = ToastUtils.showDailog(WorkTripActivity.this, "提交中");
                 提交中.show();
                 //TOdo 访问网络
-                OkGo.<String>post(NetAddressUtils.BusinessTrip).
-                        params("ids",new Gson().toJson(idList)).
+                OkGo.<String>post(NetAddressUtils.insertIntegration).
                         params("activity","com.hsap.huisianpu.push.PushTirpActivity").
                         params("workersId", SpUtils.getInt(ConstantUtils.UserId,WorkTripActivity.this)).
                         params("reason",etTripReason.getText().toString().trim()).
-                        params("comment",etTripRemark.getText().toString().trim()).
-                        params("place",etTripCity.getText().toString().trim()).
-                        params("newDepartureTime",tvTripBegin.getText().toString().trim()).
-                        params("newReturnTime",tvTripEnd.getText().toString().trim()).
-                        params("associateId",new Gson().toJson(personIdList)).
-                        params("total",Float.valueOf(tvTripDay.getText().toString().trim())).
+                        params("type2",etTripCity.getText().toString().trim()).
+                        params("startTime",tvTripBegin.getText().toString().trim()).
+                        params("endTime",tvTripEnd.getText().toString().trim()).
+                        params("ids",new Gson().toJson(personIdList)).
+                        params("totalTime",Float.valueOf(tvTripDay.getText().toString().trim())).
                         execute(new StringCallback() {
                             @Override
                             public void onSuccess(Response<String> response) {

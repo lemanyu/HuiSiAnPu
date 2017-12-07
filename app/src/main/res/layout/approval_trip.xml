@@ -1,39 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.Toolbar
-            app:titleTextColor="@color/text_blue"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
-            android:theme="@style/ToolBarTheme"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
-            <ImageButton
-                android:id="@id/back"
-                android:layout_width="30dp"
-                android:background="@drawable/back"
-                android:layout_height="25dp" />
-            <TextView
-                android:textSize="20sp"
-                android:layout_gravity="center_horizontal"
-                android:text="出差"
-                style="@style/CommonText" />
-            <Button
-                android:id="@+id/bt_trip_commit"
-                android:background="@null"
-                android:layout_gravity="right"
-                android:textSize="20sp"
-                android:text="提交"
-                style="@style/CommonText" />
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -47,17 +16,16 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_margin="5dp"
-                android:text="出差事由（必填）"
+                android:text="出差事由"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <EditText
+            <TextView
                 android:id="@+id/et_trip_reason"
                 android:textStyle="bold"
                 android:gravity="left|top"
                 android:minLines="2"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
-                android:hint="请输入出差事由"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -82,12 +50,11 @@
                     android:text="目的城市"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <EditText
+                <TextView
                     android:id="@+id/et_trip_city"
                     android:textStyle="bold"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
-                    android:hint="请输入出差城市"
                     android:layout_weight="2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -97,7 +64,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"></View>
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/pll_trip_begin"
                 android:gravity="center"
                 android:padding="5dp"
                 android:orientation="horizontal"
@@ -121,18 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:clickable="false"
-                    android:text="请选择（必填）" />
-                <ImageView
-                    android:clickable="false"
-                    android:layout_gravity="center_vertical"
-                    app:layout_marginRightPercent="2%w"
-                    app:layout_widthPercent="7%w"
-                    app:layout_heightPercent="7%w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/right_gray"
-                    android:gravity="right" />
+                    android:clickable="false" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
                 android:background="@color/linecolor"
@@ -163,18 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:clickable="false"
-                    android:text="请选择（必填）" />
-                <ImageView
-                    android:clickable="false"
-                    android:layout_gravity="center_vertical"
-                    app:layout_marginRightPercent="2%w"
-                    app:layout_widthPercent="7%w"
-                    app:layout_heightPercent="7%w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/right_gray"
-                    android:gravity="right" />
+                    android:clickable="false" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
                 android:background="@color/linecolor"
@@ -204,71 +148,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:clickable="false"
-                    android:text="自动生成（必填）" />
+                    android:clickable="false" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"></View>
-           <!-- <EditText
-                android:id="@+id/et_trip_remark"
-                android:gravity="left|top"
-                android:minLines="5"
-                android:inputType="textMultiLine"
-                android:padding="10dp"
-                android:hint="备注"
-                android:background="@null"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />-->
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
-            <TextView
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="请选择陪同人："
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.hsap.huisianpu.view.MyGridView
-                android:id="@+id/gv_trip_person"
-                android:horizontalSpacing="10dp"
-                android:numColumns="4"
-                android:layout_margin="5dp"
-                android:stretchMode="columnWidth"
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_approval_trip"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <View
-                android:layout_marginTop="5dp"
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <!--<TextView
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="请选择审批人："
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.hsap.huisianpu.view.MyGridView
-                android:id="@+id/gv_trip"
-                android:horizontalSpacing="10dp"
-                android:numColumns="4"
-                android:layout_margin="5dp"
-                android:stretchMode="columnWidth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <View
-                android:layout_marginTop="5dp"
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>-->
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:text="陪同人："
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.hsap.huisianpu.view.MyGridView
+                    android:id="@+id/gv_trip_person"
+                    android:horizontalSpacing="10dp"
+                    android:verticalSpacing="20dp"
+                    android:numColumns="4"
+                    android:layout_margin="5dp"
+                    android:stretchMode="columnWidth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:layout_marginTop="5dp"
+                    android:background="@color/linecolor"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"></View>
+            </LinearLayout>
+
         </com.zhy.android.percent.support.PercentLinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-
-
 </LinearLayout>

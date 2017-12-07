@@ -67,6 +67,7 @@ public class MineFragment extends BaseFragment {
     public void initData() {
         setHasOptionsMenu(true);
         mineToolbar.setTitle("我的");
+        mineRlv.setNestedScrollingEnabled(false);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mineToolbar);
         list = new ArrayList<>();
         list.add(new Bean("我的信息", R.drawable.wodexinxi));

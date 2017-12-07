@@ -106,7 +106,7 @@
                  android:background="@color/linecolor"
                  android:layout_width="match_parent"
                  android:layout_height="2dp"></View>
-             <TextView
+           <!--  <TextView
                  android:layout_margin="5dp"
                  android:textSize="18sp"
                  android:text="发给谁（点击头像可删除）"
@@ -125,7 +125,7 @@
                  android:layout_marginTop="5dp"
                  android:background="@color/linecolor"
                  android:layout_width="match_parent"
-                 android:layout_height="2dp"></View>
+                 android:layout_height="2dp"></View>-->
 
 
 

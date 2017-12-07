@@ -5,12 +5,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,7 +21,6 @@ import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
 import com.hsap.huisianpu.utils.ToastUtils;
 import com.hsap.huisianpu.utils.Utils;
-import com.hsap.huisianpu.view.MyGridView;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
 import java.util.ArrayList;
@@ -63,8 +59,8 @@ public class WorkCarActivity extends BaseBackActivity {
     EditText etCarMatters;
     @BindView(R.id.et_car_location)
     EditText etCarLocation;
-    @BindView(R.id.gv_car)
-    MyGridView gvCar;
+    /*@BindView(R.id.gv_car)
+    MyGridView gvCar;*/
     private ApproveGridViewAdapter adapter;
     private List<Bean> list = new ArrayList<>();
     private List<String> idList = new ArrayList<>();//存放 审批人的id
@@ -78,7 +74,7 @@ public class WorkCarActivity extends BaseBackActivity {
     @Override
     public void initView() {
         adapter = new ApproveGridViewAdapter(this, list);
-        gvCar.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        /*gvCar.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvCar.setAdapter(adapter);
         gvCar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -94,7 +90,7 @@ public class WorkCarActivity extends BaseBackActivity {
                     adapter.notifyDataSetChanged();
                 }
             }
-        });
+        });*/
     }
 
     @Override

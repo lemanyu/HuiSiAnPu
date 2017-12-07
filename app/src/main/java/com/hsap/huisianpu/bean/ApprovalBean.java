@@ -3,16 +3,17 @@ package com.hsap.huisianpu.bean;
 import java.util.List;
 
 /**
- * Created by zhao on 2017/12/2.
+ * 工作审批bean
  */
 
-public class WorkTripBean {
+public class ApprovalBean {
+
 
     /**
      * code : 200
      * msg : null
      * success : true
-     * data : [{"type":2,"typeId":52,"workersId":2,"type2":1,"createTime":{"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":39,"nano":0,"second":30,"chronology":{"id":"ISO","calendarType":"iso8601"}}},{"type":2,"typeId":53,"workersId":2,"type2":1,"createTime":{"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":52,"nano":0,"second":26,"chronology":{"id":"ISO","calendarType":"iso8601"}}},{"type":2,"typeId":54,"workersId":2,"type2":1,"createTime":{"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":57,"nano":0,"second":35,"chronology":{"id":"ISO","calendarType":"iso8601"}}}]
+     * data : [{"projectId":54,"type":2,"managerId":null,"opinion":0,"date":null,"createTime":{"month":"DECEMBER","year":2017,"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","dayOfYear":340,"hour":11,"minute":57,"nano":0,"second":35,"monthValue":12,"chronology":{"id":"ISO","calendarType":"iso8601"}},"name":"王五","typeName":"出差"},{"projectId":2,"type":0,"managerId":null,"opinion":0,"date":null,"createTime":{"month":"DECEMBER","year":2017,"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","dayOfYear":340,"hour":11,"minute":39,"nano":0,"second":30,"monthValue":12,"chronology":{"id":"ISO","calendarType":"iso8601"}},"name":"王二","typeName":"请假"},{"projectId":3,"type":0,"managerId":null,"opinion":0,"date":null,"createTime":{"month":"DECEMBER","year":2017,"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","dayOfYear":340,"hour":11,"minute":39,"nano":0,"second":30,"monthValue":12,"chronology":{"id":"ISO","calendarType":"iso8601"}},"name":"王二","typeName":"请假"}]
      */
 
     private int code;
@@ -54,18 +55,32 @@ public class WorkTripBean {
 
     public static class DataBean {
         /**
+         * projectId : 54
          * type : 2
-         * typeId : 52
-         * workersId : 2
-         * type2 : 1
-         * createTime : {"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":39,"nano":0,"second":30,"chronology":{"id":"ISO","calendarType":"iso8601"}}
+         * managerId : null
+         * opinion : 0
+         * date : null
+         * createTime : {"month":"DECEMBER","year":2017,"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","dayOfYear":340,"hour":11,"minute":57,"nano":0,"second":35,"monthValue":12,"chronology":{"id":"ISO","calendarType":"iso8601"}}
+         * name : 王五
+         * typeName : 出差
          */
 
+        private int projectId;
         private int type;
-        private int typeId;
-        private int workersId;
-        private int type2;
+        private Object managerId;
+        private int opinion;
+        private Object date;
         private CreateTimeBean createTime;
+        private String name;
+        private String typeName;
+
+        public int getProjectId() {
+            return projectId;
+        }
+
+        public void setProjectId(int projectId) {
+            this.projectId = projectId;
+        }
 
         public int getType() {
             return type;
@@ -75,28 +90,28 @@ public class WorkTripBean {
             this.type = type;
         }
 
-        public int getTypeId() {
-            return typeId;
+        public Object getManagerId() {
+            return managerId;
         }
 
-        public void setTypeId(int typeId) {
-            this.typeId = typeId;
+        public void setManagerId(Object managerId) {
+            this.managerId = managerId;
         }
 
-        public int getWorkersId() {
-            return workersId;
+        public int getOpinion() {
+            return opinion;
         }
 
-        public void setWorkersId(int workersId) {
-            this.workersId = workersId;
+        public void setOpinion(int opinion) {
+            this.opinion = opinion;
         }
 
-        public int getType2() {
-            return type2;
+        public Object getDate() {
+            return date;
         }
 
-        public void setType2(int type2) {
-            this.type2 = type2;
+        public void setDate(Object date) {
+            this.date = date;
         }
 
         public CreateTimeBean getCreateTime() {
@@ -107,48 +122,48 @@ public class WorkTripBean {
             this.createTime = createTime;
         }
 
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getTypeName() {
+            return typeName;
+        }
+
+        public void setTypeName(String typeName) {
+            this.typeName = typeName;
+        }
+
         public static class CreateTimeBean {
             /**
-             * dayOfMonth : 6
-             * dayOfWeek : WEDNESDAY
              * month : DECEMBER
              * year : 2017
+             * dayOfMonth : 6
+             * dayOfWeek : WEDNESDAY
              * dayOfYear : 340
-             * monthValue : 12
              * hour : 11
-             * minute : 39
+             * minute : 57
              * nano : 0
-             * second : 30
+             * second : 35
+             * monthValue : 12
              * chronology : {"id":"ISO","calendarType":"iso8601"}
              */
 
-            private int dayOfMonth;
-            private String dayOfWeek;
             private String month;
             private int year;
+            private int dayOfMonth;
+            private String dayOfWeek;
             private int dayOfYear;
-            private int monthValue;
             private int hour;
             private int minute;
             private int nano;
             private int second;
+            private int monthValue;
             private ChronologyBean chronology;
-
-            public int getDayOfMonth() {
-                return dayOfMonth;
-            }
-
-            public void setDayOfMonth(int dayOfMonth) {
-                this.dayOfMonth = dayOfMonth;
-            }
-
-            public String getDayOfWeek() {
-                return dayOfWeek;
-            }
-
-            public void setDayOfWeek(String dayOfWeek) {
-                this.dayOfWeek = dayOfWeek;
-            }
 
             public String getMonth() {
                 return month;
@@ -166,20 +181,28 @@ public class WorkTripBean {
                 this.year = year;
             }
 
+            public int getDayOfMonth() {
+                return dayOfMonth;
+            }
+
+            public void setDayOfMonth(int dayOfMonth) {
+                this.dayOfMonth = dayOfMonth;
+            }
+
+            public String getDayOfWeek() {
+                return dayOfWeek;
+            }
+
+            public void setDayOfWeek(String dayOfWeek) {
+                this.dayOfWeek = dayOfWeek;
+            }
+
             public int getDayOfYear() {
                 return dayOfYear;
             }
 
             public void setDayOfYear(int dayOfYear) {
                 this.dayOfYear = dayOfYear;
-            }
-
-            public int getMonthValue() {
-                return monthValue;
-            }
-
-            public void setMonthValue(int monthValue) {
-                this.monthValue = monthValue;
             }
 
             public int getHour() {
@@ -212,6 +235,14 @@ public class WorkTripBean {
 
             public void setSecond(int second) {
                 this.second = second;
+            }
+
+            public int getMonthValue() {
+                return monthValue;
+            }
+
+            public void setMonthValue(int monthValue) {
+                this.monthValue = monthValue;
             }
 
             public ChronologyBean getChronology() {

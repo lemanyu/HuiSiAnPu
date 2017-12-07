@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
@@ -72,6 +73,9 @@ public class WorkFragment extends BaseFragment {
     @BindView(R.id.statistics)
     RecyclerView statistics;
     Unbinder unbinder;
+    private static final String TAG="WorkFragment";
+    private LoadingDailog 获取权限中;
+
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.fragment_work, null);
@@ -80,6 +84,7 @@ public class WorkFragment extends BaseFragment {
 
     @Override
     public void initData() {
+        获取权限中 = ToastUtils.showDailog(mActivity, "获取权限中");
         setHasOptionsMenu(true);
         workToolbar.setTitle("工作");
         ((AppCompatActivity)getActivity()).setSupportActionBar(workToolbar);
@@ -224,11 +229,13 @@ public class WorkFragment extends BaseFragment {
     }
 
     private void contactsActivity() {
+        获取权限中.show();
         OkGo.<String>post(NetAddressUtils.getJurisdiction).
                 params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        获取权限中.dismiss();
                         HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
                         if (bean.isSuccess()){
                             contactsPermission();
@@ -241,6 +248,7 @@ public class WorkFragment extends BaseFragment {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
+                        获取权限中.dismiss();
                         ToastUtils.showToast(mActivity,"您没有权限打开此服务");
 
                     }
@@ -248,11 +256,13 @@ public class WorkFragment extends BaseFragment {
     }
 
     private void workModifyPermissionsActivity() {
+        获取权限中.show();
         OkGo.<String>post(NetAddressUtils.getJurisdiction).
                 params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        获取权限中.dismiss();
                         HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
                         if (bean.isSuccess()){
                             startActivity(new Intent(mActivity, WorkModifyPermissionsActivity.class));
@@ -265,6 +275,7 @@ public class WorkFragment extends BaseFragment {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
+                        获取权限中.dismiss();
                         ToastUtils.showToast(mActivity,"您没有权限打开此服务");
 
                     }
@@ -272,13 +283,16 @@ public class WorkFragment extends BaseFragment {
     }
 
     private void workApprovalActivity() {
+        获取权限中.show();
         OkGo.<String>post(NetAddressUtils.getJurisdiction).
                 params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        获取权限中.dismiss();
                         HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
                         if (bean.isSuccess()){
+                            Log.e(TAG, "workApprovalActivity ");
                             startActivity(new Intent(mActivity, WorkApprovalActivity.class));
                         }else {
                             ToastUtils.showToast(mActivity,"您没有权限打开此服务");
@@ -289,6 +303,7 @@ public class WorkFragment extends BaseFragment {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
+                        获取权限中.dismiss();
                         ToastUtils.showToast(mActivity,"您没有权限打开此服务");
 
                     }
@@ -296,12 +311,14 @@ public class WorkFragment extends BaseFragment {
     }
 
     private void workAttendanceActivity() {
+        获取权限中.show();
         OkGo.<String>post(NetAddressUtils.getJurisdiction).
                 params("id",SpUtils.getInt(ConstantUtils.UserId,mActivity)).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                        获取权限中.dismiss();
                         if (bean.isSuccess()){
                             startActivity(new Intent(mActivity, WorkAttendanceActivity.class));
                         }else {
@@ -313,6 +330,7 @@ public class WorkFragment extends BaseFragment {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
+                        获取权限中.dismiss();
                         ToastUtils.showToast(mActivity,"您没有权限打开此服务");
 
                     }

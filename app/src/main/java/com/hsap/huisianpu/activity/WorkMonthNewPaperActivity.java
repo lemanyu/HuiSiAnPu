@@ -3,12 +3,9 @@ package com.hsap.huisianpu.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,7 +21,6 @@ import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
-import com.hsap.huisianpu.view.MyGridView;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -50,8 +46,8 @@ public class WorkMonthNewPaperActivity extends BaseBackActivity {
     EditText etMonthPlanNext;
     @BindView(R.id.et_month_coordination_work)
     EditText etMonthCoordinationWork;
-    @BindView(R.id.gv_work_month)
-    MyGridView gvWorkMonth;
+   /* @BindView(R.id.gv_work_month)
+    MyGridView gvWorkMonth;*/
     private ApproveGridViewAdapter adapter;
     private List<Bean> list = new ArrayList<>();//设置adapter的内容
     private List<Integer> idList = new ArrayList<>();//存放 审批人的id
@@ -66,7 +62,7 @@ public class WorkMonthNewPaperActivity extends BaseBackActivity {
     @Override
     public void initView() {
         adapter=new ApproveGridViewAdapter(this,list);
-        gvWorkMonth.setSelector(new ColorDrawable(Color.TRANSPARENT));
+       /* gvWorkMonth.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvWorkMonth.setAdapter(adapter);
         gvWorkMonth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -80,7 +76,7 @@ public class WorkMonthNewPaperActivity extends BaseBackActivity {
                     adapter.notifyDataSetChanged();
                 }
             }
-        });
+        });*/
     }
 
     @Override
