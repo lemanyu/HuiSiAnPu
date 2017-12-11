@@ -7,6 +7,6 @@
         app:showAsAction="never"></item>
     <item android:id="@+id/create"
          android:icon="@drawable/create_qunzu"
-         android:title="创建群组"
+         android:title="添加群组"
          app:showAsAction="never"></item>
 </menu>

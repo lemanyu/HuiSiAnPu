@@ -2,22 +2,14 @@ package com.hsap.huisianpu.activity;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseActivity;
-import com.hsap.huisianpu.push.PushActivity;
 import com.hsap.huisianpu.utils.ConstantUtils;
-import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.Response;
-import com.tencent.android.tpush.XGPushClickedResult;
-import com.tencent.android.tpush.XGPushManager;
 
 /**
  *
@@ -47,7 +39,7 @@ public class WelcomeActivity extends BaseActivity {
                 @Override
                 public void run() {
                     startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
-                    finish();
+                   finish();
                 }
             },3000);
 
@@ -56,7 +48,7 @@ public class WelcomeActivity extends BaseActivity {
                 @Override
                 public void run() {
                     startActivity(new Intent(WelcomeActivity.this,LoginActivity.class));
-                    finish();
+                finish();
                 }
             },3000);
 

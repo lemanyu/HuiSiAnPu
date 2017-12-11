@@ -18,36 +18,12 @@ public class DaySignPushBean {
     private boolean success;
     private DataBean data;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
     public boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
     public DataBean getData() {
         return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
     }
 
     public static class DataBean {
@@ -71,68 +47,20 @@ public class DaySignPushBean {
         private DateBean createTime;
         private String downPosition;
 
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
         public DateBean getTopSign() {
             return topSign;
-        }
-
-        public void setTopSign(DateBean topSign) {
-            this.topSign = topSign;
         }
 
         public DateBean getDownSign() {
             return downSign;
         }
 
-        public void setDownSign(DateBean downSign) {
-            this.downSign = downSign;
-        }
-
-        public int getWorkersId() {
-            return workersId;
-        }
-
-        public void setWorkersId(int workersId) {
-            this.workersId = workersId;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
         public String getTopPosition() {
             return topPosition;
         }
 
-        public void setTopPosition(String topPosition) {
-            this.topPosition = topPosition;
-        }
-
-        public DateBean getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(DateBean createTime) {
-            this.createTime = createTime;
-        }
-
         public Object getDownPosition() {
             return downPosition;
-        }
-
-        public void setDownPosition(String downPosition) {
-            this.downPosition = downPosition;
         }
 
     }

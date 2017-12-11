@@ -21,36 +21,12 @@ public class ApprovalBean {
     private boolean success;
     private List<DataBean> data;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public Object getMsg() {
-        return msg;
-    }
-
-    public void setMsg(Object msg) {
-        this.msg = msg;
-    }
-
     public boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
     public List<DataBean> getData() {
         return data;
-    }
-
-    public void setData(List<DataBean> data) {
-        this.data = data;
     }
 
     public static class DataBean {
@@ -78,64 +54,20 @@ public class ApprovalBean {
             return projectId;
         }
 
-        public void setProjectId(int projectId) {
-            this.projectId = projectId;
-        }
-
         public int getType() {
             return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        public Object getManagerId() {
-            return managerId;
-        }
-
-        public void setManagerId(Object managerId) {
-            this.managerId = managerId;
-        }
-
-        public int getOpinion() {
-            return opinion;
-        }
-
-        public void setOpinion(int opinion) {
-            this.opinion = opinion;
-        }
-
-        public Object getDate() {
-            return date;
-        }
-
-        public void setDate(Object date) {
-            this.date = date;
         }
 
         public CreateTimeBean getCreateTime() {
             return createTime;
         }
 
-        public void setCreateTime(CreateTimeBean createTime) {
-            this.createTime = createTime;
-        }
-
         public String getName() {
             return name;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
         public String getTypeName() {
             return typeName;
-        }
-
-        public void setTypeName(String typeName) {
-            this.typeName = typeName;
         }
 
         public static class CreateTimeBean {

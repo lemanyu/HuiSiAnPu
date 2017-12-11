@@ -1,11 +1,8 @@
 package com.hsap.huisianpu.fragment;
 
 
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -75,6 +72,7 @@ public class NewsFragment extends BaseFragment {
         menu.clear();
         inflater.inflate(R.menu.news_menu,menu);
         setIconsVisiable(menu,true);
+
     }
 
     private void setIconsVisiable(Menu menu, boolean b) {
@@ -102,6 +100,7 @@ public class NewsFragment extends BaseFragment {
             case R.id.create:
                 Toast.makeText(mActivity, "bbb", Toast.LENGTH_SHORT).show();
                 break;
+                default:
         }
         return true;
     }

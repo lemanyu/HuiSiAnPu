@@ -34,5 +34,8 @@ public class NetAddressUtils {
     public static String getOneLeave=url+"/Leave/getOneLeave";//获取一条请假信息
     public static String insertIntegration=url+"insertIntegration";
     public static  String selectOneIntergration=url+"selectOneIntergration";
-
+    public static String selectIntegration=url+"selectIntegration";
+    public static String addNotice=url+"Notice/addNotice";
+    public static String selectAllNotice=url+"Notice/selectAllNotice";
+    public static String deleteNotice=url+"Notice/deleteNotice";
 }

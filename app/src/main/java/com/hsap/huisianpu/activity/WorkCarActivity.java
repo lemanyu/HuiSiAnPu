@@ -5,9 +5,12 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,16 +18,30 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.android.tu.loadingdialog.LoadingDailog;
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.adapter.AccompanyGvidViewAdapter;
 import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
+import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
 import com.hsap.huisianpu.utils.Utils;
+import com.hsap.huisianpu.view.MyGridView;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,19 +70,23 @@ public class WorkCarActivity extends BaseBackActivity {
     PercentLinearLayout pllCarChoice;
     @BindView(R.id.et_car_phone)
     EditText etCarPhone;
-    @BindView(R.id.et_car_number)
-    EditText etCarNumber;
     @BindView(R.id.et_car_matters)
     EditText etCarMatters;
     @BindView(R.id.et_car_location)
     EditText etCarLocation;
+    @BindView(R.id.gv_car_person)
+    MyGridView gvCarPerson;
     /*@BindView(R.id.gv_car)
     MyGridView gvCar;*/
     private ApproveGridViewAdapter adapter;
     private List<Bean> list = new ArrayList<>();
     private List<String> idList = new ArrayList<>();//存放 审批人的id
+    private List<Bean> personList = new ArrayList<>();//陪同人
+    private List<Integer> personIdList = new ArrayList<>();//陪同人id
+    private AccompanyGvidViewAdapter accompanyGvidViewAdapter;
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_work_car;
@@ -73,7 +94,23 @@ public class WorkCarActivity extends BaseBackActivity {
 
     @Override
     public void initView() {
-        adapter = new ApproveGridViewAdapter(this, list);
+        accompanyGvidViewAdapter = new AccompanyGvidViewAdapter(this, personList);
+        gvCarPerson.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        gvCarPerson.setAdapter(accompanyGvidViewAdapter);
+        gvCarPerson.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position == personList.size()) {
+                    //跳转到选择陪同人
+                    Intent intent = new Intent(WorkCarActivity.this, ChooseAccompanyActivity.class);
+                    startActivityForResult(intent, 200);
+                } else {
+                    personList.remove(position);
+                    personIdList.remove(position);
+                    accompanyGvidViewAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         /*gvCar.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvCar.setAdapter(adapter);
         gvCar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -178,7 +215,7 @@ public class WorkCarActivity extends BaseBackActivity {
         final StringBuilder beginTime = new StringBuilder();
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) ;
+        int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
@@ -207,6 +244,17 @@ public class WorkCarActivity extends BaseBackActivity {
             ToastUtils.showToast(this, "请选择还车时间");
             return;
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            Date begin = sdf.parse(tvCarBegin.getText().toString().trim());
+            Date end = sdf.parse(tvCarEnd.getText().toString().trim());
+            if (end.getTime()-begin.getTime()<=0){
+                ToastUtils.showToast(this, "请选择正确的还车时间");
+                return;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (tvCarChoice.getText().toString().trim().equals("请选择（必填）")) {
             ToastUtils.showToast(this, "请选择车辆类型");
             return;
@@ -215,12 +263,8 @@ public class WorkCarActivity extends BaseBackActivity {
             ToastUtils.showToast(this, "请输入您的手机号");
             return;
         }
-        if(!Utils.isPhone(etCarPhone.getText().toString().trim())){
+        if (!Utils.isPhone(etCarPhone.getText().toString().trim())) {
             ToastUtils.showToast(this, "请输入正确的手机号");
-            return;
-        }
-        if (TextUtils.isEmpty(etCarNumber.getText().toString().trim())) {
-            ToastUtils.showToast(this, "请输入用车人数");
             return;
         }
         if (TextUtils.isEmpty(etCarMatters.getText().toString().trim())) {
@@ -231,6 +275,45 @@ public class WorkCarActivity extends BaseBackActivity {
             ToastUtils.showToast(this, "请输入办事地点");
             return;
         }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定要提交吗？");
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                HashMap map = new HashMap();
+                map.put("shixiang",etCarMatters.getText().toString().trim());
+                map.put("didian",etCarLocation.getText().toString().trim());
+                map.put("leixing",tvCarChoice.getText().toString().trim());
+                final LoadingDailog dailog = ToastUtils.showDailog(WorkCarActivity.this, "提交中");
+                dailog.show();
+                OkGo.<String>post(NetAddressUtils.insertIntegration).
+                        params("workersId", SpUtils.getInt(ConstantUtils.UserId,WorkCarActivity.this)).
+                        params("startTime",tvCarBegin.getText().toString().trim()).
+                        params("endTime",tvCarEnd.getText().toString().trim()).
+                        params("type",4).
+                        params("type2",etCarPhone.getText().toString().trim()).
+                        params("ids",new Gson().toJson(personIdList)).
+                        params("activity","com.hsap.huisianpu.push.PushTirpActivity").
+                        params("o",map.toString()).execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        dailog.dismiss();
+                        ToastUtils.showToast(WorkCarActivity.this,"提交成功");
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        dailog.dismiss();
+                        ToastUtils.showToast(WorkCarActivity.this,"提交失败");
+                    }
+                });
+            }
+        });
+        builder.show();
+
+
     }
 
     @Override
@@ -239,6 +322,7 @@ public class WorkCarActivity extends BaseBackActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -253,6 +337,21 @@ public class WorkCarActivity extends BaseBackActivity {
                 list.add(bean);
                 idList.add(id);
                 adapter.notifyDataSetChanged();
+            }
+            if(requestCode==200){
+                if (resultCode==201){
+                    ArrayList<String> namelist = data.getStringArrayListExtra("namelist");
+                    ArrayList<Integer> idlist = data.getIntegerArrayListExtra("idlist");
+                    for (int i = 0; i < namelist.size(); i++) {
+                        Bean bean = new Bean();
+                        bean.setName(namelist.get(i));
+                        bean.setPic(color[(int) (Math.random() * 6)]);
+                        personList.add(bean);
+                    }
+                    personIdList.addAll(idlist);
+                    accompanyGvidViewAdapter.notifyDataSetChanged();
+
+                }
             }
         }
     }

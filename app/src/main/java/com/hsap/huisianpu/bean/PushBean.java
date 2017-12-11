@@ -22,31 +22,16 @@ public class PushBean {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public boolean isState() {
         return state;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
     public int getType() {
         return type;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
 }

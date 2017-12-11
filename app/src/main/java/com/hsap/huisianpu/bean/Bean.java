@@ -12,14 +12,6 @@ public class Bean implements Parcelable {
     private  int pic;
     private  String number;
 
-    public boolean isSelect() {
-        return select;
-    }
-
-    public void setSelect(boolean select) {
-        this.select = select;
-    }
-
     private boolean select;
     public Bean(String name, int pic){
         this.name=name;
@@ -28,11 +20,7 @@ public class Bean implements Parcelable {
     public Bean(){
 
     }
-    public Bean(String name,String number,boolean select){
-        this.name=name;
-        this.number=number;
-        this.select=select;
-    }
+
     public String getName() {
         return name;
     }
@@ -76,15 +64,4 @@ public class Bean implements Parcelable {
         this.select = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Bean> CREATOR = new Parcelable.Creator<Bean>() {
-        @Override
-        public Bean createFromParcel(Parcel source) {
-            return new Bean(source);
-        }
-
-        @Override
-        public Bean[] newArray(int size) {
-            return new Bean[size];
-        }
-    };
 }

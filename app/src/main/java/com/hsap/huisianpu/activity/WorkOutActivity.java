@@ -152,7 +152,7 @@ public class WorkOutActivity extends BaseBackActivity {
             return;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh-mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             Date begin = sdf.parse(tvOutTime.getText().toString().trim());
             Date end = sdf.parse(tvReturnTime.getText().toString().trim());
@@ -168,31 +168,41 @@ public class WorkOutActivity extends BaseBackActivity {
             ToastUtils.showToast(this, "请输入物品的名称和数量");
             return;
         }
-        final LoadingDailog dailog = ToastUtils.showDailog(this, "提交中");
-        dailog.show();
-        //提交
-        OkGo.<String>post(NetAddressUtils.insertIntegration).
-                params("startTime", tvOutTime.getText().toString().trim()).
-                params("reasion", tvOutReason.getText().toString().trim()).
-                params("type", 1).
-                params("endTime", tvReturnTime.getText().toString().trim()).
-                params("type2", etOutArticles.getText().toString().trim()).
-                params("workersId", SpUtils.getInt(ConstantUtils.UserId, this)).
-                params("activity", "com.hsap.huisianpu.push.PushTirpActivity").
-                execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        dailog.dismiss();
-                        ToastUtils.showToast(WorkOutActivity.this, "提交成功");
-                    }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定要提交吗？");
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                final LoadingDailog dailog = ToastUtils.showDailog(WorkOutActivity.this, "提交中");
+                dailog.show();
+                //提交
+                OkGo.<String>post(NetAddressUtils.insertIntegration).
+                        params("startTime", tvOutTime.getText().toString().trim()).
+                        params("reason", tvOutReason.getText().toString().trim()).
+                        params("type", 1).
+                        params("endTime", tvReturnTime.getText().toString().trim()).
+                        params("type2", etOutArticles.getText().toString().trim()).
+                        params("workersId", SpUtils.getInt(ConstantUtils.UserId, WorkOutActivity.this)).
+                        params("activity", "com.hsap.huisianpu.push.PushTirpActivity").
+                        execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                dailog.dismiss();
+                                ToastUtils.showToast(WorkOutActivity.this, "提交成功");
+                            }
 
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        dailog.dismiss();
-                        ToastUtils.showToast(WorkOutActivity.this, "提交失败，当前网络不好");
-                    }
-                });
+                            @Override
+                            public void onError(Response<String> response) {
+                                super.onError(response);
+                                dailog.dismiss();
+                                ToastUtils.showToast(WorkOutActivity.this, "提交失败，当前网络不好");
+                            }
+                        });
+            }
+        });
+        builder.show();
+
     }
 
 

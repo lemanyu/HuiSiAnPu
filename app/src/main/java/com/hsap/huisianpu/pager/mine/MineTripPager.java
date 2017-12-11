@@ -15,7 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
-import com.hsap.huisianpu.bean.WorkTripBean;
+import com.hsap.huisianpu.bean.MineLeaveBean;
 import com.hsap.huisianpu.details.DetailsMineTrip;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
@@ -49,14 +49,14 @@ public class MineTripPager extends BaseFragmentPager {
 
     @Override
     public void initData() {
-        OkGo.<String>post(NetAddressUtils.getMyAttendance).
-                params("id", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
+        OkGo.<String>post(NetAddressUtils.selectIntegration).
+                params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
                 params("type",2).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Log.e(TAG, response.body().toString() );
-                        final WorkTripBean bean = new Gson().fromJson(response.body().toString(), WorkTripBean.class);
+                        final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
                         if(bean.isSuccess()){
                             mineRlvTrip.setLayoutManager(new LinearLayoutManager(mActivity));
                             MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
@@ -66,58 +66,14 @@ public class MineTripPager extends BaseFragmentPager {
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     Intent intent = new Intent(mActivity, DetailsMineTrip.class);
                                     intent.putExtra("type",2);
-                                    intent.putExtra("workid",bean.getData().get(position).getTypeId());
+                                    intent.putExtra("workid",bean.getData().get(position).getId());
                                     startActivity(intent);
                                 }
                             });
                         }else {
                             ToastUtils.showToast(mActivity, "当前没有出差记录");
                         }
-                       /* final WorkTripBean bean = new Gson().fromJson(response.body().toString(), WorkTripBean.class);
-                        if (bean.isSuccess()) {
-                        mineRlvTrip.setLayoutManager(new LinearLayoutManager(mActivity));
-                        MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
-                        mineRlvTrip.setAdapter(adapter);
-                        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                if(bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getHour()==8){
-                                    begin.setLength(0);
-                                    begin.append("上午");
-                                }else {
-                                    begin.setLength(0);
-                                    begin.append("下午");
-                                }
-                                if(bean.getData().get(position).getWaTravelBusiness().getReturnTime().getHour()==8){
-                                    end.setLength(0);
-                                    end.append("上午");
-                                }else {
-                                    end.setLength(0);
-                                    end.append("下午");
-                                }
-                                Intent intent = new Intent(mActivity, DetailsMineTrip.class);
-                                intent.putExtra("reason",bean.getData().get(position).getWaTravelBusiness().getReason());
-                                intent.putExtra("city",bean.getData().get(position).getWaTravelBusiness().getPlace());
-                                intent.putExtra("begin",
-                                        bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getYear() + "-" +
-                                                bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getMonthValue() + "-" +
-                                                bean.getData().get(position).getWaTravelBusiness().getDepartureTime().getDayOfMonth()+" "+begin);
-                                intent.putExtra("end",bean.getData().get(position).getWaTravelBusiness().getReturnTime().getYear() + "-" +
-                                        bean.getData().get(position).getWaTravelBusiness().getReturnTime().getMonthValue() + "-" +
-                                        bean.getData().get(position).getWaTravelBusiness().getReturnTime().getDayOfMonth()+" "+end);
-                                intent.putExtra("total",bean.getData().get(position).getWaTravelBusiness().getTotal());
-                                intent.putExtra("comment",bean.getData().get(position).getWaTravelBusiness().getComment());
-                                intent.putStringArrayListExtra("accompanying", (ArrayList<String>) bean.getData().get(position).getAccompanying());
-                                intent.putStringArrayListExtra("verifier", (ArrayList<String>) bean.getData().get(position).getVerifier());
-                                startActivity(intent);
-
-                            }
-                        });
-                    } else {
-                        ToastUtils.showToast(mActivity, "当前没有出差记录");
-                    }*/
                 }
-
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
@@ -145,19 +101,16 @@ public class MineTripPager extends BaseFragmentPager {
         unbinder.unbind();
     }
 
-    class MyAdapter extends BaseQuickAdapter<WorkTripBean.DataBean, BaseViewHolder> {
+    class MyAdapter extends BaseQuickAdapter<MineLeaveBean.DataBean, BaseViewHolder> {
 
-        public MyAdapter(int layoutResId, @Nullable List<WorkTripBean.DataBean> data) {
+        public MyAdapter(int layoutResId, @Nullable List<MineLeaveBean.DataBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, WorkTripBean.DataBean item) {
-            helper.setText(R.id.mine_tv_time, "出差时间：" +
-                            item.getCreateTime().getYear() + "-" +
-                            item.getCreateTime().getMonthValue() + "-" +
-                            item.getCreateTime().getDayOfMonth());
-
+        protected void convert(BaseViewHolder helper, MineLeaveBean.DataBean item) {
+            helper.setText(R.id.mine_tv_time, "出差时间：" +item.getStartTime().replace("08:30","上午").replace("13:30","下午"));
         }
+
     }
 }

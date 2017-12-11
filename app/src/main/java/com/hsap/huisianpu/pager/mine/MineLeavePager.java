@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
-import com.hsap.huisianpu.bean.WorkLeaveBean;
+import com.hsap.huisianpu.bean.MineLeaveBean;
 import com.hsap.huisianpu.details.DetailsMineTrip;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
@@ -48,13 +49,14 @@ public class MineLeavePager extends BaseFragmentPager {
 
     @Override
     public void initData() {
-        OkGo.<String>post(NetAddressUtils.getMyAttendance).
-                params("id", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
+        OkGo.<String>post(NetAddressUtils.selectIntegration).
+                params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
                 params("type",0).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        final WorkLeaveBean bean = new Gson().fromJson(response.body().toString(), WorkLeaveBean.class);
+                        Log.e(TAG, response.body().toString() );
+                        final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
                         if(bean.isSuccess()){
                             mineRlvLeave.setLayoutManager(new LinearLayoutManager(mActivity));
                             MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
@@ -64,7 +66,7 @@ public class MineLeavePager extends BaseFragmentPager {
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     Intent intent = new Intent(mActivity, DetailsMineTrip.class);
                                     intent.putExtra("type",0);
-                                    intent.putExtra("workid",bean.getData().get(position).getTypeId());
+                                    intent.putExtra("workid",bean.getData().get(position).getId());
                                     startActivity(intent);
                                 }
                             });
@@ -93,19 +95,18 @@ public class MineLeavePager extends BaseFragmentPager {
         super.onDestroyView();
         unbinder.unbind();
     }
-    class MyAdapter extends BaseQuickAdapter<WorkLeaveBean.DataBean, BaseViewHolder> {
+    class MyAdapter extends BaseQuickAdapter<MineLeaveBean.DataBean, BaseViewHolder> {
 
-        public MyAdapter(int layoutResId, @Nullable List<WorkLeaveBean.DataBean> data) {
+        public MyAdapter(int layoutResId, @Nullable List<MineLeaveBean.DataBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, WorkLeaveBean.DataBean item) {
-            helper.setText(R.id.mine_tv_time, "出差时间：" +
-                    item.getCreateTime().getYear() + "-" +
-                    item.getCreateTime().getMonthValue() + "-" +
-                    item.getCreateTime().getDayOfMonth());
+        protected void convert(BaseViewHolder helper, MineLeaveBean.DataBean item) {
+
+                helper.setText(R.id.mine_tv_time, "请假时间：" +item.getStartTime().replace("08:30","上午").replace("13:30","下午"));
 
         }
+
     }
 }

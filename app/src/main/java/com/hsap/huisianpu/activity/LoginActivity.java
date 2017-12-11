@@ -19,6 +19,7 @@ import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.hsap.huisianpu.utils.Utils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -81,6 +82,7 @@ public class LoginActivity extends BaseActivity {
                    initXGPush(username,password);
 
                    break;
+                   default:
            }
     }
 
@@ -89,11 +91,12 @@ public class LoginActivity extends BaseActivity {
             ToastUtils.showToast(this,"账号或密码不能为空");
             return;
         }
-//        if (!Utils.isPhone(username)){
-//            ToastUtils.showToast(this, "请输入正确的手机号码");
-//            return;
-//        }
+       if (!Utils.isPhone(username)){
+            ToastUtils.showToast(this, "请输入正确的手机号码");
+            return;
+       }
         登录中 = ToastUtils.showDailog(this, "登录中");
+        登录中.show();
         OkGo.<String>post(NetAddressUtils.login).params("username", username).
                 params("password", password).execute(new StringCallback() {
             @Override

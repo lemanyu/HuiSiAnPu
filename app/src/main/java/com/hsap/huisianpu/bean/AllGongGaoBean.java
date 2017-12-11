@@ -3,16 +3,16 @@ package com.hsap.huisianpu.bean;
 import java.util.List;
 
 /**
- * Created by zhao on 2017/12/2.
+ * 所有公告bean
  */
 
-public class WorkTripBean {
+public class AllGongGaoBean {
 
     /**
      * code : 200
      * msg : null
      * success : true
-     * data : [{"type":2,"typeId":52,"workersId":2,"type2":1,"createTime":{"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":39,"nano":0,"second":30,"chronology":{"id":"ISO","calendarType":"iso8601"}}},{"type":2,"typeId":53,"workersId":2,"type2":1,"createTime":{"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":52,"nano":0,"second":26,"chronology":{"id":"ISO","calendarType":"iso8601"}}},{"type":2,"typeId":54,"workersId":2,"type2":1,"createTime":{"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":57,"nano":0,"second":35,"chronology":{"id":"ISO","calendarType":"iso8601"}}}]
+     * data : [{"id":1,"level":1,"noticeDepartment":1,"noticeType":1,"createTime":{"dayOfMonth":9,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":343,"monthValue":12,"hour":15,"minute":15,"nano":0,"second":42,"chronology":{"id":"ISO","calendarType":"iso8601"}},"workersId":1,"state":1,"noticeBody":"1"}]
      */
 
     private int code;
@@ -54,49 +54,55 @@ public class WorkTripBean {
 
     public static class DataBean {
         /**
-         * type : 2
-         * typeId : 52
-         * workersId : 2
-         * type2 : 1
-         * createTime : {"dayOfMonth":6,"dayOfWeek":"WEDNESDAY","month":"DECEMBER","year":2017,"dayOfYear":340,"monthValue":12,"hour":11,"minute":39,"nano":0,"second":30,"chronology":{"id":"ISO","calendarType":"iso8601"}}
+         * id : 1
+         * level : 1
+         * noticeDepartment : 1
+         * noticeType : 1
+         * createTime : {"dayOfMonth":9,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":343,"monthValue":12,"hour":15,"minute":15,"nano":0,"second":42,"chronology":{"id":"ISO","calendarType":"iso8601"}}
+         * workersId : 1
+         * state : 1
+         * noticeBody : 1
          */
 
-        private int type;
-        private int typeId;
-        private int workersId;
-        private int type2;
+        private int id;
+        private int level;
+        private int noticeDepartment;
+        private int noticeType;
         private CreateTimeBean createTime;
+        private int workersId;
+        private int state;
+        private String noticeBody;
 
-        public int getType() {
-            return type;
+        public int getId() {
+            return id;
         }
 
-        public void setType(int type) {
-            this.type = type;
+        public void setId(int id) {
+            this.id = id;
         }
 
-        public int getTypeId() {
-            return typeId;
+        public int getLevel() {
+            return level;
         }
 
-        public void setTypeId(int typeId) {
-            this.typeId = typeId;
+        public void setLevel(int level) {
+            this.level = level;
         }
 
-        public int getWorkersId() {
-            return workersId;
+        public int getNoticeDepartment() {
+            return noticeDepartment;
         }
 
-        public void setWorkersId(int workersId) {
-            this.workersId = workersId;
+        public void setNoticeDepartment(int noticeDepartment) {
+            this.noticeDepartment = noticeDepartment;
         }
 
-        public int getType2() {
-            return type2;
+        public int getNoticeType() {
+            return noticeType;
         }
 
-        public void setType2(int type2) {
-            this.type2 = type2;
+        public void setNoticeType(int noticeType) {
+            this.noticeType = noticeType;
         }
 
         public CreateTimeBean getCreateTime() {
@@ -107,18 +113,42 @@ public class WorkTripBean {
             this.createTime = createTime;
         }
 
+        public int getWorkersId() {
+            return workersId;
+        }
+
+        public void setWorkersId(int workersId) {
+            this.workersId = workersId;
+        }
+
+        public int getState() {
+            return state;
+        }
+
+        public void setState(int state) {
+            this.state = state;
+        }
+
+        public String getNoticeBody() {
+            return noticeBody;
+        }
+
+        public void setNoticeBody(String noticeBody) {
+            this.noticeBody = noticeBody;
+        }
+
         public static class CreateTimeBean {
             /**
-             * dayOfMonth : 6
-             * dayOfWeek : WEDNESDAY
+             * dayOfMonth : 9
+             * dayOfWeek : SATURDAY
              * month : DECEMBER
              * year : 2017
-             * dayOfYear : 340
+             * dayOfYear : 343
              * monthValue : 12
-             * hour : 11
-             * minute : 39
+             * hour : 15
+             * minute : 15
              * nano : 0
-             * second : 30
+             * second : 42
              * chronology : {"id":"ISO","calendarType":"iso8601"}
              */
 

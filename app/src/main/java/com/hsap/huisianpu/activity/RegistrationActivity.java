@@ -93,6 +93,7 @@ public class RegistrationActivity extends BaseActivity {
                            case R.id.rb_jingli:
                                pllZhuce.setVisibility(View.VISIBLE);
                                break;
+                               default:
                        }
             }
         };
@@ -118,6 +119,7 @@ public class RegistrationActivity extends BaseActivity {
             case R.id.fanhui:
                 finish();
                 break;
+                default:
         }
     }
 

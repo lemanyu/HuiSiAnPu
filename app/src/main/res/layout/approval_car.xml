@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:clickable="false"
-                    android:text="请选择（必填）" />
+                    android:text="" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
                 android:background="@color/linecolor"
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:clickable="false"
-                    android:text="请选择（必填）" />
+                    android:text="" />
             </com.zhy.android.percent.support.PercentLinearLayout>
             <View
                 android:background="@color/linecolor"
@@ -120,38 +120,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:textSize="18sp"
                     android:id="@+id/et_car_phone"
                     android:inputType="phone"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:layout_weight="2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <View
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center"
-                android:padding="5dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="5dp"
-                    android:text="用车人数"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/et_car_number"
-                    android:inputType="number"
                     android:textStyle="bold"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
@@ -171,6 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textSize="18sp"
                 android:id="@+id/et_car_matters"
                 android:gravity="left|top"
                 android:minLines="5"
@@ -192,12 +164,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textSize="18sp"
                 android:id="@+id/et_car_location"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
                 android:padding="5dp"
-                android:hint="请填写文字"
+                android:hint=""
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -205,6 +178,34 @@
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"></View>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_approval_car"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:text="陪同人员："
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.hsap.huisianpu.view.MyGridView
+                    android:id="@+id/gv_car_person"
+                    android:horizontalSpacing="10dp"
+                    android:verticalSpacing="20dp"
+                    android:numColumns="4"
+                    android:layout_margin="5dp"
+                    android:stretchMode="columnWidth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:layout_marginTop="5dp"
+                    android:background="@color/linecolor"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"></View>
+            </LinearLayout>
         </com.zhy.android.percent.support.PercentLinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

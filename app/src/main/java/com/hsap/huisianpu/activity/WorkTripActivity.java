@@ -300,6 +300,7 @@ public class WorkTripActivity extends BaseBackActivity {
                         params("workersId", SpUtils.getInt(ConstantUtils.UserId,WorkTripActivity.this)).
                         params("reason",etTripReason.getText().toString().trim()).
                         params("type2",etTripCity.getText().toString().trim()).
+                        params("type",2).
                         params("startTime",tvTripBegin.getText().toString().trim()).
                         params("endTime",tvTripEnd.getText().toString().trim()).
                         params("ids",new Gson().toJson(personIdList)).

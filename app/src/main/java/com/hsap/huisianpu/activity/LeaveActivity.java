@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -74,8 +73,7 @@ public class LeaveActivity extends BaseBackActivity {
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
     private int year;
     private int month;
-    private int day;
-    private StringBuffer endtime = new StringBuffer();
+    private int day;private StringBuffer endtime = new StringBuffer();
     private StringBuffer begintime=new StringBuffer();
     private StringBuffer Pm=new StringBuffer();//下午
     private StringBuffer Am=new StringBuffer();//上午
@@ -268,34 +266,43 @@ public class LeaveActivity extends BaseBackActivity {
             ToastUtils.showToast(this,"请输入请假事由");
             return;
         }
-        final LoadingDailog dailog = ToastUtils.showDailog(LeaveActivity.this, "提交中");
-        dailog.show();
-        Log.e(TAG, begintime+"" );
-        OkGo.<String>post(NetAddressUtils.insertIntegration).
-                params("workersId",
-                        SpUtils.getInt(ConstantUtils.UserId,
-                                LeaveActivity.this)).
-                params("type",0).
-                params("type2",tvQingjialeixing.getText().toString()).
-                params("startTime",tvBeginTime.getText().toString().trim()).
-                params("endTime",tvEndTime.getText().toString().trim()).
-                params("totalTime",tvShichang.getText().toString().trim()).
-                params("reason",etLeave.getText().toString()).
-                params("activity","com.hsap.huisianpu.push.PushTirpActivity")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        dailog.dismiss();
-                       ToastUtils.showToast(LeaveActivity.this,"提交成功");
-                    }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定要提交吗？");
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                final LoadingDailog dailog = ToastUtils.showDailog(LeaveActivity.this, "提交中");
+                dailog.show();
+                OkGo.<String>post(NetAddressUtils.insertIntegration).
+                        params("workersId",
+                                SpUtils.getInt(ConstantUtils.UserId,
+                                        LeaveActivity.this)).
+                        params("type",0).
+                        params("type2",tvQingjialeixing.getText().toString()).
+                        params("startTime",tvBeginTime.getText().toString().trim()).
+                        params("endTime",tvEndTime.getText().toString().trim()).
+                        params("totalTime",tvShichang.getText().toString().trim()).
+                        params("reason",etLeave.getText().toString()).
+                        params("activity","com.hsap.huisianpu.push.PushTirpActivity")
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                dailog.dismiss();
+                                ToastUtils.showToast(LeaveActivity.this,"提交成功");
+                            }
 
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        dailog.dismiss();
-                        ToastUtils.showToast(LeaveActivity.this,"提交失败，当前网络不好");
-                    }
-                });
+                            @Override
+                            public void onError(Response<String> response) {
+                                super.onError(response);
+                                dailog.dismiss();
+                                ToastUtils.showToast(LeaveActivity.this,"提交失败，当前网络不好");
+                            }
+                        });
+            }
+        });
+        builder.show();
+
     }
 
     private void showSingleChoiceDialog() {

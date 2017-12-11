@@ -105,6 +105,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     }
                     context.startActivity(intent);
+                    default:
                     break;
             }
         } else if (message.getActionType() == XGPushClickedResult.NOTIFACTION_DELETED_TYPE) {

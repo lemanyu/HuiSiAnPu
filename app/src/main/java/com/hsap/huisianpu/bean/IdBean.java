@@ -9,9 +9,5 @@ public class IdBean {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     private int id;
 }

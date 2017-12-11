@@ -40,11 +40,6 @@ public class ContactRecycleAdapter extends BaseAdapter {
         return isSelected;
     }
 
-    public void setIsSelected(Map<Integer, Boolean> isSelected) {
-        this.isSelected = isSelected;
-    }
-
-
 
     @Override
     public int getCount() {
