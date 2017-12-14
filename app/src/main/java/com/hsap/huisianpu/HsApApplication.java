@@ -2,6 +2,7 @@ package com.hsap.huisianpu;
 
 import android.app.Application;
 
+import com.hsap.huisianpu.view.GlideAlbumLoader;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -10,7 +11,10 @@ import com.lzy.okgo.cookie.store.SPCookieStore;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpParams;
 import com.tencent.android.tpush.XGPushConfig;
+import com.yanzhenjie.album.Album;
+import com.yanzhenjie.album.AlbumConfig;
 
+import java.util.Locale;
 import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
@@ -25,6 +29,12 @@ public class HsApApplication extends Application {
         super.onCreate();
         initOkGo();
         initXGPush();
+        Album.initialize(
+                AlbumConfig.newBuilder(this)
+                        .setAlbumLoader(new GlideAlbumLoader()) // 设置Album加载器。
+                        .setLocale(Locale.CHINA) // 比如强制设置在任何语言下都用中文显示。
+                        .build()
+        );
     }
 
     private void initXGPush() {

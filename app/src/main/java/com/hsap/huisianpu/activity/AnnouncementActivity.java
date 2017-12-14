@@ -3,7 +3,6 @@ package com.hsap.huisianpu.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +24,6 @@ import com.lzy.okgo.model.Response;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author zhao
@@ -156,10 +154,5 @@ public class AnnouncementActivity extends BaseBackActivity {
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

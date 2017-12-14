@@ -4,37 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.Toolbar
-            app:titleTextColor="@color/text_blue"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
-            android:theme="@style/ToolBarTheme"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
-            <ImageButton
-                android:id="@id/back"
-                android:layout_width="30dp"
-                android:background="@drawable/back"
-                android:layout_height="25dp" />
-            <TextView
-                android:textSize="20sp"
-                android:layout_gravity="center_horizontal"
-                android:text="工作月报"
-                style="@style/CommonText" />
-            <Button
-               android:id="@+id/bt_work_month_commit"
-                android:background="@null"
-                android:layout_gravity="right"
-                android:textSize="20sp"
-                android:text="提交"
-                style="@style/CommonText" />
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -51,13 +20,13 @@
                 android:text="本月工作内容："
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <EditText
+            <TextView
                 android:id="@+id/et_month_work_content"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
-                android:hint="请填写文字"
+                android:textSize="18sp"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -72,13 +41,13 @@
                 android:text="本月工作总结："
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <EditText
+            <TextView
                 android:id="@+id/et_month_work_summary"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
-                android:hint="请填写文字"
+                android:textSize="18sp"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -93,13 +62,13 @@
                 android:text="下月工作计划："
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <EditText
+            <TextView
                 android:id="@+id/et_month_plan_next"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
-                android:hint="请填写文字"
+                android:textSize="18sp"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -114,13 +83,13 @@
                 android:text="需帮助与支持："
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <EditText
+            <TextView
                 android:id="@+id/et_month_coordination_work"
                 android:gravity="left|top"
                 android:minLines="5"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
-                android:hint="请填写文字"
+                android:textSize="18sp"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -128,45 +97,17 @@
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
-            <TextView
-                android:layout_margin="10dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                style="@style/LeaveText"
-                android:text="请选择图片(点击可删除):"
+            <com.jaeger.ninegridimageview.NineGridImageView
+                android:visibility="gone"
+                android:id="@+id/niv"
+                app:imgGap="20dp"
+                app:maxSize="9"
+                app:showStyle="fill"
+                app:singleImgSize="50dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.hsap.huisianpu.view.MyGridView
-                android:stretchMode="columnWidth"
-                android:gravity="center_horizontal"
-                android:id="@+id/day_photo"
-                android:numColumns="3"
-                android:columnWidth="100dp"
-                android:layout_marginLeft="10dp"
-                android:horizontalSpacing="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </com.hsap.huisianpu.view.MyGridView>
-            <!--<TextView
-                android:layout_margin="5dp"
-                android:textSize="18sp"
-                android:text="发给谁（点击头像可删除）"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <com.hsap.huisianpu.view.MyGridView
-                android:id="@+id/gv_work_month"
-                android:horizontalSpacing="10dp"
-                android:numColumns="4"
-                android:layout_margin="5dp"
-                android:stretchMode="columnWidth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <View
-                android:layout_marginTop="5dp"
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>-->
+                android:layout_height="wrap_content">
+            </com.jaeger.ninegridimageview.NineGridImageView>
+
 
 
 
@@ -178,7 +119,4 @@
 
 
     </android.support.v4.widget.NestedScrollView>
-
-
-
 </LinearLayout>

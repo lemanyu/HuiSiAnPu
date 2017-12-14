@@ -1,6 +1,5 @@
 package com.hsap.huisianpu.base;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,10 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hsap.huisianpu.R;
-import com.hsap.huisianpu.push.PushActivity;
 import com.hsap.huisianpu.utils.ActivityManagerUtils;
-import com.tencent.android.tpush.XGPushClickedResult;
-import com.tencent.android.tpush.XGPushManager;
 
 import java.lang.reflect.Field;
 
@@ -28,6 +24,7 @@ public abstract class BaseBackActivity extends AppCompatActivity implements Slid
         initSlideBackClose();
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         ActivityManagerUtils.getInstance().addActivity(this);
         setContentView(getLayoutId());
         ButterKnife.bind(this);

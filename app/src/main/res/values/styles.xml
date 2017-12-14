@@ -43,6 +43,13 @@
        <item name="android:radius">@dimen/flat</item>  radius for corners of the toast shape
        <item name="android:alpha">255</item>   value between 0-255 where 255 is full solid
    </style>
+    <style name="ImageBrowseTransitionTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
+    </style>
+
     <style name="MyTest">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/black</item>

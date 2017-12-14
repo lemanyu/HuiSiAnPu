@@ -1,15 +1,12 @@
 package com.hsap.huisianpu.activity;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -38,7 +35,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 考勤统计
@@ -170,19 +166,4 @@ public class WorkAttendanceActivity extends BaseBackActivity {
         micWorkAttendance.setNavigator(navigator);
         ViewPagerHelper.bind(micWorkAttendance, vpWorkAttendance);
     }
-    private DatePicker findDatePicker(ViewGroup group) {
-                 if (group != null) {
-                         for (int i = 0, j = group.getChildCount(); i < j; i++) {
-                                 View child = group.getChildAt(i);
-                               if (child instanceof DatePicker) {
-                                     return (DatePicker) child;
-                                    } else if (child instanceof ViewGroup) {
-                    DatePicker result = findDatePicker((ViewGroup) child);
-                                         if (result != null)
-                                                 return result;
-                                    }
-                             }
-                     }
-        return null;
-             }
 }

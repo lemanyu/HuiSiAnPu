@@ -1,7 +1,6 @@
 package com.hsap.huisianpu.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,7 +25,6 @@ import com.lzy.okgo.model.Response;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 选择陪同人
@@ -136,10 +134,4 @@ public class ChooseAccompanyActivity extends BaseBackActivity {
          }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

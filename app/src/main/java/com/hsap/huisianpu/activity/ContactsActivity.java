@@ -3,7 +3,6 @@ package com.hsap.huisianpu.activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 选择邀请人页面
@@ -134,12 +132,6 @@ public class ContactsActivity extends BaseBackActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     public List<Bean> getContacts(LoadingDailog dailog) {
         ContentResolver cr = getContentResolver();

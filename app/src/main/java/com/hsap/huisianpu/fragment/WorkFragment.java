@@ -281,6 +281,7 @@ public class WorkFragment extends BaseFragment {
                     case 5:
                         startActivity(new Intent(mActivity, WorkCarActivity.class));
                         break;
+                        default:
                 }
             }
         });
@@ -311,7 +312,30 @@ public class WorkFragment extends BaseFragment {
                         startActivity(new Intent(mActivity, WorkMonthNewPaperActivity.class));
                         break;
                     case 3:
-                        startActivity(new Intent(mActivity, WorkCheckReportActivity.class));
+                        获取权限中.show();
+                        OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                                params("id", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
+                                execute(new StringCallback() {
+                                    @Override
+                                    public void onSuccess(Response<String> response) {
+                                        获取权限中.dismiss();
+                                        HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                                        if (bean.isSuccess()) {
+                                            startActivity(new Intent(mActivity, WorkCheckReportActivity.class));
+                                        } else {
+                                            ToastUtils.showToast(mActivity, "您没有权限打开此服务");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Response<String> response) {
+                                        super.onError(response);
+                                        获取权限中.dismiss();
+                                        ToastUtils.showToast(mActivity, "您没有权限打开此服务");
+
+                                    }
+                                });
+
                         break;
                     case 4:
                         startActivity(new Intent(mActivity, WorkSummaryActivity.class));
@@ -340,6 +364,7 @@ public class WorkFragment extends BaseFragment {
                         startActivity(new Intent(mActivity, WorkSeeProjectActivity.class));
 
                         break;
+                        default:
                 }
             }
         });

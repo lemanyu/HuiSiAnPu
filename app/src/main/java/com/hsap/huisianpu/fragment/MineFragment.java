@@ -71,11 +71,11 @@ public class MineFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(mineToolbar);
         list = new ArrayList<>();
         list.add(new Bean("我的信息", R.drawable.wodexinxi));
-        list.add(new Bean("我的邀请", R.drawable.wodeyaoqing));
+        list.add(new Bean("我的外勤",R.drawable.wodekaoqin));
         list.add(new Bean("我的汇报", R.drawable.wodehuibao));
         list.add(new Bean("我的审批", R.drawable.wodeshenpi));
         list.add(new Bean("我的项目",R.drawable.wodexiangmu));
-        list.add(new Bean("我的外勤",R.drawable.wodekaoqin));
+        list.add(new Bean("我的邀请", R.drawable.wodeyaoqing));
     }
 
 
@@ -91,7 +91,7 @@ public class MineFragment extends BaseFragment {
                     case 0:
                         startActivity(new Intent(mActivity, MineInfoActivity.class));
                         break;
-                    case 1:
+                    case 5:
                         startActivity(new Intent(mActivity, MineInviteActivity.class));
                         break;
                     case 2:
@@ -103,9 +103,10 @@ public class MineFragment extends BaseFragment {
                     case 4:
                         startActivity(new Intent(mActivity, MineProjectActivity.class));
                         break;
-                    case 5:
+                    case 1:
                         startActivity(new Intent(mActivity, MineOutDoorActivity.class));
                         break;
+                        default:
                 }
             }
         });

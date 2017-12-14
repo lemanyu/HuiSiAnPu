@@ -2,7 +2,6 @@ package com.hsap.huisianpu.activity;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 我的审批
@@ -112,10 +110,5 @@ public class MineApprovalActivity extends BaseBackActivity {
         ViewPagerHelper.bind(micMineApproval,vpMineApproval);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

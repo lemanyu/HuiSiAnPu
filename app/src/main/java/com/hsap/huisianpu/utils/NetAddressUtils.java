@@ -38,4 +38,5 @@ public class NetAddressUtils {
     public static String addNotice=url+"Notice/addNotice";
     public static String selectAllNotice=url+"Notice/selectAllNotice";
     public static String deleteNotice=url+"Notice/deleteNotice";
+    public static String getPhoto=url+"images/";
 }

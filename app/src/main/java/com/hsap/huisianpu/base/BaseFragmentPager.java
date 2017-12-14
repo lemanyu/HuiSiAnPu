@@ -26,6 +26,7 @@ public abstract class BaseFragmentPager extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = (FragmentActivity) getActivity();
+
     }
 
 
@@ -68,4 +69,5 @@ public abstract class BaseFragmentPager extends Fragment {
     public abstract View initView();
     public abstract void initData();
     public abstract void initListener();
+
 }

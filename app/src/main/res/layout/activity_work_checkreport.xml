@@ -21,10 +21,33 @@
                 android:background="@drawable/back"
                 android:layout_height="25dp" />
             <TextView
+                android:id="@+id/tv_work_checkreport"
                 android:textSize="20sp"
                 android:layout_gravity="center_horizontal"
-                android:text="查看汇报"
+                android:text="查看日报"
                 style="@style/CommonText" />
+            <LinearLayout
+                android:id="@+id/ll_checkreport_time"
+                android:layout_gravity="right"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_checkreport_time"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:textColor="@color/text_blue"
+                    android:text="2017.8.05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:background="@drawable/down"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+            </LinearLayout>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
      <net.lucode.hackware.magicindicator.MagicIndicator

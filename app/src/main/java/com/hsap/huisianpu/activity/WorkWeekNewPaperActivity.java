@@ -3,9 +3,12 @@ package com.hsap.huisianpu.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -13,7 +16,7 @@ import android.widget.ImageButton;
 import com.android.tu.loadingdialog.LoadingDailog;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
-import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
+import com.hsap.huisianpu.adapter.CheckPhotoAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
 import com.hsap.huisianpu.bean.ReportFormStateBean;
@@ -21,10 +24,21 @@ import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.hsap.huisianpu.view.MyGridView;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.yanzhenjie.album.Action;
+import com.yanzhenjie.album.Album;
+import com.yanzhenjie.album.AlbumFile;
+import com.yanzhenjie.album.api.widget.Widget;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,14 +60,19 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
     EditText etWeekPlanNext;
     @BindView(R.id.et_week_coordination_work)
     EditText etWeekCoordinationWork;
- /*   @BindView(R.id.gv_work_week)
-    MyGridView gvWorkWeek;*/
-    private ApproveGridViewAdapter adapter;
+    @BindView(R.id.et_week_work_content)
+    EditText etWeekWorkContent;
+    @BindView(R.id.day_photo)
+    MyGridView dayPhoto;
+    /*   @BindView(R.id.gv_work_week)
+       MyGridView gvWorkWeek;*/
     private List<Bean> list = new ArrayList<>();//设置adapter的内容
     private List<Integer> idList = new ArrayList<>();//存放 审批人的id
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
-
+    private ArrayList<AlbumFile> mImageList=new ArrayList<>();
+    private CheckPhotoAdapter adapter;
+    private int number=9;
     @Override
     public int getLayoutId() {
         return R.layout.activity_work_week;
@@ -61,7 +80,20 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
 
     @Override
     public void initView() {
-        adapter=new ApproveGridViewAdapter(this,list);
+        adapter=new CheckPhotoAdapter(this,mImageList);
+        dayPhoto.setAdapter(adapter);
+        dayPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i==mImageList.size()){
+                    permission();
+                }else {
+                    number++;
+                    mImageList.remove(i);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
         /*gvWorkWeek.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvWorkWeek.setAdapter(adapter);
         gvWorkWeek.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,7 +112,63 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
         });
 */
     }
+    private void permission() {
+        AndPermission.with(this).
+                requestCode(100).
+                permission(Permission.CAMERA,Permission.STORAGE).
+                callback(permissionListener).
+                rationale(rationaleListener).start();
+    }
 
+
+    private PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+            switch (requestCode) {
+                case 100:
+                    Widget 选择图片 = Widget.newDarkBuilder(WorkWeekNewPaperActivity.this)
+                            .title("请选择图片")
+                            .statusBarColor(Color.parseColor("#303F9F"))
+                            .toolBarColor(Color.parseColor("#1296db"))
+                            .navigationBarColor(Color.parseColor("#1296db"))
+                            .mediaItemCheckSelector(Color.WHITE, Color.parseColor("#1296db"))
+                            .build();
+                    Album.image(WorkWeekNewPaperActivity.this).multipleChoice().requestCode(200).
+                            widget(选择图片).selectCount(number).
+                            camera(true).columnCount(3).
+                            onResult(new Action<ArrayList<AlbumFile>>() {
+                                @Override
+                                public void onAction(int requestCode, @NonNull ArrayList<AlbumFile> result) {
+                                    if (requestCode==200){
+                                        number=number-result.size();
+                                        mImageList.addAll(result);
+                                        adapter.notifyDataSetChanged();
+                                    }
+
+                                }
+                            }).start();
+
+
+                    break;
+                default:
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+            ToastUtils.showToast(getApplicationContext(), "请到设置-权限管理中开启");
+            if (AndPermission.hasAlwaysDeniedPermission(getApplicationContext(), deniedPermissions)) {
+                // 第一种：用默认的提示语。
+                AndPermission.defaultSettingDialog(WorkWeekNewPaperActivity.this, 100).show();
+            }
+        }
+    };
+    private RationaleListener rationaleListener = new RationaleListener() {
+        @Override
+        public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
+            AndPermission.rationaleDialog(getApplicationContext(), rationale).show();
+        }
+    };
     @Override
     public void initData() {
 
@@ -104,10 +192,10 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==100){
-            if(resultCode==101){
+        if (requestCode == 100) {
+            if (resultCode == 101) {
                 String name = data.getStringExtra("name");
-                int id = data.getIntExtra("id",0);
+                int id = data.getIntExtra("id", 0);
                 Bean bean = new Bean();
                 bean.setName(name);
                 bean.setPic(color[(int) (Math.random() * 6)]);
@@ -119,6 +207,10 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
     }
 
     private void commit() {
+        if(TextUtils.isEmpty(etWeekWorkContent.getText().toString().trim())){
+            ToastUtils.showToast(this, "请填写本周完成工作信息");
+            return;
+        }
         if (TextUtils.isEmpty(etWeekWorkSummary.getText().toString().trim())) {
             ToastUtils.showToast(this, "请填写工作总结信息");
             return;
@@ -129,10 +221,6 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
         }
         if (TextUtils.isEmpty(etWeekCoordinationWork.getText().toString().trim())) {
             ToastUtils.showToast(this, "请填写协调工作信息");
-            return;
-        }
-        if(idList.size()==0){
-            ToastUtils.showToast(this,"请选择发给谁");
             return;
         }
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -150,20 +238,25 @@ public class WorkWeekNewPaperActivity extends BaseBackActivity {
                     public void onSuccess(Response<String> response) {
                         ReportFormStateBean bean = new Gson().fromJson(response.body().toString(), ReportFormStateBean.class);
                         if (bean.isSuccess()) {
+                            ArrayList<File> fileArrayList = new ArrayList<>();
+                            for(int i=0;i<mImageList.size();i++){
+                                fileArrayList.add(new File(mImageList.get(i).getPath()));
+                            }
                             OkGo.<String>post(NetAddressUtils.setReportForm).
                                     params("id", SpUtils.getInt(ConstantUtils.UserId, WorkWeekNewPaperActivity.this)).
-                                    params("ids",new Gson().toJson(idList)).
                                     params("type", 1).
-                                    params("finishWork", etWeekWorkSummary.getText().toString().trim()).
+                                    params("finishWork", etWeekWorkContent.getText().toString().trim()).
                                     params("workPlay", etWeekPlanNext.getText().toString().trim()).
-                                    params("summary", etWeekCoordinationWork.getText().toString().trim()).
-                                    params("activity","com.hsap.huisianpu.push.PushWeekActivity").
+                                    params("summary", etWeekWorkSummary.getText().toString().trim()).
+                                    params("coordinateWork",etWeekCoordinationWork.getText().toString().trim()).
+                                    params("activity", "com.hsap.huisianpu.push.PushWeekActivity").
+                                    addFileParams("files",fileArrayList).
                                     execute(new StringCallback() {
                                         @Override
                                         public void onSuccess(Response<String> response) {
                                             提交中.dismiss();
                                             ToastUtils.showToast(WorkWeekNewPaperActivity.this, "提交成功");
-                                            finish();
+
                                         }
 
                                         @Override

@@ -47,6 +47,27 @@
                  android:textSize="18sp"
                  android:textStyle="bold"
                  android:layout_margin="5dp"
+                 android:text="本周完成工作："
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <EditText
+                 android:id="@+id/et_week_work_content"
+                 android:gravity="left|top"
+                 android:minLines="5"
+                 android:inputType="textMultiLine"
+                 android:padding="10dp"
+                 android:hint="请填写文字"
+                 android:background="@null"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+             <View
+                 android:background="@color/linecolor"
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"></View>
+             <TextView
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 android:layout_margin="5dp"
                  android:text="本周工作总结："
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content" />
@@ -106,6 +127,25 @@
                  android:background="@color/linecolor"
                  android:layout_width="match_parent"
                  android:layout_height="2dp"></View>
+             <TextView
+                 android:layout_margin="10dp"
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 style="@style/LeaveText"
+                 android:text="请选择图片(点击可删除):"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+             <com.hsap.huisianpu.view.MyGridView
+                 android:stretchMode="columnWidth"
+                 android:gravity="center_horizontal"
+                 android:id="@+id/day_photo"
+                 android:numColumns="3"
+                 android:columnWidth="100dp"
+                 android:layout_marginLeft="10dp"
+                 android:horizontalSpacing="10dp"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+             </com.hsap.huisianpu.view.MyGridView>
            <!--  <TextView
                  android:layout_margin="5dp"
                  android:textSize="18sp"

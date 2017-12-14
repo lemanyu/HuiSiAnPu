@@ -71,7 +71,6 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
 
     @Override
     public void initListener() {
-
         back.setOnClickListener(this);
         vpWorkProject.setOnPageChangeListener(getListener());
     }
@@ -106,6 +105,7 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
         list.add("全部项目");list.add("进行项目");list.add("完成项目");list.add("等待上传");list.add("等待审核");
         micWorkProject.setBackgroundColor(Color.WHITE);
         CommonNavigator navigator = new CommonNavigator(this);
+        navigator.setAdjustMode(true);
         navigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
