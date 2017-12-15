@@ -141,7 +141,7 @@ public class MineReportActivity extends BaseBackActivity {
                        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                            EventBus.getDefault().post(new EventDate(i,i1+1,i2));
                            int a=i1+1;
-                           tvCheckreportTime.setText(i+"."+a);
+                           tvCheckreportTime.setText(i+"-"+a);
                        }
                    },year,month,day);
                    dialog.show();

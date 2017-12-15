@@ -10,8 +10,8 @@ public class PushAnnouncenBean {
      * name : 王二
      * id : 16
      * state : false
-     * type : 7
-     * content : 吧
+     * type : 1
+     * content :吧
      */
 
     private String name;

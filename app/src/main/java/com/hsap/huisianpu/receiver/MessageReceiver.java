@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.hsap.huisianpu.push.PushWeekActivity;
+import com.hsap.huisianpu.service.DataServer;
 import com.hsap.huisianpu.service.ForceOfflineService;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
@@ -27,6 +28,12 @@ public class MessageReceiver extends XGPushBaseReceiver {
                                           XGPushShowedResult notifiShowedRlt) {
         Log.d(TAG, "onNotifactionShowedResult: "+context);
         Log.d(TAG, "onNotifactionShowedResult: "+notifiShowedRlt);
+        Intent intent = new Intent(context, DataServer.class);
+
+        intent.putExtra("title",notifiShowedRlt.getTitle());
+        intent.putExtra("content",notifiShowedRlt.getContent());
+        intent.putExtra("customContent",notifiShowedRlt.getCustomContent());
+        context.getApplicationContext().startService(intent);
         if (context == null || notifiShowedRlt == null) {
             Log.d(TAG, "onNotifactionShowedResult: return");
             return;

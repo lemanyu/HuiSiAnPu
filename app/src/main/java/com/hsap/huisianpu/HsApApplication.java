@@ -14,6 +14,8 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
 
+import org.litepal.LitePal;
+
 import java.util.Locale;
 import java.util.logging.Level;
 
@@ -27,6 +29,7 @@ public class HsApApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LitePal.initialize(this);
         initOkGo();
         initXGPush();
         Album.initialize(

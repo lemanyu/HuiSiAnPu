@@ -1,30 +1,37 @@
 package com.hsap.huisianpu.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.android.tu.loadingdialog.LoadingDailog;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.activity.AnnouncementActivity;
@@ -50,6 +57,7 @@ import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.AllGongGaoBean;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.bean.FalseBean;
 import com.hsap.huisianpu.bean.HavePermissionBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
@@ -63,6 +71,11 @@ import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
+import com.zhy.android.percent.support.PercentLinearLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +83,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Created by zhao on 2017/11/15.
@@ -102,14 +117,33 @@ public class WorkFragment extends BaseFragment {
                 // 广告
                 case 0:
                     tvNotice.setText(titleList.get(mSwitcherCount%titleList.size()));
+                    tvNotice.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mHandler.removeMessages(0);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                            builder.setMessage("通知内容："+titleList.get(mSwitcherCount%titleList.size()-1));
+                            builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    mHandler.sendEmptyMessage(0);
+                                }
+                            });
+                            builder.show();
+                        }
+                    });
+
                     mSwitcherCount++;
-                    mHandler.sendEmptyMessageDelayed(0, 5000);
+                    mHandler.sendEmptyMessageDelayed(0, 4000);
                     break;
                     default:
             }
 
         }
     };
+    private Badge badge;
+    private MyAdapter adapter;
+
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.fragment_work, null);
@@ -159,7 +193,6 @@ public class WorkFragment extends BaseFragment {
                         titleList.clear();
                         AllGongGaoBean bean = new Gson().fromJson(response.body().toString(), AllGongGaoBean.class);
                         for (int i = 0; i < bean.getData().size(); i++) {
-                            Log.e(TAG, "onSuccess: "+bean.getData().get(i).getNoticeBody());
                             titleList.add(bean.getData().get(i).getNoticeBody());
                         }
                         mHandler.sendEmptyMessage(0);
@@ -180,15 +213,6 @@ public class WorkFragment extends BaseFragment {
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 200) {
-            if (resultCode == Activity.RESULT_FIRST_USER) {
-                dataFormNet();
-            }
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -203,7 +227,7 @@ public class WorkFragment extends BaseFragment {
                                 HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
                                 获取权限中.dismiss();
                                 if (bean.isSuccess()) {
-                                    startActivityForResult(new Intent(mActivity, AnnouncementActivity.class), Activity.RESULT_FIRST_USER);
+                                    startActivity(new Intent(mActivity, AnnouncementActivity.class));
                                 } else {
                                     ToastUtils.showToast(mActivity, "您没有权限打开此服务");
                                 }
@@ -362,7 +386,6 @@ public class WorkFragment extends BaseFragment {
                         break;
                     case 1:
                         startActivity(new Intent(mActivity, WorkSeeProjectActivity.class));
-
                         break;
                         default:
                 }
@@ -378,8 +401,13 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("修改权限", R.drawable.xiugaiquanxian));
         list.add(new Bean("邀请注册", R.drawable.yaoqingzhuce));
         statistics.setLayoutManager(new GridLayoutManager(mActivity, 4));
-        WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
-        statistics.setAdapter(adapter);
+        if(adapter==null){
+            adapter = new MyAdapter(R.layout.item_work, list);
+            statistics.setAdapter(adapter);
+        }else {
+            adapter.notifyDataSetChanged();
+        }
+
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -577,5 +605,59 @@ public class WorkFragment extends BaseFragment {
             AndPermission.rationaleDialog(mActivity, rationale).show();
         }
     };
+   class MyAdapter extends BaseQuickAdapter<Bean,MyAdapter.MyViewHolder>{
 
+       public MyAdapter(int layoutResId, @Nullable List<Bean> data) {
+           super(layoutResId, data);
+       }
+
+       @Override
+       protected void convert(MyViewHolder holder, Bean item) {
+           if (holder.getAdapterPosition()==1){
+               holder.badge.setBadgeNumber(SpUtils.getInt(ConstantUtils.Approve,mActivity)).setShowShadow(true)
+                       .setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
+                           @Override
+                           public void onDragStateChanged(int dragState, Badge badge, View targetView) {
+
+                           }
+                       });
+
+           }else {
+               holder.badge.setBadgeNumber(0).setShowShadow(true);
+           }
+           holder.work_tv.setText(item.getName());
+           Glide.with(mContext).load(item.getPic()).into((ImageView) holder.getView(R.id.work_iv));
+       }
+       class MyViewHolder extends BaseViewHolder{
+           private final PercentLinearLayout pll_work;
+           private final TextView work_tv;
+           private final Badge badge;
+           public MyViewHolder(View view) {
+               super(view);
+               pll_work=view.findViewById(R.id.pll_work);
+               work_tv=view.findViewById(R.id.work_tv);
+               badge= new QBadgeView(mActivity).bindTarget(pll_work);
+               badge.setBadgeGravity(Gravity.END|Gravity.TOP)
+                       .setBadgeTextSize(14, true);
+           }
+
+       }
+   }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFalse(FalseBean event) {
+        dataFormNet();
+       initStatistics();
+    }
 }

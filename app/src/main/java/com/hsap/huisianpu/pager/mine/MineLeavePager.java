@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
+import com.hsap.huisianpu.bean.EventDate;
 import com.hsap.huisianpu.bean.MineLeaveBean;
 import com.hsap.huisianpu.details.DetailsMineTrip;
 import com.hsap.huisianpu.utils.ConstantUtils;
@@ -25,6 +26,11 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,6 +46,7 @@ public class MineLeavePager extends BaseFragmentPager {
     @BindView(R.id.mine_rlv_leave)
     RecyclerView mineRlvLeave;
     Unbinder unbinder;
+    private MyAdapter adapter;
 
     @Override
     public View initView() {
@@ -49,9 +56,15 @@ public class MineLeavePager extends BaseFragmentPager {
 
     @Override
     public void initData() {
+        Calendar instance = Calendar.getInstance();
+        int year = instance.get(Calendar.YEAR);
+        int month = instance.get(Calendar.MONTH) + 1;
+        dataFormNet(year,month);
+    }
+    private void dataFormNet(int year, int month) {
         OkGo.<String>post(NetAddressUtils.selectIntegration).
                 params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
-                params("type",0).
+                params("type",0).params("year",year).params("month",month).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -59,8 +72,14 @@ public class MineLeavePager extends BaseFragmentPager {
                         final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
                         if(bean.isSuccess()){
                             mineRlvLeave.setLayoutManager(new LinearLayoutManager(mActivity));
-                            MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
-                            mineRlvLeave.setAdapter(adapter);
+                            if(adapter==null){
+                                adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
+                                mineRlvLeave.setAdapter(adapter);
+                            }else {
+                                adapter.setNewData(bean.getData());
+                                adapter.notifyDataSetChanged();
+                            }
+
                             adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -107,6 +126,24 @@ public class MineLeavePager extends BaseFragmentPager {
                 helper.setText(R.id.mine_tv_time, "请假时间：" +item.getStartTime().replace("08:30","上午").replace("13:30","下午"));
 
         }
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDate(EventDate event) {
+        Log.e(TAG, "onEventDate: " + event.getYear());
+        Log.e(TAG, "onEventDate: " + event.getMonth());
+        dataFormNet(event.getYear(), event.getMonth());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }

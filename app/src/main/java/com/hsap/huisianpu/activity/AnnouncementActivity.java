@@ -1,6 +1,5 @@
 package com.hsap.huisianpu.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.TextUtils;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import com.android.tu.loadingdialog.LoadingDailog;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.bean.FalseBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
@@ -22,6 +22,8 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.zhy.android.percent.support.PercentLinearLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
@@ -144,7 +146,7 @@ public class AnnouncementActivity extends BaseBackActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        setResult(Activity.RESULT_FIRST_USER);
+        EventBus.getDefault().post(new FalseBean("aa"));
 
     }
 

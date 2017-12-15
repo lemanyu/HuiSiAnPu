@@ -27,6 +27,17 @@
                 android:layout_gravity="center_horizontal"
                 android:text="请假"
                 style="@style/CommonText" />
+            <TextView
+                android:id="@+id/tv_work_approval_zhuangtai"
+                android:visibility="gone"
+                android:layout_marginRight="10dp"
+                android:gravity="center_horizontal"
+                android:textSize="18sp"
+                android:textColor="@color/text_blue"
+                android:text="18sp"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
     <ViewStub

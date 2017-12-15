@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
+import com.hsap.huisianpu.bean.EventDate;
 import com.hsap.huisianpu.bean.MineLeaveBean;
 import com.hsap.huisianpu.details.DetailsMineTrip;
 import com.hsap.huisianpu.utils.ConstantUtils;
@@ -25,6 +26,11 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,37 +55,10 @@ public class MineTripPager extends BaseFragmentPager {
 
     @Override
     public void initData() {
-        OkGo.<String>post(NetAddressUtils.selectIntegration).
-                params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
-                params("type",2).
-                execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        Log.e(TAG, response.body().toString() );
-                        final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
-                        if(bean.isSuccess()){
-                            mineRlvTrip.setLayoutManager(new LinearLayoutManager(mActivity));
-                            MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
-                            mineRlvTrip.setAdapter(adapter);
-                            adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    Intent intent = new Intent(mActivity, DetailsMineTrip.class);
-                                    intent.putExtra("type",2);
-                                    intent.putExtra("workid",bean.getData().get(position).getId());
-                                    startActivity(intent);
-                                }
-                            });
-                        }else {
-                            ToastUtils.showToast(mActivity, "当前没有出差记录");
-                        }
-                }
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        ToastUtils.showToast(mActivity, "当前网络不好");
-                    }
-                });
+        Calendar instance = Calendar.getInstance();
+        int year = instance.get(Calendar.YEAR);
+        int month = instance.get(Calendar.MONTH) + 1;
+        dataFormNet(year,month);
     }
 
     @Override
@@ -111,6 +90,57 @@ public class MineTripPager extends BaseFragmentPager {
         protected void convert(BaseViewHolder helper, MineLeaveBean.DataBean item) {
             helper.setText(R.id.mine_tv_time, "出差时间：" +item.getStartTime().replace("08:30","上午").replace("13:30","下午"));
         }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDate(EventDate event) {
+        Log.e(TAG, "onEventDate: " + event.getYear());
+        Log.e(TAG, "onEventDate: " + event.getMonth());
+        dataFormNet(event.getYear(), event.getMonth());
+    }
 
+    private void dataFormNet(int year, int month) {
+        OkGo.<String>post(NetAddressUtils.selectIntegration).
+                params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
+                params("type",2).params("year",year).params("month",month).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Log.e(TAG, response.body().toString() );
+                        final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
+                        if(bean.isSuccess()){
+                            mineRlvTrip.setLayoutManager(new LinearLayoutManager(mActivity));
+                            MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
+                            mineRlvTrip.setAdapter(adapter);
+                            adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    Intent intent = new Intent(mActivity, DetailsMineTrip.class);
+                                    intent.putExtra("type",2);
+                                    intent.putExtra("workid",bean.getData().get(position).getId());
+                                    startActivity(intent);
+                                }
+                            });
+                        }else {
+                            ToastUtils.showToast(mActivity, "当前没有出差记录");
+                        }
+                    }
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showToast(mActivity, "当前网络不好");
+                    }
+                });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }

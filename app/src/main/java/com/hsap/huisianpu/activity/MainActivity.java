@@ -10,24 +10,34 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.bean.Bean;
 import com.hsap.huisianpu.fragment.MineFragment;
 import com.hsap.huisianpu.fragment.NewsFragment;
 import com.hsap.huisianpu.fragment.WorkFragment;
 import com.hsap.huisianpu.utils.ActivityManagerUtils;
+import com.hsap.huisianpu.utils.ConstantUtils;
+import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.NotificationsUtils;
+import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
+    private static final String TAG = "MainActivity";
     @BindView(R.id.rb_news)
     RadioButton rbNews;
     @BindView(R.id.rb_work)
@@ -49,6 +59,18 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ActivityManagerUtils.getInstance().addActivity(this);
+        OkGo.<String>post(NetAddressUtils.url+"getNoAuditSize").
+                params("id", SpUtils.getInt(ConstantUtils.UserId,this)).
+                execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                Log.e(TAG, "onSuccess: "+response.body().toString() );
+                Bean bean = new Gson().fromJson(response.body().toString(), Bean.class);
+                bean.getData();
+                Log.e(TAG, "onSuccess: "+bean.getData());
+                SpUtils.putInt(ConstantUtils.Approve,bean.getData(),MainActivity.this);
+            }
+        });
         initView();
         boolean notificationEnabled = NotificationsUtils.isNotificationEnabled(this);
         if(!notificationEnabled){
@@ -118,27 +140,28 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 if (nf == null) {
                     nf = new NewsFragment();
                     ft.add(R.id.fl_main, nf);
-                } else ft.show(nf);
+                } else {ft.show(nf);}
                 break;
             case R.id.rb_work:
                 if (wf == null) {
                     wf = new WorkFragment();
                     ft.add(R.id.fl_main, wf);
-                } else ft.show(wf);
+                } else {ft.show(wf);}
                 break;
             case R.id.rb_mine:
                 if (mf == null) {
                     mf = new MineFragment();
                     ft.add(R.id.fl_main, mf);
-                } else ft.show(mf);
+                } else {ft.show(mf);}
                 break;
+                default:
         }
         ft.commit();
     }
     private void hideAllFragment(FragmentTransaction ft) {
-        if (nf != null) ft.hide(nf);
-        if (wf != null) ft.hide(wf);
-        if (mf != null) ft.hide(mf);
+        if (nf != null) {ft.hide(nf);}
+        if (wf != null) {ft.hide(wf);}
+        if (mf != null){ft.hide(mf);}
     }
 
     @Override

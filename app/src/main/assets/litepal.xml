@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="hsap" />
+    <version value="2" />
+
+    <!--
+    	Define your models in the list with mapping tag, LitePal will
+    	create tables for each mapping class. The supported fields
+    	defined in models will be mapped into columns.
+    	For example:
+    	<list>
+    		<mapping class="com.test.model.Reader" />
+    		<mapping class="com.test.model.Magazine" />
+    	</list>
+    -->
+       <mapping class="com.hsap.huisianpu.bean.DataBean"/>
+    <list>
+    </list>
+    <storage value="external" />
+</litepal>

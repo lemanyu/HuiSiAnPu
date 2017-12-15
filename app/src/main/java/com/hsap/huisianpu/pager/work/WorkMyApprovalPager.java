@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.bean.ApprovalBean;
+import com.hsap.huisianpu.bean.FalseBean;
 import com.hsap.huisianpu.details.DetailsWorkApproval;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
@@ -23,6 +24,10 @@ import com.hsap.huisianpu.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -39,6 +44,7 @@ public class WorkMyApprovalPager extends BaseFragmentPager {
     @BindView(R.id.rlv_work_my_approval)
     RecyclerView rlvWorkMyApproval;
     Unbinder unbinder;
+    private MyAdapter adapter;
 
     @Override
     public View initView() {
@@ -58,8 +64,14 @@ public class WorkMyApprovalPager extends BaseFragmentPager {
                         if (bean.isSuccess()){
                             if (!(bean.getData()==null&&bean.getData().size()==0)){
                                 rlvWorkMyApproval.setLayoutManager(new LinearLayoutManager(mActivity));
-                                MyAdapter adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
-                                rlvWorkMyApproval.setAdapter(adapter);
+                                if(adapter==null){
+                                    adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
+                                    rlvWorkMyApproval.setAdapter(adapter);
+                                }else {
+                                    adapter.setNewData(bean.getData());
+                                    adapter.notifyDataSetChanged();
+                                }
+
                                 adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -87,6 +99,22 @@ public class WorkMyApprovalPager extends BaseFragmentPager {
                     }
 
                 });
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFalse(FalseBean event) {
+         initData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

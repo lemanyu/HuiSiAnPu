@@ -13,6 +13,18 @@ public class Bean implements Parcelable {
     private  String number;
 
     private boolean select;
+    /**
+     * code : 200
+     * msg : null
+     * success : true
+     * data : 39
+     */
+
+    private int code;
+    private Object msg;
+    private boolean success;
+    private int data;
+
     public Bean(String name, int pic){
         this.name=name;
         this.pic=pic;
@@ -20,6 +32,18 @@ public class Bean implements Parcelable {
     public Bean(){
 
     }
+
+    public static final Creator<Bean> CREATOR = new Creator<Bean>() {
+        @Override
+        public Bean createFromParcel(Parcel in) {
+            return new Bean(in);
+        }
+
+        @Override
+        public Bean[] newArray(int size) {
+            return new Bean[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -64,4 +88,35 @@ public class Bean implements Parcelable {
         this.select = in.readByte() != 0;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public Object getMsg() {
+        return msg;
+    }
+
+    public void setMsg(Object msg) {
+        this.msg = msg;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
 }

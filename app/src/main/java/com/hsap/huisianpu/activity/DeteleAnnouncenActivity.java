@@ -1,6 +1,5 @@
 package com.hsap.huisianpu.activity;
 
-import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.AllGongGaoBean;
+import com.hsap.huisianpu.bean.FalseBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
@@ -24,6 +24,8 @@ import com.hsap.huisianpu.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -164,7 +166,8 @@ public class DeteleAnnouncenActivity extends BaseBackActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        setResult(Activity.RESULT_FIRST_USER);
+        EventBus.getDefault().post(new FalseBean("aa"));
+
     }
 
     class MyAdapter extends BaseAdapter{

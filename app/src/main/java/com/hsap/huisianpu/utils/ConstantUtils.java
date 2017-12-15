@@ -8,4 +8,6 @@ public class ConstantUtils {
     public static String Login="login";
     public static String UserId="userid";
     public static String Username="username";
+    public static String Approve="approve";
+
 }

@@ -39,4 +39,5 @@ public class NetAddressUtils {
     public static String selectAllNotice=url+"Notice/selectAllNotice";
     public static String deleteNotice=url+"Notice/deleteNotice";
     public static String getPhoto=url+"images/";
+    public static String setAudit=url+"setAudit";//审批
 }

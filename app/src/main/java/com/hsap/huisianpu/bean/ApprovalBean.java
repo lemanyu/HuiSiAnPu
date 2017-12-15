@@ -44,6 +44,15 @@ public class ApprovalBean {
         private int projectId;
         private int type;
         private Object managerId;
+
+        public int getOpinion() {
+            return opinion;
+        }
+
+        public void setOpinion(int opinion) {
+            this.opinion = opinion;
+        }
+
         private int opinion;
         private Object date;
         private CreateTimeBean createTime;
@@ -96,6 +105,23 @@ public class ApprovalBean {
             private int second;
             private int monthValue;
             private ChronologyBean chronology;
+
+            @Override
+            public String toString() {
+                return "CreateTimeBean{" +
+                        "month='" + month + '\'' +
+                        ", year=" + year +
+                        ", dayOfMonth=" + dayOfMonth +
+                        ", dayOfWeek='" + dayOfWeek + '\'' +
+                        ", dayOfYear=" + dayOfYear +
+                        ", hour=" + hour +
+                        ", minute=" + minute +
+                        ", nano=" + nano +
+                        ", second=" + second +
+                        ", monthValue=" + monthValue +
+                        ", chronology=" + chronology +
+                        '}';
+            }
 
             public String getMonth() {
                 return month;
@@ -210,6 +236,20 @@ public class ApprovalBean {
                     this.calendarType = calendarType;
                 }
             }
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "projectId=" + projectId +
+                    ", type=" + type +
+                    ", managerId=" + managerId +
+                    ", opinion=" + opinion +
+                    ", date=" + date +
+                    ", createTime=" + createTime +
+                    ", name='" + name + '\'' +
+                    ", typeName='" + typeName + '\'' +
+                    '}';
         }
     }
 }

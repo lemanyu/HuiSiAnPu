@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
+import com.hsap.huisianpu.bean.EventDate;
 import com.hsap.huisianpu.bean.MineLeaveBean;
 import com.hsap.huisianpu.details.DetailsMineTrip;
 import com.hsap.huisianpu.utils.ConstantUtils;
@@ -24,6 +25,11 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,32 +53,10 @@ public class MineoverTimePager extends BaseFragmentPager {
 
     @Override
     public void initData() {
-        OkGo.<String>post(NetAddressUtils.selectIntegration).
-                params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
-                params("type",3).
-                execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-
-                        final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
-                        if(bean.isSuccess()){
-                            mineRlvOvertime.setLayoutManager(new LinearLayoutManager(mActivity));
-                            MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
-                            mineRlvOvertime.setAdapter(adapter);
-                            adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    Intent intent = new Intent(mActivity, DetailsMineTrip.class);
-                                    intent.putExtra("type",3);
-                                    intent.putExtra("workid",bean.getData().get(position).getId());
-                                    startActivity(intent);
-                                }
-                            });
-                        }else {
-                            ToastUtils.showToast(mActivity,"当前没有请假数据");
-                        }
-                    }
-                });
+        Calendar instance = Calendar.getInstance();
+        int year = instance.get(Calendar.YEAR);
+        int month = instance.get(Calendar.MONTH) + 1;
+        dataFormNet(year,month);
     }
 
     @Override
@@ -104,7 +88,50 @@ public class MineoverTimePager extends BaseFragmentPager {
             helper.setText(R.id.mine_tv_time, "加班时间：" +
                     item.getStartTime());
         }
-
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDate(EventDate event) {
+        dataFormNet(event.getYear(), event.getMonth());
     }
 
+    private void dataFormNet(int year, int month) {
+        OkGo.<String>post(NetAddressUtils.selectIntegration).
+                params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
+                params("type",3).params("year",year).params("month",month).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                        final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
+                        if(bean.isSuccess()){
+                            mineRlvOvertime.setLayoutManager(new LinearLayoutManager(mActivity));
+                            MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
+                            mineRlvOvertime.setAdapter(adapter);
+                            adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    Intent intent = new Intent(mActivity, DetailsMineTrip.class);
+                                    intent.putExtra("type",3);
+                                    intent.putExtra("workid",bean.getData().get(position).getId());
+                                    startActivity(intent);
+                                }
+                            });
+                        }else {
+                            ToastUtils.showToast(mActivity,"当前没有请假数据");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
 }

@@ -27,12 +27,23 @@
                 android:text="我的出差"
                 style="@style/CommonText" />
             <Button
+                android:textColor="@color/text_blue"
                 android:visibility="gone"
                 android:id="@+id/bt_details_finish"
                 android:textSize="18sp"
                 android:layout_gravity="right"
                 android:background="@null"
                 android:text="完成"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:textColor="@color/text_blue"
+                android:id="@+id/bt_details_wancheng"
+                android:visibility="gone"
+                android:textSize="18sp"
+                android:layout_gravity="right"
+                android:background="@null"
+                android:text="已完成"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
@@ -70,6 +81,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <Button
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/text_blue"
                     android:visibility="gone"
                     android:id="@+id/details_bt_cancel"
                     android:textStyle="bold"

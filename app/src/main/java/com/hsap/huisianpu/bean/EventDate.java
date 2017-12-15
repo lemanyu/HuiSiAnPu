@@ -13,7 +13,10 @@ public class EventDate {
          this.month=month;
          this.day=day;
      }
-
+    public EventDate(int year,int month){
+        this.year=year;
+        this.month=month;
+    }
     public int getYear() {
         return year;
     }

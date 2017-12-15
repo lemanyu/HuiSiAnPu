@@ -252,7 +252,7 @@
             android:name="XG_V2_ACCESS_KEY"
             android:value="A1T277UVH5JP" />
 
-
+        <service android:name=".service.DataServer"></service>
 
 
 

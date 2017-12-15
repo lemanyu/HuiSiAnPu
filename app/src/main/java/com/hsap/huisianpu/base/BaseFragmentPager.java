@@ -42,7 +42,8 @@ public abstract class BaseFragmentPager extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         isViewCreated = true;
         lazyLoad();
-
+        initData();
+        initListener();
     }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -57,8 +58,8 @@ public abstract class BaseFragmentPager extends Fragment {
 
     private void lazyLoad() {
         if (isViewCreated && isUIVisible) {
-            initData();
-            initListener();
+            //initData();
+           // initListener();
             //数据加载完毕,恢复标记,防止重复加载
             isViewCreated = false;
             isUIVisible = false;
