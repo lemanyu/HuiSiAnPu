@@ -169,7 +169,7 @@
 
 
 
-             >
+
 
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
@@ -237,7 +237,6 @@
             android:name="com.tencent.android.tpush.SettingsContentProvider"
             android:authorities="com.hsap.huisianpu.TPUSH_PROVIDER"
             android:exported="false" />
-
         <provider
             android:name="com.tencent.mid.api.MidProvider"
             android:authorities="com.hsap.huisianpu.TENCENT.MID.V3"

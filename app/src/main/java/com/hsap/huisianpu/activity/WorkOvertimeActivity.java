@@ -25,6 +25,7 @@ import com.hsap.huisianpu.adapter.AccompanyGvidViewAdapter;
 import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.bean.PushTripBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
@@ -68,6 +69,8 @@ public class WorkOvertimeActivity extends BaseBackActivity {
     StringBuilder endTime = new StringBuilder();
     @BindView(R.id.gv_overtime_person)
     MyGridView gvOvertimePerson;
+    @BindView(R.id.bt_leave_again)
+    Button btLeaveAgain;
     /*@BindView(R.id.gv_overtime)
     MyGridView gvOvertime;*/
     private StringBuffer Pm = new StringBuffer();//下午
@@ -106,7 +109,6 @@ public class WorkOvertimeActivity extends BaseBackActivity {
                 }
             }
         });
-
         adapter = new ApproveGridViewAdapter(this, list);
        /* gvOvertime.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvOvertime.setAdapter(adapter);
@@ -129,13 +131,71 @@ public class WorkOvertimeActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
+        int id = getIntent().getIntExtra("id", 0);
+        int state = getIntent().getIntExtra("state", 0);
+        if (state == 1) {
+            LoadingDailog 获取数据中 = ToastUtils.showDailog(this, "获取数据中");
+            获取数据中.show();
+            btOvertimeCommit.setVisibility(View.GONE);
+            btLeaveAgain.setVisibility(View.VISIBLE);
+            dataFormNet(id, 获取数据中);
+        } else {
+            btOvertimeCommit.setVisibility(View.VISIBLE);
+            btLeaveAgain.setVisibility(View.GONE);
+        }
+    }
 
+    private void dataFormNet(int id, final LoadingDailog 获取数据中) {
+        OkGo.<String>post(NetAddressUtils.selectOneIntergration).
+                params("id", id).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
+                        if (bean.isSuccess()) {
+                            获取数据中.dismiss();
+                            tvOvertimeBegin.setText(
+                                    bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
+                                            bean.getData().getWaIntegration().getStartTime().getMonthValue() + "-"
+                                            + bean.getData().getWaIntegration().getStartTime().getDayOfMonth() + " " +
+                                            bean.getData().getWaIntegration().getStartTime().getHour() + ":" +
+                                            bean.getData().getWaIntegration().getStartTime().getMinute());
+                            tvOvertimeEnd.setText(bean.getData().getWaIntegration().getEndTime().getYear() + "-" +
+                                    bean.getData().getWaIntegration().getEndTime().getMonthValue() + "-"
+                                    + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
+                                    bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
+                                    bean.getData().getWaIntegration().getEndTime().getMinute());
+                            etOvertimeCause.setText(bean.getData().getWaIntegration().getReason());
+                            if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
+                                for (int i = 0; i <bean.getData().getNameList().size(); i++) {
+                                    personList.add(new Bean(bean.getData().getNameList().get(i),color[(int) (Math.random() * 6)]));
+                                    personIdList.add(bean.getData().getNameId().get(i));
+                                }
+                                gvOvertimePerson.setSelector(new ColorDrawable(Color.TRANSPARENT));
+                                gvOvertimePerson.setAdapter(accompanyGvidViewAdapter);
+                            } else {
+
+                            }
+                        } else {
+                            获取数据中.dismiss();
+                            ToastUtils.showToast(WorkOvertimeActivity.this, "当前无网络");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        获取数据中.dismiss();
+                        ToastUtils.showToast(WorkOvertimeActivity.this, "当前无网络");
+                    }
+                });
     }
 
     @Override
     public void initListener() {
         back.setOnClickListener(this);
         btOvertimeCommit.setOnClickListener(this);
+        btLeaveAgain.setOnClickListener(this);
         pllOvertimeBegin.setOnClickListener(this);
         pllOvertimeEnd.setOnClickListener(this);
     }
@@ -152,7 +212,10 @@ public class WorkOvertimeActivity extends BaseBackActivity {
             case R.id.pll_overtime_end:
                 showEnd();
                 break;
-                default:
+            case R.id.bt_leave_again:
+                showCommit();
+                break;
+            default:
         }
     }
 
@@ -219,7 +282,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
         try {
             Date begin = sdf.parse(tvOvertimeBegin.getText().toString().trim());
             Date end = sdf.parse(tvOvertimeEnd.getText().toString().trim());
-            if (end.getTime()-begin.getTime()<=0){
+            if (end.getTime() - begin.getTime() <= 0) {
                 ToastUtils.showToast(this, "请选择正确的结束时间");
                 return;
             }
@@ -240,25 +303,25 @@ public class WorkOvertimeActivity extends BaseBackActivity {
                 dailog.show();
                 //提交
                 OkGo.<String>post(NetAddressUtils.insertIntegration).
-                        params("startTime",tvOvertimeBegin.getText().toString().trim()).
-                        params("endTime",tvOvertimeEnd.getText().toString().trim()).
-                        params("reason",etOvertimeCause.getText().toString().trim()).
-                        params("type",3).
-                        params("activity","com.hsap.huisianpu.push.PushTirpActivity").
-                        params("workersId", SpUtils.getInt(ConstantUtils.UserId,WorkOvertimeActivity.this)).
-                        params("ids",new Gson().toJson(personIdList))
+                        params("startTime", tvOvertimeBegin.getText().toString().trim()).
+                        params("endTime", tvOvertimeEnd.getText().toString().trim()).
+                        params("reason", etOvertimeCause.getText().toString().trim()).
+                        params("type", 3).
+                        params("activity", "com.hsap.huisianpu.push.PushTirpActivity").
+                        params("workersId", SpUtils.getInt(ConstantUtils.UserId, WorkOvertimeActivity.this)).
+                        params("ids", new Gson().toJson(personIdList))
                         .execute(new StringCallback() {
                             @Override
                             public void onSuccess(Response<String> response) {
                                 dailog.dismiss();
-                                ToastUtils.showToast(WorkOvertimeActivity.this,"提交成功");
+                                ToastUtils.showToast(WorkOvertimeActivity.this, "提交成功");
                             }
 
                             @Override
                             public void onError(Response<String> response) {
                                 super.onError(response);
                                 dailog.dismiss();
-                                ToastUtils.showToast(WorkOvertimeActivity.this,"提交失败，当前网络不好");
+                                ToastUtils.showToast(WorkOvertimeActivity.this, "提交失败，当前网络不好");
                             }
                         });
 
@@ -275,6 +338,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -291,8 +355,8 @@ public class WorkOvertimeActivity extends BaseBackActivity {
                 adapter.notifyDataSetChanged();
             }
         }
-        if(requestCode==200){
-            if (resultCode==201){
+        if (requestCode == 200) {
+            if (resultCode == 201) {
                 ArrayList<String> namelist = data.getStringArrayListExtra("namelist");
                 ArrayList<Integer> idlist = data.getIntegerArrayListExtra("idlist");
                 for (int i = 0; i < namelist.size(); i++) {

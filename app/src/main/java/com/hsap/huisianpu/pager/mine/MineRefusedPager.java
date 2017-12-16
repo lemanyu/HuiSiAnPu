@@ -1,5 +1,6 @@
 package com.hsap.huisianpu.pager.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +13,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.activity.LeaveActivity;
+import com.hsap.huisianpu.activity.WorkCarActivity;
+import com.hsap.huisianpu.activity.WorkOutActivity;
+import com.hsap.huisianpu.activity.WorkOvertimeActivity;
+import com.hsap.huisianpu.activity.WorkTripActivity;
 import com.hsap.huisianpu.base.BaseFragmentPager;
+import com.hsap.huisianpu.bean.EventDate;
 import com.hsap.huisianpu.bean.OngoingBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
@@ -22,6 +29,11 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,6 +48,7 @@ public class MineRefusedPager extends BaseFragmentPager {
     @BindView(R.id.mRlvRefused)
     RecyclerView mRlvRefused;
     Unbinder unbinder;
+    private MyAdapter adapter;
 
     @Override
     public View initView() {
@@ -45,20 +58,56 @@ public class MineRefusedPager extends BaseFragmentPager {
 
     @Override
     public void initData() {
+        Calendar instance = Calendar.getInstance();
+        int year = instance.get(Calendar.YEAR);
+        int month = instance.get(Calendar.MONTH)+1;
+        dataFormNet(year,month);
+
+    }
+
+    private void dataFormNet(int year, final int month) {
         OkGo.<String>post(NetAddressUtils.selectIntegration).
                 params("workersId", SpUtils.getInt(ConstantUtils.UserId,mActivity)).
-                params("state",2).
+                params("state",2).params("year",year).params("month",month).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        OngoingBean bean = new Gson().fromJson(response.body().toString(), OngoingBean.class);
+                        final OngoingBean bean = new Gson().fromJson(response.body().toString(), OngoingBean.class);
                         if (bean.isSuccess()){
                             mRlvRefused.setLayoutManager(new LinearLayoutManager(mActivity));
-                            MyAdapter adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
-                            mRlvRefused.setAdapter(adapter);
+                            if(adapter==null){
+                                adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
+                                mRlvRefused.setAdapter(adapter);
+                            }else{
+                                adapter.setNewData(bean.getData());
+                                adapter.notifyDataSetChanged();
+                            }
+
                             adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    Intent intent=null;
+                                    switch (bean.getData().get(position).getType()){
+                                        case 0:
+                                            intent=new Intent(mActivity, LeaveActivity.class);
+                                            break;
+                                        case 1:
+                                            intent=new Intent(mActivity, WorkOutActivity.class);
+                                            break;
+                                        case 2:
+                                            intent=new Intent(mActivity, WorkTripActivity.class);
+                                            break;
+                                        case 3:
+                                            intent=new Intent(mActivity,WorkOvertimeActivity.class);
+                                            break;
+                                        case 4:
+                                            intent=new Intent(mActivity, WorkCarActivity.class);
+                                            break;
+                                            default:
+                                    }
+                                    intent.putExtra("id",bean.getData().get(position).getId());
+                                    intent.putExtra("state",1);
+                                    startActivity(intent);
 
                                 }
                             });
@@ -99,7 +148,7 @@ public class MineRefusedPager extends BaseFragmentPager {
 
         @Override
         protected void convert(BaseViewHolder helper, OngoingBean.DataBean item) {
-
+            helper.getView(R.id.tv_work_approval_name).setVisibility(View.GONE);
             helper.setText(R.id.tv_work_approval_type, "申请类型：" + getTitleType(item.getType()))
                     .setText(R.id.tv_work_approval_time, "申请时间：" +
                             item.getStartTime());
@@ -130,7 +179,25 @@ public class MineRefusedPager extends BaseFragmentPager {
             case 6:
                 title += "出差总结";
                 break;
+                default:
         }
         return title;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDate(EventDate event){
+        dataFormNet(event.getYear(), event.getMonth());
+    }
+
 }

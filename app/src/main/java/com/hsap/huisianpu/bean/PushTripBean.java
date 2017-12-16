@@ -1,6 +1,6 @@
 package com.hsap.huisianpu.bean;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhao on 2017/12/5.
@@ -37,7 +37,17 @@ public class PushTripBean {
 
         private WaIntegrationBean waIntegration;
         private MapBean map;
-        private ArrayList<String> nameList;
+        private List<String> nameList;
+
+        public List<Integer> getNameId() {
+            return nameId;
+        }
+
+        public void setNameId(List<Integer> nameId) {
+            this.nameId = nameId;
+        }
+
+        private List<Integer> nameId;
 
         public WaIntegrationBean getWaIntegration() {
             return waIntegration;
@@ -47,7 +57,7 @@ public class PushTripBean {
             return map;
         }
 
-        public ArrayList<String> getNameList() {
+        public List<String> getNameList() {
             return nameList;
         }
 

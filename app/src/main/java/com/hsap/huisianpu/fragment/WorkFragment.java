@@ -122,7 +122,7 @@ public class WorkFragment extends BaseFragment {
                         public void onClick(View view) {
                             mHandler.removeMessages(0);
                             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                            builder.setMessage("通知内容："+titleList.get(mSwitcherCount%titleList.size()-1));
+                            builder.setMessage("通知内容："+titleList.get(mSwitcherCount-1%titleList.size()));
                             builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

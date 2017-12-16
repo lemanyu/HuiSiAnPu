@@ -29,9 +29,19 @@
             android:id="@+id/bt_overtime_commit"
             android:background="@null"
             android:layout_gravity="right"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="提交"
             style="@style/CommonText" />
+        <Button
+            android:visibility="gone"
+            android:textColor="@color/text_blue"
+            android:background="@null"
+            android:layout_gravity="right"
+            android:textSize="18sp"
+            android:text="再次提交"
+            android:id="@+id/bt_leave_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
 
 </android.support.design.widget.AppBarLayout>
@@ -161,7 +171,8 @@
                 android:layout_height="wrap_content" />
             <com.hsap.huisianpu.view.MyGridView
                 android:id="@+id/gv_overtime_person"
-                android:horizontalSpacing="10dp"
+                android:horizontalSpacing="20dp"
+                android:verticalSpacing="20dp"
                 android:numColumns="4"
                 android:layout_margin="5dp"
                 android:stretchMode="columnWidth"

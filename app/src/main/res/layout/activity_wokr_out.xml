@@ -32,6 +32,16 @@
                 android:textSize="20sp"
                 android:text="提交"
                 style="@style/CommonText" />
+            <Button
+                android:visibility="gone"
+                android:textColor="@color/text_blue"
+                android:background="@null"
+                android:layout_gravity="right"
+                android:textSize="18sp"
+                android:text="再次提交"
+                android:id="@+id/bt_leave_again"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 

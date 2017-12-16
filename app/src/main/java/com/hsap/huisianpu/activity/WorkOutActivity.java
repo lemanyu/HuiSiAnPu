@@ -16,10 +16,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.android.tu.loadingdialog.LoadingDailog;
+import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.bean.PushTripBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
@@ -64,6 +66,8 @@ public class WorkOutActivity extends BaseBackActivity {
     TextView tvReturnTime;
     @BindView(R.id.pll_return_time)
     PercentLinearLayout pllReturnTime;
+    @BindView(R.id.bt_leave_again)
+    Button btLeaveAgain;
     /*@BindView(R.id.gv_out)
     MyGridView gvOut;*/
     private boolean isArticles;
@@ -103,13 +107,68 @@ public class WorkOutActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
+        int id = getIntent().getIntExtra("id", 0);
+        int state = getIntent().getIntExtra("state", 0);
+        if (state == 1) {
+            LoadingDailog 获取数据中 = ToastUtils.showDailog(this, "获取数据中");
+            获取数据中.show();
+            btOutCommit.setVisibility(View.GONE);
+            btLeaveAgain.setVisibility(View.VISIBLE);
+            dataFormNet(id, 获取数据中);
+        } else {
+            btOutCommit.setVisibility(View.VISIBLE);
+            btLeaveAgain.setVisibility(View.GONE);
+        }
+    }
 
+    private void dataFormNet(int id, final LoadingDailog 获取数据中) {
+        OkGo.<String>post(NetAddressUtils.selectOneIntergration).
+                params("id", id).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
+                        if (bean.isSuccess()) {
+                            获取数据中.dismiss();
+
+                            tvOutReason.setText(bean.getData().getWaIntegration().getReason());
+                            tvOutTime.setText(bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
+                                    bean.getData().getWaIntegration().getStartTime().getMonthValue() + "-"
+                                    + bean.getData().getWaIntegration().getStartTime().getDayOfMonth() + " " +
+                                    bean.getData().getWaIntegration().getStartTime().getHour() + ":" +
+                                    bean.getData().getWaIntegration().getStartTime().getMinute());
+                            tvReturnTime.setText(bean.getData().getWaIntegration().getEndTime().getYear() + "-" +
+                                    bean.getData().getWaIntegration().getEndTime().getMonthValue() + "-"
+                                    + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
+                                    bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
+                                    bean.getData().getWaIntegration().getEndTime().getMinute());
+
+                            if (bean.getData().getWaIntegration().getReason().equals("请假") || bean.getData().getWaIntegration().getReason().equals("其他")) {
+                                  pllOutArticles.setVisibility(View.GONE);
+                            } else {
+                                pllOutArticles.setVisibility(View.VISIBLE);
+                                etOutArticles.setText(bean.getData().getWaIntegration().getType2());
+                            }
+                        } else {
+                            获取数据中.dismiss();
+                            ToastUtils.showToast(WorkOutActivity.this, "当前无网络");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        获取数据中.dismiss();
+                        ToastUtils.showToast(WorkOutActivity.this, "当前无网络");
+                    }
+                });
     }
 
     @Override
     public void initListener() {
         back.setOnClickListener(this);
         btOutCommit.setOnClickListener(this);
+        btLeaveAgain.setOnClickListener(this);
         pllOutReason.setOnClickListener(this);
         pllOutTime.setOnClickListener(this);
         pllReturnTime.setOnClickListener(this);
@@ -132,10 +191,12 @@ public class WorkOutActivity extends BaseBackActivity {
             case R.id.pll_return_time:
                 showend();
                 break;
+            case R.id.bt_leave_again:
+                showcommit();
+                break;
             default:
         }
     }
-
 
 
     private void showcommit() {
@@ -156,7 +217,7 @@ public class WorkOutActivity extends BaseBackActivity {
         try {
             Date begin = sdf.parse(tvOutTime.getText().toString().trim());
             Date end = sdf.parse(tvReturnTime.getText().toString().trim());
-            if (end.getTime()-begin.getTime()<=0){
+            if (end.getTime() - begin.getTime() <= 0) {
                 ToastUtils.showToast(this, "请选择正确的返厂时间");
                 return;
             }
@@ -231,6 +292,7 @@ public class WorkOutActivity extends BaseBackActivity {
 
         builder.show();
     }
+
     private void showend() {
         final StringBuilder string = new StringBuilder();
         Calendar calendar = Calendar.getInstance();
@@ -254,6 +316,7 @@ public class WorkOutActivity extends BaseBackActivity {
             }
         }, year, month, day).show();
     }
+
     private void showtime() {
         final StringBuilder string = new StringBuilder();
         Calendar calendar = Calendar.getInstance();

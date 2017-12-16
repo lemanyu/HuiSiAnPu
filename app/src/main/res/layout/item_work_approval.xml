@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
-
         android:id="@+id/tv_work_approval_type"
         android:textColor="@color/text_blue"
         android:textSize="18sp"
@@ -15,10 +14,19 @@
     <TextView
         android:id="@+id/tv_work_approval_name"
         android:textColor="@color/text_blue"
-        android:text="申请人"
+        android:text=""
         android:textSize="18sp"
         android:layout_gravity="left"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_work_approval_zhuangtai"
+        android:visibility="gone"
+        android:textColor="@color/text_blue"
+        android:text="1111"
+        android:textSize="18sp"
+        android:layout_gravity="left"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/tv_work_approval_time"

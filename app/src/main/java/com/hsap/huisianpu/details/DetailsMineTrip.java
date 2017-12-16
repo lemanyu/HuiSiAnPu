@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.MyAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.bean.CarBean;
 import com.hsap.huisianpu.bean.PushTripBean;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
@@ -25,7 +26,7 @@ import com.zhy.android.percent.support.PercentLinearLayout;
 import butterknife.BindView;
 
 /**
- * 我的外勤
+ * 我的内外勤
  */
 
 public class DetailsMineTrip extends BaseBackActivity {
@@ -52,10 +53,12 @@ public class DetailsMineTrip extends BaseBackActivity {
     StringBuilder end = new StringBuilder();
     @BindView(R.id.bt_details_wancheng)
     Button btDetailsWancheng;
+    private int state;
 
 
     @Override
     public int getLayoutId() {
+
         return R.layout.details_mine_trip;
     }
 
@@ -65,12 +68,11 @@ public class DetailsMineTrip extends BaseBackActivity {
         获取数据中.show();
         int type = getIntent().getIntExtra("type", 0);
         int workid = getIntent().getIntExtra("workid", 0);
-
+        state = getIntent().getIntExtra("state", 0);
         choiceBoundary(type, workid, 获取数据中);
     }
 
     private void choiceBoundary(int type, int workid, LoadingDailog 获取数据中) {
-
         switch (type) {
             case 0:
                 detailsMineTrip.setText("我的请假");
@@ -115,10 +117,12 @@ public class DetailsMineTrip extends BaseBackActivity {
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        PushTripBean bean = new Gson().fromJson(response.body(), PushTripBean.class);
+                        CarBean bean = new Gson().fromJson(response.body(), CarBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
-                            choiceState(bean.getData().getWaIntegration().getState());
+                            if(state==1){
+                                choiceState(bean.getData().getWaIntegration().getState());
+                            }
                             tv_car_begin.setText(bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
                                     bean.getData().getWaIntegration().getStartTime().getMonthValue() + "-"
                                     + bean.getData().getWaIntegration().getStartTime().getDayOfMonth() + " " +
@@ -129,10 +133,10 @@ public class DetailsMineTrip extends BaseBackActivity {
                                     + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
                                     bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
                                     bean.getData().getWaIntegration().getEndTime().getMinute());
-                            tv_car_choice.setText(bean.getData().getMap().getLeixing());
+                            tv_car_choice.setText(bean.getData().getObject().getLeixing());
                             et_car_phone.setText(bean.getData().getWaIntegration().getType2());
-                            et_car_matters.setText(bean.getData().getMap().getShixiang());
-                            et_car_location.setText(bean.getData().getMap().getDidian());
+                            et_car_matters.setText(bean.getData().getObject().getShixiang());
+                            et_car_location.setText(bean.getData().getObject().getDidian());
                             if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
                                 ll_approval_car.setVisibility(View.VISIBLE);
                                 gv_car_person.setAdapter(new MyAdapter(DetailsMineTrip.this, bean.getData().getNameList()));
@@ -167,7 +171,7 @@ public class DetailsMineTrip extends BaseBackActivity {
                 detailsBtCancel.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                btDetailsWancheng.setVisibility(View.GONE);
+                btDetailsWancheng.setVisibility(View.VISIBLE);
                 btDetailsFinish.setVisibility(View.GONE);
                 detailsBtCancel.setVisibility(View.GONE);
                 break;
@@ -199,8 +203,9 @@ public class DetailsMineTrip extends BaseBackActivity {
                         PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
-                            choiceState(bean.getData().getWaIntegration().getState());
-
+                            if(state==1){
+                                choiceState(bean.getData().getWaIntegration().getState());
+                            }
                             tv_overtime_begin.setText(
                                     bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
                                             bean.getData().getWaIntegration().getStartTime().getMonthValue() + "-"
@@ -243,7 +248,9 @@ public class DetailsMineTrip extends BaseBackActivity {
                         PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
-                            choiceState(bean.getData().getWaIntegration().getState());
+                            if(state==1){
+                                choiceState(bean.getData().getWaIntegration().getState());
+                            }
                             TextView tv_out_reason = findViewById(R.id.tv_out_reason);
                             tv_out_reason.setText(bean.getData().getWaIntegration().getReason());
                             TextView tv_out_time = findViewById(R.id.tv_out_time);
@@ -290,7 +297,9 @@ public class DetailsMineTrip extends BaseBackActivity {
                         PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
-                            choiceState(bean.getData().getWaIntegration().getState());
+                            if(state==1){
+                                choiceState(bean.getData().getWaIntegration().getState());
+                            }
                             if (bean.getData().getWaIntegration().getStartTime().getHour() == 8) {
                                 begin.setLength(0);
                                 begin.append("上午");
@@ -345,7 +354,9 @@ public class DetailsMineTrip extends BaseBackActivity {
                 PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
                 if (bean.isSuccess()) {
                     获取数据中.dismiss();
-                    choiceState(bean.getData().getWaIntegration().getState());
+                    if(state==1){
+                        choiceState(bean.getData().getWaIntegration().getState());
+                    }
                     if (bean.getData().getWaIntegration().getStartTime().getHour() == 8) {
                         begin.setLength(0);
                         begin.append("上午");
@@ -418,8 +429,16 @@ public class DetailsMineTrip extends BaseBackActivity {
             case R.id.bt_details_finish:
                 detailsFinish();//完成
                 break;
+            case R.id.bt_details_wancheng:
+                secondary();//再次申请
+                break;
                 default:
+
         }
+    }
+
+    private void secondary() {
+
     }
 
     private void detailsFinish() {

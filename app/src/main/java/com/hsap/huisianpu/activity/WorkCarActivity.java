@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import com.hsap.huisianpu.adapter.AccompanyGvidViewAdapter;
 import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
+import com.hsap.huisianpu.bean.CarBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
@@ -52,6 +54,7 @@ import butterknife.ButterKnife;
  */
 
 public class WorkCarActivity extends BaseBackActivity {
+    private static final String TAG = "WorkCarActivity";
     @BindView(R.id.back)
     ImageButton back;
     @BindView(R.id.bt_car_commit)
@@ -76,6 +79,8 @@ public class WorkCarActivity extends BaseBackActivity {
     EditText etCarLocation;
     @BindView(R.id.gv_car_person)
     MyGridView gvCarPerson;
+    @BindView(R.id.bt_leave_again)
+    Button btLeaveAgain;
     /*@BindView(R.id.gv_car)
     MyGridView gvCar;*/
     private ApproveGridViewAdapter adapter;
@@ -111,6 +116,7 @@ public class WorkCarActivity extends BaseBackActivity {
                 }
             }
         });
+
         /*gvCar.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gvCar.setAdapter(adapter);
         gvCar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -132,16 +138,77 @@ public class WorkCarActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
+        int id = getIntent().getIntExtra("id", 0);
+        int state = getIntent().getIntExtra("state", 0);
+        if (state == 1) {
+            LoadingDailog 获取数据中 = ToastUtils.showDailog(this, "获取数据中");
+            获取数据中.show();
+            btCarCommit.setVisibility(View.GONE);
+            btLeaveAgain.setVisibility(View.VISIBLE);
+            dataFormNet(id, 获取数据中);
+        } else {
+            btCarCommit.setVisibility(View.VISIBLE);
+            btLeaveAgain.setVisibility(View.GONE);
+        }
+    }
 
+    private void dataFormNet(int id, final LoadingDailog 获取数据中) {
+        OkGo.<String>post(NetAddressUtils.selectOneIntergration).
+                params("id", id).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        CarBean bean = new Gson().fromJson(response.body(), CarBean.class);
+                        if (bean.isSuccess()) {
+                            获取数据中.dismiss();
+
+                            tvCarBegin.setText(bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
+                                    bean.getData().getWaIntegration().getStartTime().getMonthValue() + "-"
+                                    + bean.getData().getWaIntegration().getStartTime().getDayOfMonth() + " " +
+                                    bean.getData().getWaIntegration().getStartTime().getHour() + ":" +
+                                    bean.getData().getWaIntegration().getStartTime().getMinute());
+                            tvCarEnd.setText(bean.getData().getWaIntegration().getEndTime().getYear() + "-" +
+                                    bean.getData().getWaIntegration().getEndTime().getMonthValue() + "-"
+                                    + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
+                                    bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
+                                    bean.getData().getWaIntegration().getEndTime().getMinute());
+                            tvCarChoice.setText(bean.getData().getObject().getLeixing());
+                            etCarPhone.setText(bean.getData().getWaIntegration().getType2());
+                            etCarMatters.setText(bean.getData().getObject().getShixiang());
+                            etCarLocation.setText(bean.getData().getObject().getDidian());
+                            if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
+                                for (int i = 0; i <bean.getData().getNameList().size(); i++) {
+                                    personList.add(new Bean(bean.getData().getNameList().get(i),color[(int) (Math.random() * 6)]));
+                                    personIdList.add(bean.getData().getNameId().get(i));
+                                }
+                                gvCarPerson.setSelector(new ColorDrawable(Color.TRANSPARENT));
+                                gvCarPerson.setAdapter(accompanyGvidViewAdapter);
+                            } else {
+                            }
+                        } else {
+                            获取数据中.dismiss();
+                            ToastUtils.showToast(WorkCarActivity.this, "当前无网络");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        获取数据中.dismiss();
+                        ToastUtils.showToast(WorkCarActivity.this, "当前无网络");
+                    }
+                });
     }
 
     @Override
     public void initListener() {
         back.setOnClickListener(this);
         btCarCommit.setOnClickListener(this);
+        btLeaveAgain.setOnClickListener(this);
         pllCarBegin.setOnClickListener(this);
         pllCarEnd.setOnClickListener(this);
         pllCarChoice.setOnClickListener(this);
+
     }
 
     @Override
@@ -159,6 +226,10 @@ public class WorkCarActivity extends BaseBackActivity {
             case R.id.pll_car_choice:
                 showChoice();
                 break;
+            case R.id.bt_leave_again:
+                showCommit();
+                break;
+                default:
         }
     }
 
@@ -248,7 +319,7 @@ public class WorkCarActivity extends BaseBackActivity {
         try {
             Date begin = sdf.parse(tvCarBegin.getText().toString().trim());
             Date end = sdf.parse(tvCarEnd.getText().toString().trim());
-            if (end.getTime()-begin.getTime()<=0){
+            if (end.getTime() - begin.getTime() <= 0) {
                 ToastUtils.showToast(this, "请选择正确的还车时间");
                 return;
             }
@@ -282,31 +353,31 @@ public class WorkCarActivity extends BaseBackActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 HashMap map = new HashMap();
-                map.put("shixiang",etCarMatters.getText().toString().trim());
-                map.put("didian",etCarLocation.getText().toString().trim());
-                map.put("leixing",tvCarChoice.getText().toString().trim());
+                map.put("shixiang", etCarMatters.getText().toString().trim());
+                map.put("didian", etCarLocation.getText().toString().trim());
+                map.put("leixing", tvCarChoice.getText().toString().trim());
                 final LoadingDailog dailog = ToastUtils.showDailog(WorkCarActivity.this, "提交中");
                 dailog.show();
                 OkGo.<String>post(NetAddressUtils.insertIntegration).
-                        params("workersId", SpUtils.getInt(ConstantUtils.UserId,WorkCarActivity.this)).
-                        params("startTime",tvCarBegin.getText().toString().trim()).
-                        params("endTime",tvCarEnd.getText().toString().trim()).
-                        params("type",4).
-                        params("type2",etCarPhone.getText().toString().trim()).
-                        params("ids",new Gson().toJson(personIdList)).
-                        params("activity","com.hsap.huisianpu.push.PushTirpActivity").
-                        params("o",map.toString()).execute(new StringCallback() {
+                        params("workersId", SpUtils.getInt(ConstantUtils.UserId, WorkCarActivity.this)).
+                        params("startTime", tvCarBegin.getText().toString().trim()).
+                        params("endTime", tvCarEnd.getText().toString().trim()).
+                        params("type", 4).
+                        params("type2", etCarPhone.getText().toString().trim()).
+                        params("ids", new Gson().toJson(personIdList)).
+                        params("activity", "com.hsap.huisianpu.push.PushTirpActivity").
+                        params("o", map.toString()).execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         dailog.dismiss();
-                        ToastUtils.showToast(WorkCarActivity.this,"提交成功");
+                        ToastUtils.showToast(WorkCarActivity.this, "提交成功");
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
                         dailog.dismiss();
-                        ToastUtils.showToast(WorkCarActivity.this,"提交失败");
+                        ToastUtils.showToast(WorkCarActivity.this, "提交失败");
                     }
                 });
             }
@@ -338,20 +409,21 @@ public class WorkCarActivity extends BaseBackActivity {
                 idList.add(id);
                 adapter.notifyDataSetChanged();
             }
-            if(requestCode==200){
-                if (resultCode==201){
-                    ArrayList<String> namelist = data.getStringArrayListExtra("namelist");
-                    ArrayList<Integer> idlist = data.getIntegerArrayListExtra("idlist");
-                    for (int i = 0; i < namelist.size(); i++) {
-                        Bean bean = new Bean();
-                        bean.setName(namelist.get(i));
-                        bean.setPic(color[(int) (Math.random() * 6)]);
-                        personList.add(bean);
-                    }
-                    personIdList.addAll(idlist);
-                    accompanyGvidViewAdapter.notifyDataSetChanged();
-
+        }
+        if (requestCode == 200) {
+            if (resultCode == 201) {
+                Log.e(TAG, "onActivityResult: " );
+                ArrayList<String> namelist = data.getStringArrayListExtra("namelist");
+                ArrayList<Integer> idlist = data.getIntegerArrayListExtra("idlist");
+                for (int i = 0; i < namelist.size(); i++) {
+                    Bean bean = new Bean();
+                    bean.setName(namelist.get(i));
+                    bean.setPic(color[(int) (Math.random() * 6)]);
+                    personList.add(bean);
                 }
+                personIdList.addAll(idlist);
+                accompanyGvidViewAdapter.notifyDataSetChanged();
+
             }
         }
     }

@@ -78,15 +78,31 @@ public class WorkHaveApprovalPager extends BaseFragmentPager {
 
       @Override
       protected void convert(BaseViewHolder helper, ApprovalBean.DataBean item) {
-
+           helper.getView(R.id.tv_work_approval_zhuangtai).setVisibility(View.VISIBLE);
            helper.setText(R.id.tv_work_approval_name,"申请人："+item.getName())
            .setText(R.id.tv_work_approval_type,"申请类型："+item.getTypeName())
+           .setText(R.id.tv_work_approval_zhuangtai,"审批状态："+choice(item.getOpinion()))
            .setText(R.id.tv_work_approval_time,"审批时间："+
                    item.getCreateTime().getYear()+"-"+item.getCreateTime().getMonthValue()
                    +"-"+item.getCreateTime().getDayOfMonth());
 
       }
   }
+
+    private String choice(int opinion) {
+        String s="";
+        switch (opinion){
+            case 1:
+                s+="已同意";
+                break;
+            case 2:
+                s+="已拒绝";
+                break;
+                default:
+        }
+        return  s;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view

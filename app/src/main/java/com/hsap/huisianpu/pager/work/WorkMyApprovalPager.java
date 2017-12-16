@@ -79,6 +79,7 @@ public class WorkMyApprovalPager extends BaseFragmentPager {
                                         intent.putExtra("name",bean.getData().get(position).getName());
                                         intent.putExtra("type",bean.getData().get(position).getType());
                                         intent.putExtra("projectId",bean.getData().get(position).getProjectId());
+
                                         startActivity(intent);
                                     }
                                 });

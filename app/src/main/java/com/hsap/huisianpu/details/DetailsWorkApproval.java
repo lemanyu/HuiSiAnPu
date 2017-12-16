@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.MyAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
+import com.hsap.huisianpu.bean.CarBean;
 import com.hsap.huisianpu.bean.FalseBean;
 import com.hsap.huisianpu.bean.PushTripBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
@@ -79,6 +80,7 @@ public class DetailsWorkApproval extends BaseBackActivity {
         type = getIntent().getIntExtra("type", 0);
         projectId = getIntent().getIntExtra("projectId", 0);
         int opinion = getIntent().getIntExtra("opinion", 0);
+        Log.e(TAG, "initView: "+opinion );
         switch (opinion){
             case 0:
                 tvWorkApprovalZhuangtai.setVisibility(View.GONE);
@@ -156,7 +158,7 @@ public class DetailsWorkApproval extends BaseBackActivity {
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        PushTripBean bean = new Gson().fromJson(response.body(), PushTripBean.class);
+                        CarBean bean = new Gson().fromJson(response.body(), CarBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
                             tv_car_begin.setText(bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
@@ -169,10 +171,10 @@ public class DetailsWorkApproval extends BaseBackActivity {
                                     + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
                                     bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
                                     bean.getData().getWaIntegration().getEndTime().getMinute());
-                            tv_car_choice.setText(bean.getData().getMap().getLeixing());
+                            tv_car_choice.setText(bean.getData().getObject().getLeixing());
                             et_car_phone.setText(bean.getData().getWaIntegration().getType2());
-                            et_car_matters.setText(bean.getData().getMap().getShixiang());
-                            et_car_location.setText(bean.getData().getMap().getDidian());
+                            et_car_matters.setText(bean.getData().getObject().getShixiang());
+                            et_car_location.setText(bean.getData().getObject().getDidian());
                             if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
                                 ll_approval_car.setVisibility(View.VISIBLE);
                                 gv_car_person.setAdapter(new MyAdapter(DetailsWorkApproval.this, bean.getData().getNameList()));

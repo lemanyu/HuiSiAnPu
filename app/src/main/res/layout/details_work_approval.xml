@@ -40,58 +40,68 @@
                 android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-    <ViewStub
-           android:id="@+id/vs_leave"
-           android:layout="@layout/approval_leave"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content" />
-      <ViewStub
-          android:id="@+id/vs_out"
-          android:layout="@layout/approval_out"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content" />
-    <ViewStub
-        android:id="@+id/vs_trip"
-        android:layout="@layout/approval_trip"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <ViewStub
-        android:id="@+id/vs_overtime"
-        android:layout="@layout/approval_overtime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <ViewStub
-        android:id="@+id/vs_car"
-        android:layout="@layout/approval_car"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <ViewStub
-        android:id="@+id/vs_summary"
-        android:layout="@layout/approval_summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <ViewStub
-        android:id="@+id/vs_project"
-        android:layout="@layout/approval_project"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/details_bt_refuse"
-            android:text="拒绝"
-            android:textColor="@color/text_blue"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/details_bt_confirm"
-            android:text="同意"
-            android:textColor="@color/text_blue"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ViewStub
+                android:id="@+id/vs_leave"
+                android:layout="@layout/approval_leave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ViewStub
+                android:id="@+id/vs_out"
+                android:layout="@layout/approval_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ViewStub
+                android:id="@+id/vs_trip"
+                android:layout="@layout/approval_trip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ViewStub
+                android:id="@+id/vs_overtime"
+                android:layout="@layout/approval_overtime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ViewStub
+                android:id="@+id/vs_car"
+                android:layout="@layout/approval_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ViewStub
+                android:id="@+id/vs_summary"
+                android:layout="@layout/approval_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ViewStub
+                android:id="@+id/vs_project"
+                android:layout="@layout/approval_project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/details_bt_refuse"
+                    android:text="拒绝"
+                    android:textColor="@color/text_blue"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/details_bt_confirm"
+                    android:text="同意"
+                    android:textColor="@color/text_blue"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 </LinearLayout>
