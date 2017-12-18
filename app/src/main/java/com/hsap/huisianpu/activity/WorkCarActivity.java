@@ -161,7 +161,6 @@ public class WorkCarActivity extends BaseBackActivity {
                         CarBean bean = new Gson().fromJson(response.body(), CarBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
-
                             tvCarBegin.setText(bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
                                     bean.getData().getWaIntegration().getStartTime().getMonthValue() + "-"
                                     + bean.getData().getWaIntegration().getStartTime().getDayOfMonth() + " " +
@@ -172,10 +171,10 @@ public class WorkCarActivity extends BaseBackActivity {
                                     + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
                                     bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
                                     bean.getData().getWaIntegration().getEndTime().getMinute());
-                            tvCarChoice.setText(bean.getData().getObject().getLeixing());
+                            tvCarChoice.setText(bean.getData().getObject().getLeixing0());
                             etCarPhone.setText(bean.getData().getWaIntegration().getType2());
-                            etCarMatters.setText(bean.getData().getObject().getShixiang());
-                            etCarLocation.setText(bean.getData().getObject().getDidian());
+                            etCarMatters.setText(bean.getData().getObject().getShixiang0());
+                            etCarLocation.setText(bean.getData().getObject().getDidian0());
                             if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
                                 for (int i = 0; i <bean.getData().getNameList().size(); i++) {
                                     personList.add(new Bean(bean.getData().getNameList().get(i),color[(int) (Math.random() * 6)]));

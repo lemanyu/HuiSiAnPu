@@ -49,6 +49,7 @@ import com.hsap.huisianpu.activity.WorkMonthNewPaperActivity;
 import com.hsap.huisianpu.activity.WorkOutActivity;
 import com.hsap.huisianpu.activity.WorkOvertimeActivity;
 import com.hsap.huisianpu.activity.WorkPublishProjectActivity;
+import com.hsap.huisianpu.activity.WorkPurchaseActivity;
 import com.hsap.huisianpu.activity.WorkSeeProjectActivity;
 import com.hsap.huisianpu.activity.WorkSummaryActivity;
 import com.hsap.huisianpu.activity.WorkTripActivity;
@@ -122,7 +123,7 @@ public class WorkFragment extends BaseFragment {
                         public void onClick(View view) {
                             mHandler.removeMessages(0);
                             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                            builder.setMessage("通知内容："+titleList.get(mSwitcherCount-1%titleList.size()));
+                            builder.setMessage("通知内容："+titleList.get((mSwitcherCount-1)%titleList.size()));
                             builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -280,6 +281,7 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("出差", R.drawable.chuchai));
         list.add(new Bean("加班", R.drawable.jiaban));
         list.add(new Bean("用车", R.drawable.car));
+        list.add(new Bean("采购",R.drawable.caigou));
         internalField.setLayoutManager(new GridLayoutManager(mActivity, 4));
         WorkRecycleAdapter adapter = new WorkRecycleAdapter(R.layout.item_work, list);
         internalField.setAdapter(adapter);
@@ -305,6 +307,8 @@ public class WorkFragment extends BaseFragment {
                     case 5:
                         startActivity(new Intent(mActivity, WorkCarActivity.class));
                         break;
+                    case 6:
+                        startActivity(new Intent(mActivity, WorkPurchaseActivity.class));
                         default:
                 }
             }
@@ -657,7 +661,20 @@ public class WorkFragment extends BaseFragment {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFalse(FalseBean event) {
+        OkGo.<String>post(NetAddressUtils.url+"getNoAuditSize").
+                params("id", SpUtils.getInt(ConstantUtils.UserId,mActivity)).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Log.e(TAG, "onSuccess: "+response.body().toString() );
+                        Bean bean = new Gson().fromJson(response.body().toString(), Bean.class);
+                        bean.getData();
+                        Log.e(TAG, "onSuccess: "+bean.getData());
+                        SpUtils.putInt(ConstantUtils.Approve,bean.getData(),mActivity);
+                    }
+                });
         dataFormNet();
        initStatistics();
     }
+
 }

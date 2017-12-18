@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
+import com.hsap.huisianpu.bean.FalseBean;
 import com.hsap.huisianpu.push.PushWeekActivity;
 import com.hsap.huisianpu.service.DataServer;
 import com.hsap.huisianpu.service.ForceOfflineService;
@@ -14,6 +15,7 @@ import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,8 +30,8 @@ public class MessageReceiver extends XGPushBaseReceiver {
                                           XGPushShowedResult notifiShowedRlt) {
         Log.d(TAG, "onNotifactionShowedResult: "+context);
         Log.d(TAG, "onNotifactionShowedResult: "+notifiShowedRlt);
+        EventBus.getDefault().post(new FalseBean("1"));
         Intent intent = new Intent(context, DataServer.class);
-
         intent.putExtra("title",notifiShowedRlt.getTitle());
         intent.putExtra("content",notifiShowedRlt.getContent());
         intent.putExtra("customContent",notifiShowedRlt.getCustomContent());

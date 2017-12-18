@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            app:titleTextColor="@color/text_blue"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
+            android:theme="@style/ToolBarTheme"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+            <ImageButton
+                android:id="@id/back"
+                android:layout_width="30dp"
+                android:background="@drawable/back"
+                android:layout_height="25dp" />
+            <TextView
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"
+                android:text="采购"
+                style="@style/CommonText" />
+            <Button
+                android:id="@+id/bt_purchase_commit"
+                android:background="@null"
+                android:layout_gravity="right"
+                android:textSize="18sp"
+                android:text="提交"
+                style="@style/CommonText" />
+            <Button
+                android:visibility="gone"
+                android:textColor="@color/text_blue"
+                android:background="@null"
+                android:layout_gravity="right"
+                android:textSize="18sp"
+                android:text="再次提交"
+                android:id="@+id/bt_leave_again"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+       <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_margin="5dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:text="采购事由"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/et_purchase_reason"
+                    android:inputType="phone"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:hint="请输入采购事由"
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_margin="5dp"
+            android:id="@+id/pll_purchase_type"
+            android:gravity="center"
+            android:padding="5dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_weight="2"
+                android:clickable="false"
+                android:text="采购类型"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/tv_purchase_type"
+                android:textColor="@color/text_blue"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:text="请选择（必填）" />
+            <ImageView
+                android:clickable="false"
+                android:layout_gravity="center_vertical"
+                app:layout_marginRightPercent="2%w"
+                app:layout_widthPercent="7%w"
+                app:layout_heightPercent="7%w"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/right_gray"
+                android:gravity="right" />
+        </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"></View>
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_margin="5dp"
+                android:id="@+id/pll_purchase_time"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:clickable="false"
+                    android:text="期望交付日期"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/tv_purchase_time"
+                    android:textColor="@color/text_blue"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:text="请选择（必填）" />
+                <ImageView
+                    android:clickable="false"
+                    android:layout_gravity="center_vertical"
+                    app:layout_marginRightPercent="2%w"
+                    app:layout_widthPercent="7%w"
+                    app:layout_heightPercent="7%w"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/right_gray"
+                    android:gravity="right" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"></View>
+       <android.support.v7.widget.RecyclerView
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:id="@+id/rlv_purchase"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+       <LinearLayout
+           android:layout_margin="10dp"
+           android:id="@+id/ll_purchase_add"
+           android:gravity="center"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <ImageView
+               android:clickable="false"
+               android:layout_gravity="center_vertical"
+               android:layout_margin="5dp"
+               android:background="@drawable/add"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:clickable="false"
+               android:layout_gravity="center_vertical"
+               android:layout_margin="5dp"
+               android:text="添加明细"
+               android:textSize="16sp"
+               android:textColor="@color/text_blue"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+       </LinearLayout>
+
+
+
+
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -133,10 +133,10 @@ public class DetailsMineTrip extends BaseBackActivity {
                                     + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
                                     bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
                                     bean.getData().getWaIntegration().getEndTime().getMinute());
-                            tv_car_choice.setText(bean.getData().getObject().getLeixing());
+                            tv_car_choice.setText(bean.getData().getObject().getLeixing0());
                             et_car_phone.setText(bean.getData().getWaIntegration().getType2());
-                            et_car_matters.setText(bean.getData().getObject().getShixiang());
-                            et_car_location.setText(bean.getData().getObject().getDidian());
+                            et_car_matters.setText(bean.getData().getObject().getShixiang0());
+                            et_car_location.setText(bean.getData().getObject().getDidian0());
                             if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
                                 ll_approval_car.setVisibility(View.VISIBLE);
                                 gv_car_person.setAdapter(new MyAdapter(DetailsMineTrip.this, bean.getData().getNameList()));

@@ -636,32 +636,32 @@ public class CarBean {
              * shixiang : 得
              */
 
-            private String leixing;
-            private String didian;
-            private String shixiang;
+            private String leixing0;
+            private String didian0;
+            private String shixiang0;
 
-            public String getLeixing() {
-                return leixing;
+            public String getLeixing0() {
+                return leixing0;
             }
 
-            public void setLeixing(String leixing) {
-                this.leixing = leixing;
+            public void setLeixing0(String leixing0) {
+                this.leixing0 = leixing0;
             }
 
-            public String getDidian() {
-                return didian;
+            public String getDidian0() {
+                return didian0;
             }
 
-            public void setDidian(String didian) {
-                this.didian = didian;
+            public void setDidian0(String didian0) {
+                this.didian0 = didian0;
             }
 
-            public String getShixiang() {
-                return shixiang;
+            public String getShixiang0() {
+                return shixiang0;
             }
 
-            public void setShixiang(String shixiang) {
-                this.shixiang = shixiang;
+            public void setShixiang0(String shixiang0) {
+                this.shixiang0 = shixiang0;
             }
         }
     }

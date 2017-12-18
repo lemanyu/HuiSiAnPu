@@ -167,6 +167,7 @@ public class NewsFragment extends BaseFragment {
         Log.e(TAG, "onDataBean: "+dataBean );
            adapter.notifyDataSetChanged();
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -223,4 +224,5 @@ public class NewsFragment extends BaseFragment {
             }
         }
     }
+
 }
