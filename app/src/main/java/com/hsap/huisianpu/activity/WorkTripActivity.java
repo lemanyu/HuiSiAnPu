@@ -91,6 +91,8 @@ public class WorkTripActivity extends BaseBackActivity {
     private AccompanyGvidViewAdapter accompanyGvidViewAdapter;
     StringBuilder begin = new StringBuilder();
     StringBuilder end = new StringBuilder();
+    private int id;
+
     @Override
     public int getLayoutId() {
 
@@ -139,7 +141,7 @@ public class WorkTripActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
-        int id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getIntExtra("id", 0);
         int state = getIntent().getIntExtra("state", 0);
         if (state == 1) {
             LoadingDailog 获取数据中 = ToastUtils.showDailog(this, "获取数据中");
@@ -379,6 +381,7 @@ public class WorkTripActivity extends BaseBackActivity {
                         params("reason", etTripReason.getText().toString().trim()).
                         params("type2", etTripCity.getText().toString().trim()).
                         params("type", 2).
+                        params("reStart",id).
                         params("startTime", tvTripBegin.getText().toString().trim()).
                         params("endTime", tvTripEnd.getText().toString().trim()).
                         params("ids", new Gson().toJson(personIdList)).

@@ -17,6 +17,7 @@ import com.hsap.huisianpu.activity.LeaveActivity;
 import com.hsap.huisianpu.activity.WorkCarActivity;
 import com.hsap.huisianpu.activity.WorkOutActivity;
 import com.hsap.huisianpu.activity.WorkOvertimeActivity;
+import com.hsap.huisianpu.activity.WorkPurchaseActivity;
 import com.hsap.huisianpu.activity.WorkTripActivity;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.bean.EventDate;
@@ -103,6 +104,9 @@ public class MineRefusedPager extends BaseFragmentPager {
                                         case 4:
                                             intent=new Intent(mActivity, WorkCarActivity.class);
                                             break;
+                                        case 12:
+                                            intent=new Intent(mActivity, WorkPurchaseActivity.class);
+                                            break;
                                             default:
                                     }
                                     intent.putExtra("id",bean.getData().get(position).getId());
@@ -178,6 +182,9 @@ public class MineRefusedPager extends BaseFragmentPager {
                 break;
             case 6:
                 title += "出差总结";
+                break;
+            case 12:
+                title+="采购";
                 break;
                 default:
         }

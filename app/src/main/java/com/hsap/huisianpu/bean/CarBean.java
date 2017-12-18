@@ -3,16 +3,16 @@ package com.hsap.huisianpu.bean;
 import java.util.List;
 
 /**
- * Created by zhao on 2017/12/16.
+ * Created by zhao on 217/12/16.
  */
 
 public class CarBean {
 
     /**
-     * code : 200
+     * code : 2
      * msg : null
      * success : true
-     * data : {"createName":"王二","nameList":["王三"],"waIntegration":{"id":54,"startTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":350,"monthValue":12,"hour":10,"minute":24,"nano":0,"second":0,"chronology":{"id":"ISO","calendarType":"iso8601"}},"endTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":350,"monthValue":12,"hour":14,"minute":24,"nano":0,"second":0,"chronology":{"id":"ISO","calendarType":"iso8601"}},"totalTime":null,"state":0,"reason":null,"type":4,"type2":"15127027086","createTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":350,"monthValue":12,"hour":10,"minute":25,"nano":0,"second":59,"chronology":{"id":"ISO","calendarType":"iso8601"}}},"object":{"leixing":"商务用车","didian":"得","shixiang":"得"},"nameId":[3]}
+     * data : {"createName":"王二","nameList":["王三"],"waIntegration":{"id":54,"startTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":217,"dayOfYear":35,"monthValue":12,"hour":1,"minute":24,"nano":,"second":,"chronology":{"id":"ISO","calendarType":"iso861"}},"endTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":217,"dayOfYear":35,"monthValue":12,"hour":14,"minute":24,"nano":,"second":,"chronology":{"id":"ISO","calendarType":"iso861"}},"totalTime":null,"state":,"reason":null,"type":4,"type2":"151272786","createTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":217,"dayOfYear":35,"monthValue":12,"hour":1,"minute":25,"nano":,"second":59,"chronology":{"id":"ISO","calendarType":"iso861"}}},"object":{"leixing":"商务用车","didian":"得","shixiang":"得"},"nameId":[3]}
      */
 
     private int code;
@@ -56,7 +56,7 @@ public class CarBean {
         /**
          * createName : 王二
          * nameList : ["王三"]
-         * waIntegration : {"id":54,"startTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":350,"monthValue":12,"hour":10,"minute":24,"nano":0,"second":0,"chronology":{"id":"ISO","calendarType":"iso8601"}},"endTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":350,"monthValue":12,"hour":14,"minute":24,"nano":0,"second":0,"chronology":{"id":"ISO","calendarType":"iso8601"}},"totalTime":null,"state":0,"reason":null,"type":4,"type2":"15127027086","createTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":350,"monthValue":12,"hour":10,"minute":25,"nano":0,"second":59,"chronology":{"id":"ISO","calendarType":"iso8601"}}}
+         * waIntegration : {"id":54,"startTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":217,"dayOfYear":35,"monthValue":12,"hour":1,"minute":24,"nano":,"second":,"chronology":{"id":"ISO","calendarType":"iso861"}},"endTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":217,"dayOfYear":35,"monthValue":12,"hour":14,"minute":24,"nano":,"second":,"chronology":{"id":"ISO","calendarType":"iso861"}},"totalTime":null,"state":,"reason":null,"type":4,"type2":"151272786","createTime":{"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":217,"dayOfYear":35,"monthValue":12,"hour":1,"minute":25,"nano":,"second":59,"chronology":{"id":"ISO","calendarType":"iso861"}}}
          * object : {"leixing":"商务用车","didian":"得","shixiang":"得"}
          * nameId : [3]
          */
@@ -110,14 +110,14 @@ public class CarBean {
         public static class WaIntegrationBean {
             /**
              * id : 54
-             * startTime : {"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":350,"monthValue":12,"hour":10,"minute":24,"nano":0,"second":0,"chronology":{"id":"ISO","calendarType":"iso8601"}}
-             * endTime : {"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":350,"monthValue":12,"hour":14,"minute":24,"nano":0,"second":0,"chronology":{"id":"ISO","calendarType":"iso8601"}}
+             * startTime : {"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":217,"dayOfYear":35,"monthValue":12,"hour":1,"minute":24,"nano":,"second":,"chronology":{"id":"ISO","calendarType":"iso861"}}
+             * endTime : {"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":217,"dayOfYear":35,"monthValue":12,"hour":14,"minute":24,"nano":,"second":,"chronology":{"id":"ISO","calendarType":"iso861"}}
              * totalTime : null
-             * state : 0
+             * state : 
              * reason : null
              * type : 4
-             * type2 : 15127027086
-             * createTime : {"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":2017,"dayOfYear":350,"monthValue":12,"hour":10,"minute":25,"nano":0,"second":59,"chronology":{"id":"ISO","calendarType":"iso8601"}}
+             * type2 : 151272786
+             * createTime : {"dayOfMonth":16,"dayOfWeek":"SATURDAY","month":"DECEMBER","year":217,"dayOfYear":35,"monthValue":12,"hour":1,"minute":25,"nano":,"second":59,"chronology":{"id":"ISO","calendarType":"iso861"}}
              */
 
             private int id;
@@ -207,14 +207,14 @@ public class CarBean {
                  * dayOfMonth : 16
                  * dayOfWeek : SATURDAY
                  * month : DECEMBER
-                 * year : 2017
-                 * dayOfYear : 350
+                 * year : 217
+                 * dayOfYear : 35
                  * monthValue : 12
-                 * hour : 10
+                 * hour : 1
                  * minute : 24
-                 * nano : 0
-                 * second : 0
-                 * chronology : {"id":"ISO","calendarType":"iso8601"}
+                 * nano : 
+                 * second : 
+                 * chronology : {"id":"ISO","calendarType":"iso861"}
                  */
 
                 private int dayOfMonth;
@@ -320,7 +320,7 @@ public class CarBean {
                 public static class ChronologyBean {
                     /**
                      * id : ISO
-                     * calendarType : iso8601
+                     * calendarType : iso861
                      */
 
                     private String id;
@@ -349,14 +349,14 @@ public class CarBean {
                  * dayOfMonth : 16
                  * dayOfWeek : SATURDAY
                  * month : DECEMBER
-                 * year : 2017
-                 * dayOfYear : 350
+                 * year : 217
+                 * dayOfYear : 35
                  * monthValue : 12
                  * hour : 14
                  * minute : 24
-                 * nano : 0
-                 * second : 0
-                 * chronology : {"id":"ISO","calendarType":"iso8601"}
+                 * nano : 
+                 * second : 
+                 * chronology : {"id":"ISO","calendarType":"iso861"}
                  */
 
                 private int dayOfMonth;
@@ -462,7 +462,7 @@ public class CarBean {
                 public static class ChronologyBeanX {
                     /**
                      * id : ISO
-                     * calendarType : iso8601
+                     * calendarType : iso861
                      */
 
                     private String id;
@@ -491,14 +491,14 @@ public class CarBean {
                  * dayOfMonth : 16
                  * dayOfWeek : SATURDAY
                  * month : DECEMBER
-                 * year : 2017
-                 * dayOfYear : 350
+                 * year : 217
+                 * dayOfYear : 35
                  * monthValue : 12
-                 * hour : 10
+                 * hour : 1
                  * minute : 25
-                 * nano : 0
+                 * nano : 
                  * second : 59
-                 * chronology : {"id":"ISO","calendarType":"iso8601"}
+                 * chronology : {"id":"ISO","calendarType":"iso861"}
                  */
 
                 private int dayOfMonth;
@@ -604,7 +604,7 @@ public class CarBean {
                 public static class ChronologyBeanXX {
                     /**
                      * id : ISO
-                     * calendarType : iso8601
+                     * calendarType : iso861
                      */
 
                     private String id;
@@ -635,33 +635,96 @@ public class CarBean {
              * didian : 得
              * shixiang : 得
              */
+            private String guige;
+            private String shuliang;
+            private String danjia;
+            private String yongtu;
+            private String jine;
+            private String name;
+            private String piaoju;
 
-            private String leixing0;
-            private String didian0;
-            private String shixiang0;
-
-            public String getLeixing0() {
-                return leixing0;
+            public String getGuige() {
+                return guige;
             }
 
-            public void setLeixing0(String leixing0) {
-                this.leixing0 = leixing0;
+            public void setGuige(String guige) {
+                this.guige = guige;
             }
 
-            public String getDidian0() {
-                return didian0;
+            public String getShuliang() {
+                return shuliang;
             }
 
-            public void setDidian0(String didian0) {
-                this.didian0 = didian0;
+            public void setShuliang(String shuliang) {
+                this.shuliang = shuliang;
             }
 
-            public String getShixiang0() {
-                return shixiang0;
+            public String getDanjia() {
+                return danjia;
             }
 
-            public void setShixiang0(String shixiang0) {
-                this.shixiang0 = shixiang0;
+            public void setDanjia(String danjia) {
+                this.danjia = danjia;
+            }
+
+            public String getYongtu() {
+                return yongtu;
+            }
+
+            public void setYongtu(String yongtu) {
+                this.yongtu = yongtu;
+            }
+
+            public String getJine() {
+                return jine;
+            }
+
+            public void setJine(String jine) {
+                this.jine = jine;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getPiaoju() {
+                return piaoju;
+            }
+
+            public void setPiaoju(String piaoju) {
+                this.piaoju = piaoju;
+            }
+
+            private String leixing;
+            private String didian;
+            private String shixiang;
+
+            public String getLeixing() {
+                return leixing;
+            }
+
+            public void setLeixing(String leixing) {
+                this.leixing = leixing;
+            }
+
+            public String getDidian() {
+                return didian;
+            }
+
+            public void setDidian(String didian) {
+                this.didian = didian;
+            }
+
+            public String getShixiang() {
+                return shixiang;
+            }
+
+            public void setShixiang(String shixiang) {
+                this.shixiang = shixiang;
             }
         }
     }

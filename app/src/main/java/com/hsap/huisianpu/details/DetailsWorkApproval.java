@@ -1,5 +1,8 @@
 package com.hsap.huisianpu.details;
 
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
@@ -9,12 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.tu.loadingdialog.LoadingDailog;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.MyAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.CarBean;
 import com.hsap.huisianpu.bean.FalseBean;
+import com.hsap.huisianpu.bean.PurchaseBean;
 import com.hsap.huisianpu.bean.PushTripBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
@@ -27,6 +33,9 @@ import com.lzy.okgo.model.Response;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -64,6 +73,8 @@ public class DetailsWorkApproval extends BaseBackActivity {
     StringBuilder end = new StringBuilder();
     @BindView(R.id.tv_work_approval_zhuangtai)
     TextView tvWorkApprovalZhuangtai;
+    @BindView(R.id.vs_purchase)
+    ViewStub vsPurchase;
     private int type;
     private int projectId;
 
@@ -80,8 +91,8 @@ public class DetailsWorkApproval extends BaseBackActivity {
         type = getIntent().getIntExtra("type", 0);
         projectId = getIntent().getIntExtra("projectId", 0);
         int opinion = getIntent().getIntExtra("opinion", 0);
-        Log.e(TAG, "initView: "+opinion );
-        switch (opinion){
+        Log.e(TAG, "initView: " + opinion);
+        switch (opinion) {
             case 0:
                 tvWorkApprovalZhuangtai.setVisibility(View.GONE);
                 detailsBtRefuse.setVisibility(View.VISIBLE);
@@ -140,8 +151,74 @@ public class DetailsWorkApproval extends BaseBackActivity {
                 tvApproveType.setText(name + "的发布项目");
                 vsProject.inflate();
                 break;
+            case 12:
+                tvApproveType.setText(name + "的采购");
+                 vsPurchase.inflate();
+                 purchase(projectId, 获取数据中);
+                break;
             default:
         }
+    }
+
+    private void purchase(int projectId, final LoadingDailog 获取数据中) {
+        final TextView et_purchase_reason = findViewById(R.id.et_purchase_reason);
+        final TextView tv_purchase_type = findViewById(R.id.tv_purchase_type);
+        final TextView tv_purchase_time = findViewById(R.id.tv_purchase_time);
+        final RecyclerView rlv_purchase = findViewById(R.id.rlv_purchase);
+        OkGo.<String>post(NetAddressUtils.selectOneIntergration).
+                params("id", projectId).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        PurchaseBean bean = new Gson().fromJson(response.body().toString(), PurchaseBean.class);
+                        ArrayList<PurchaseBean.DataBean.ObjectBean.ListBean> list = new ArrayList<>();
+                        if (bean.isSuccess()){
+                            获取数据中.dismiss();
+                            Log.e(TAG, "onSuccess: " + response.body().toString());
+                            list.addAll(bean.getData().getObject().getList());
+                            et_purchase_reason.setText(bean.getData().getWaIntegration().getReason()+"");
+                            tv_purchase_type.setText(bean.getData().getWaIntegration().getType2());
+                            tv_purchase_time.setText(bean.getData().getWaIntegration().getEndTime().getYear()+"-"
+                                    +bean.getData().getWaIntegration().getEndTime().getMonthValue()+"-"+
+                                    bean.getData().getWaIntegration().getEndTime().getDayOfMonth());
+                            rlv_purchase.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            rlv_purchase.setAdapter(new PurchaseMyAdapter(R.layout.item_push_purchase,list));
+                        }else {
+                            获取数据中.dismiss();
+                            ToastUtils.showToast(getApplicationContext(),"当前无网络");
+                        }
+
+                    }
+                    class PurchaseMyAdapter extends BaseQuickAdapter<PurchaseBean.DataBean.ObjectBean.ListBean,BaseViewHolder> {
+
+
+                        public PurchaseMyAdapter(int layoutResId, @Nullable List<PurchaseBean.DataBean.ObjectBean.ListBean> data) {
+                            super(layoutResId, data);
+                        }
+
+                        @Override
+                        protected void convert(BaseViewHolder helper, PurchaseBean.DataBean.ObjectBean.ListBean item) {
+                            TextView et_shuliang = helper.getView(R.id.et_shuliang);
+                            TextView et_danjia = helper.getView(R.id.et_danjia);
+                            helper.setText(R.id.et_mingcheng,item.getName())
+                                    .setText(R.id.et_xinghao,item.getGuige())
+                                    .setText(R.id.et_shuliang,item.getShuliang())
+                                    .setText(R.id.et_danjia,item.getDanjia())
+                                    .setText(R.id.tv_jine,Double.valueOf(et_shuliang.getText().toString())*Double.valueOf(et_danjia.getText().toString())+"")
+                                    .setText(R.id.et_piaoju,item.getPiaoju())
+                                    .setText(R.id.et_yongtu,item.getYongtu());
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        获取数据中.dismiss();
+                        ToastUtils.showToast(getApplicationContext(),"当前无网络");
+                    }
+                });
     }
 
     private void car(int projectId, final LoadingDailog 获取数据中) {
@@ -171,10 +248,10 @@ public class DetailsWorkApproval extends BaseBackActivity {
                                     + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
                                     bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
                                     bean.getData().getWaIntegration().getEndTime().getMinute());
-                            tv_car_choice.setText(bean.getData().getObject().getLeixing0());
+                            tv_car_choice.setText(bean.getData().getObject().getLeixing());
                             et_car_phone.setText(bean.getData().getWaIntegration().getType2());
-                            et_car_matters.setText(bean.getData().getObject().getShixiang0());
-                            et_car_location.setText(bean.getData().getObject().getDidian0());
+                            et_car_matters.setText(bean.getData().getObject().getShixiang());
+                            et_car_location.setText(bean.getData().getObject().getDidian());
                             if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
                                 ll_approval_car.setVisibility(View.VISIBLE);
                                 gv_car_person.setAdapter(new MyAdapter(DetailsWorkApproval.this, bean.getData().getNameList()));
@@ -426,10 +503,10 @@ public class DetailsWorkApproval extends BaseBackActivity {
         final LoadingDailog 提交中 = ToastUtils.showDailog(this, "提交中");
         提交中.show();
         OkGo.<String>post(NetAddressUtils.setAudit).
-                params("projectId",projectId).
-                params("type",type).
-                params("opinion",2).
-                params("managerId", SpUtils.getInt(ConstantUtils.UserId,this)).
+                params("projectId", projectId).
+                params("type", type).
+                params("opinion", 2).
+                params("managerId", SpUtils.getInt(ConstantUtils.UserId, this)).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -438,48 +515,48 @@ public class DetailsWorkApproval extends BaseBackActivity {
                         detailsBtConfirm.setVisibility(View.GONE);
                         detailsBtRefuse.setVisibility(View.GONE);
                         SpUtils.putInt(ConstantUtils.Approve,
-                                SpUtils.getInt(ConstantUtils.Approve,DetailsWorkApproval.this)-1,DetailsWorkApproval.this);
+                                SpUtils.getInt(ConstantUtils.Approve, DetailsWorkApproval.this) - 1, DetailsWorkApproval.this);
                         提交中.dismiss();
-                        ToastUtils.showToast(DetailsWorkApproval.this,"提交成功");
+                        ToastUtils.showToast(DetailsWorkApproval.this, "提交成功");
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
                         提交中.dismiss();
-                        ToastUtils.showToast(DetailsWorkApproval.this,"提交失败");
+                        ToastUtils.showToast(DetailsWorkApproval.this, "提交失败");
 
                     }
                 });
     }
 
     private void confirm() {
-      //  tvWorkApprovalZhuangtai
+        //  tvWorkApprovalZhuangtai
         final LoadingDailog 提交中 = ToastUtils.showDailog(this, "提交中");
         提交中.show();
         OkGo.<String>post(NetAddressUtils.setAudit).
-                params("projectId",projectId).
-                params("type",type).
-                params("opinion",1).
-                params("managerId", SpUtils.getInt(ConstantUtils.UserId,this)).
+                params("projectId", projectId).
+                params("type", type).
+                params("opinion", 1).
+                params("managerId", SpUtils.getInt(ConstantUtils.UserId, this)).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         SpUtils.putInt(ConstantUtils.Approve,
-                                SpUtils.getInt(ConstantUtils.Approve,DetailsWorkApproval.this)-1,DetailsWorkApproval.this);
+                                SpUtils.getInt(ConstantUtils.Approve, DetailsWorkApproval.this) - 1, DetailsWorkApproval.this);
                         tvWorkApprovalZhuangtai.setVisibility(View.VISIBLE);
                         tvWorkApprovalZhuangtai.setText("已同意");
                         detailsBtConfirm.setVisibility(View.GONE);
                         detailsBtRefuse.setVisibility(View.GONE);
                         提交中.dismiss();
-                       ToastUtils.showToast(DetailsWorkApproval.this,"提交成功");
+                        ToastUtils.showToast(DetailsWorkApproval.this, "提交成功");
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
                         提交中.dismiss();
-                        ToastUtils.showToast(DetailsWorkApproval.this,"提交失败");
+                        ToastUtils.showToast(DetailsWorkApproval.this, "提交失败");
 
                     }
                 });
@@ -490,4 +567,5 @@ public class DetailsWorkApproval extends BaseBackActivity {
         super.onPause();
         EventBus.getDefault().post(new FalseBean("aa"));
     }
+
 }

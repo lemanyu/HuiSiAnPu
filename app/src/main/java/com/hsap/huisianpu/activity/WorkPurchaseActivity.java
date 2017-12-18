@@ -23,7 +23,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseBackActivity;
-import com.hsap.huisianpu.bean.CaiGouBean;
+import com.hsap.huisianpu.bean.PurchaseBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.EditTextUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
@@ -65,9 +65,12 @@ public class WorkPurchaseActivity extends BaseBackActivity {
     RecyclerView rlvPurchase;
     @BindView(R.id.ll_purchase_add)
     LinearLayout llPurchaseAdd;
-    private ArrayList<CaiGouBean>flagList=new ArrayList<>();//假的
-    private ArrayList<CaiGouBean> list=new ArrayList<>();//传送的数据
+    private ArrayList<PurchaseBean.DataBean.ObjectBean.ListBean>flagList=new ArrayList<>();//假的
+    private ArrayList<PurchaseBean.DataBean.ObjectBean.ListBean> list=new ArrayList<>();//传送的数据
     private MyAdapter adapter;
+    private int state;
+    private PurchaseMyAdapter myAdapter;
+    private int id;
 
     @Override
     public int getLayoutId() {
@@ -76,51 +79,196 @@ public class WorkPurchaseActivity extends BaseBackActivity {
 
     @Override
     public void initView() {
-        rlvPurchase.setNestedScrollingEnabled(false);
-        flagList.add(new CaiGouBean());
-        adapter = new MyAdapter(R.layout.item_purchase,flagList);
-        rlvPurchase.setLayoutManager(new LinearLayoutManager(this));
-        rlvPurchase.setAdapter(adapter);
+
     }
 
     @Override
     public void initData() {
-
+        id = getIntent().getIntExtra("id", 0);
+        state = getIntent().getIntExtra("state", 0);
+        if (state == 1) {
+            LoadingDailog 获取数据中 = ToastUtils.showDailog(this, "获取数据中");
+            获取数据中.show();
+            btPurchaseCommit.setVisibility(View.GONE);
+            btLeaveAgain.setVisibility(View.VISIBLE);
+            dataFormNet(id, 获取数据中);
+        } else {
+            btPurchaseCommit.setVisibility(View.VISIBLE);
+            btLeaveAgain.setVisibility(View.GONE);
+            rlvPurchase.setNestedScrollingEnabled(false);
+            flagList.add(new PurchaseBean.DataBean.ObjectBean.ListBean());
+            adapter = new MyAdapter(R.layout.item_purchase,flagList);
+            rlvPurchase.setLayoutManager(new LinearLayoutManager(this));
+            rlvPurchase.setAdapter(adapter);
+            adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
+                    if (position==0){
+                        ToastUtils.showToast(WorkPurchaseActivity.this,"采购申请必须填写");
+                        return;
+                    }
+                    switch (view.getId()){
+                        case R.id.bt_purchase_delete:
+                            AlertDialog.Builder builder = new AlertDialog.Builder(WorkPurchaseActivity.this);
+                            builder.setMessage("确定要删除此条采购信息嘛？");
+                            builder.setNegativeButton("取消",null);
+                            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    flagList.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+                            builder.show();
+                            break;
+                        default:
+                    }
+                }
+            });
+        }
     }
 
+    private void dataFormNet(int id, final LoadingDailog 获取数据中) {
+        OkGo.<String>post(NetAddressUtils.selectOneIntergration).
+                params("id", id).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        PurchaseBean bean = new Gson().fromJson(response.body(), PurchaseBean.class);
+                        if (bean.isSuccess()) {
+                            获取数据中.dismiss();
+                            tvPurchaseTime.setText(bean.getData().getWaIntegration().getEndTime().getYear() + "-" +
+                                    bean.getData().getWaIntegration().getEndTime().getMonthValue() + "-"
+                                    + bean.getData().getWaIntegration().getEndTime().getDayOfMonth());
+                            list.addAll(bean.getData().getObject().getList());
+                            tvPurchaseType.setText(bean.getData().getWaIntegration().getType2());
+                            etPurchaseReason.setText(bean.getData().getWaIntegration().getReason()+"");
+                            rlvPurchase.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            myAdapter = new PurchaseMyAdapter(R.layout.item_purchase,list);
+                            rlvPurchase.setAdapter(myAdapter);
+                            myAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                               @Override
+                               public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
+                                   if (position==0){
+                                       ToastUtils.showToast(WorkPurchaseActivity.this,"采购申请必须填写");
+                                       return;
+                                   }
+                                   switch (view.getId()){
+                                       case R.id.bt_purchase_delete:
+                                           AlertDialog.Builder builder = new AlertDialog.Builder(WorkPurchaseActivity.this);
+                                           builder.setMessage("确定要删除此条采购信息嘛？");
+                                           builder.setNegativeButton("取消",null);
+                                           builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                               @Override
+                                               public void onClick(DialogInterface dialogInterface, int i) {
+                                                   list.remove(position);
+                                                   myAdapter.notifyDataSetChanged();
+                                               }
+                                           });
+                                           builder.show();
+                                           break;
+                                       default:
+                                   }
+                               }
+                           });
+                        } else {
+                            获取数据中.dismiss();
+                            ToastUtils.showToast(WorkPurchaseActivity.this, "当前无网络");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        获取数据中.dismiss();
+                        ToastUtils.showToast(WorkPurchaseActivity.this, "当前无网络");
+                    }
+                });
+    }
+    class PurchaseMyAdapter extends BaseQuickAdapter<PurchaseBean.DataBean.ObjectBean.ListBean,BaseViewHolder>{
+
+
+        public PurchaseMyAdapter(int layoutResId, @Nullable List<PurchaseBean.DataBean.ObjectBean.ListBean> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, PurchaseBean.DataBean.ObjectBean.ListBean item) {
+            final EditText et_danjia = helper.getView(R.id.et_danjia);
+            final EditText et_shuliang = helper.getView(R.id.et_shuliang);
+            final TextView jine = helper.getView(R.id.tv_jine);
+            et_shuliang.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if(!TextUtils.isEmpty(et_shuliang.getText().toString().trim())&&!TextUtils.isEmpty(et_danjia.getText().toString().trim())){
+                        if(!(et_shuliang.getText().toString().trim().length()==1&&et_shuliang.getText().toString().trim().equals("0"))){
+                            double  total = Double.valueOf(et_shuliang.getText().toString().trim()) *
+                                    Double.valueOf(et_danjia.getText().toString().trim());
+                            jine.setText(total+"");
+                        }
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            et_danjia.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if(!TextUtils.isEmpty(et_shuliang.getText().toString().trim())&&!TextUtils.isEmpty(et_danjia.getText().toString().trim())){
+                        if(!(et_shuliang.getText().toString().trim().length()==1&&et_shuliang.getText().toString().trim().equals("0"))){
+                            double  total = Double.valueOf(et_shuliang.getText().toString().trim()) *
+                                    Double.valueOf(et_danjia.getText().toString().trim());
+                            jine.setText(total+"");
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            helper.setIsRecyclable(false);
+            EditTextUtils.afterDotTwo(et_danjia);
+            if (helper.getAdapterPosition()==0){
+                helper.getView(R.id.bt_purchase_delete).setVisibility(View.GONE);
+            }
+            helper.addOnClickListener(R.id.bt_purchase_delete);
+            helper.setText(R.id.et_mingcheng,item.getName())
+                    .setText(R.id.et_xinghao,item.getGuige())
+                    .setText(R.id.et_shuliang,item.getShuliang())
+                    .setText(R.id.et_danjia,item.getDanjia())
+                    .setText(R.id.et_piaoju,item.getPiaoju())
+                    .setText(R.id.et_yongtu,item.getYongtu());
+            if (!TextUtils.isEmpty(et_danjia.getText().toString().trim())
+                    &&!TextUtils.isEmpty(et_shuliang.getText().toString().trim())){
+                helper.setText(R.id.tv_jine,Double.valueOf(et_shuliang.getText().toString())*Double.valueOf(et_danjia.getText().toString())+"");
+            }
+        }
+
+    }
     @Override
     public void initListener() {
         back.setOnClickListener(this);
+        btLeaveAgain.setOnClickListener(this);
         btPurchaseCommit.setOnClickListener(this);
         pllPurchaseType.setOnClickListener(this);//类型
         pllPurchaseTime.setOnClickListener(this);//日期
         llPurchaseAdd.setOnClickListener(this);//添加条目
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
-                     if (position==0){
-                         ToastUtils.showToast(WorkPurchaseActivity.this,"采购申请必须填写");
-                         return;
-                     }
-                switch (view.getId()){
-                         case R.id.bt_purchase_delete:
-                             AlertDialog.Builder builder = new AlertDialog.Builder(WorkPurchaseActivity.this);
-                             builder.setMessage("确定要删除此条采购信息嘛？");
-                             builder.setNegativeButton("取消",null);
-                             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                 @Override
-                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                     flagList.remove(position);
-                                     adapter.notifyDataSetChanged();
-                                 }
-                             });
-                             builder.show();
-                             break;
-                         default:
-                     }
-            }
-        });
-
 
     }
 
@@ -139,15 +287,25 @@ public class WorkPurchaseActivity extends BaseBackActivity {
                 case R.id.ll_purchase_add:
                     addItem();
                     break;
-
+                case R.id.bt_leave_again:
+                    commit();
+                    break;
                     default:
             }
     }
 
     private void addItem() {
-        flagList.add(new CaiGouBean());
+
            //adapter.setNewData(list);
-           adapter.notifyItemChanged(flagList.size());
+         if(state==0){
+             flagList.add(new PurchaseBean.DataBean.ObjectBean.ListBean());
+             adapter.notifyItemChanged(flagList.size());
+         }else {
+             list.add(new PurchaseBean.DataBean.ObjectBean.ListBean());
+             myAdapter.notifyItemChanged(list.size());
+         }
+
+
     }
 
     private void choiceTime() {
@@ -201,7 +359,7 @@ public class WorkPurchaseActivity extends BaseBackActivity {
          }
         list.clear();
         for (int i = 0; i <flagList.size(); i++) {
-            CaiGouBean bean = new CaiGouBean();
+            PurchaseBean.DataBean.ObjectBean.ListBean bean = new PurchaseBean.DataBean.ObjectBean.ListBean();
             EditText et_mingcheng = (EditText) adapter.getViewByPosition(rlvPurchase,i,R.id.et_mingcheng);
             EditText et_xinghao = (EditText) adapter.getViewByPosition(rlvPurchase,i,R.id.et_xinghao);
             EditText et_shuliang = (EditText) adapter.getViewByPosition(rlvPurchase,i, R.id.et_shuliang);
@@ -230,7 +388,7 @@ public class WorkPurchaseActivity extends BaseBackActivity {
                 list.remove(i);
                 break;
             }else {
-                bean.setShuliang(Integer.valueOf(et_shuliang.getText().toString().trim()));
+                bean.setShuliang(Integer.valueOf(et_shuliang.getText().toString().trim())+"");
             }
             if (TextUtils.isEmpty(et_danjia.getText().toString().trim())){
                 flag=true;
@@ -238,7 +396,7 @@ public class WorkPurchaseActivity extends BaseBackActivity {
                 list.remove(i);
                 break;
             }else {
-                bean.setDanjia(Double.valueOf(et_danjia.getText().toString().trim()));
+                bean.setDanjia(Double.valueOf(et_danjia.getText().toString().trim())+"");
             }
             if (TextUtils.isEmpty(et_piaoju.getText().toString().trim())){
                 flag=true;
@@ -267,15 +425,16 @@ public class WorkPurchaseActivity extends BaseBackActivity {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                final LoadingDailog dailog = ToastUtils.showDailog(getApplicationContext(), "提交中");
+                final LoadingDailog dailog = ToastUtils.showDailog(WorkPurchaseActivity.this, "提交中");
                 dailog.show();
                 OkGo.<String>post(NetAddressUtils.insertIntegration).
                         params("endTime",tvPurchaseTime.getText().toString().trim()).
-                        params("reasion",etPurchaseReason.getText().toString().trim()).
+                        params("reason",etPurchaseReason.getText().toString().trim()).
                         params("type",12).
+                        params("reStart",id).
                         params("type2",tvPurchaseType.getText().toString().trim()).
                         params("workersId", SpUtils.getInt(ConstantUtils.UserId,getApplicationContext())).
-                        params("0",new Gson().toJson(list)).
+                        params("o",new Gson().toJson(list)).
                         params("activity","com.hsap.huisianpu.push.PushTirpActivity").
                         execute(new StringCallback() {
                             @Override
@@ -293,18 +452,16 @@ public class WorkPurchaseActivity extends BaseBackActivity {
             }
         });
          builder.show();
-        ToastUtils.showToast(this,"提交成功");
     }
 
-  class  MyAdapter extends BaseQuickAdapter<CaiGouBean,MyAdapter.MyViewHolder>{
+  class  MyAdapter extends BaseQuickAdapter<PurchaseBean.DataBean.ObjectBean.ListBean,BaseViewHolder>{
 
-      public MyAdapter(int layoutResId, @Nullable List<CaiGouBean> data) {
+      public MyAdapter(int layoutResId, @Nullable List<PurchaseBean.DataBean.ObjectBean.ListBean> data) {
           super(layoutResId, data);
       }
 
-
       @Override
-      protected void convert(MyViewHolder helper,CaiGouBean item) {
+      protected void convert(BaseViewHolder helper, PurchaseBean.DataBean.ObjectBean.ListBean item) {
           final EditText et_danjia = helper.getView(R.id.et_danjia);
           final EditText et_shuliang = helper.getView(R.id.et_shuliang);
           final TextView jine = helper.getView(R.id.tv_jine);
@@ -361,12 +518,6 @@ public class WorkPurchaseActivity extends BaseBackActivity {
           helper.addOnClickListener(R.id.bt_purchase_delete);
       }
 
-      class MyViewHolder extends BaseViewHolder{
 
-            public MyViewHolder(View view) {
-                super(view);
-
-            }
-        }
   }
 }

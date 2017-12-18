@@ -85,6 +85,7 @@ public class LeaveActivity extends BaseBackActivity {
     private StringBuffer begintime = new StringBuffer();
     private StringBuffer Pm = new StringBuffer();//下午
     private StringBuffer Am = new StringBuffer();//上午
+    private int id;
 
     @Override
     public int getLayoutId() {
@@ -116,7 +117,7 @@ public class LeaveActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
-        int id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getIntExtra("id", 0);
         int state = getIntent().getIntExtra("state", 0);
         if (state == 1) {
             LoadingDailog 获取数据中 = ToastUtils.showDailog(this, "获取数据中");
@@ -346,6 +347,7 @@ public class LeaveActivity extends BaseBackActivity {
                                 SpUtils.getInt(ConstantUtils.UserId,
                                         LeaveActivity.this)).
                         params("type", 0).
+                        params("reStart",id).
                         params("type2", tvQingjialeixing.getText().toString()).
                         params("startTime", tvBeginTime.getText().toString().trim()).
                         params("endTime", tvEndTime.getText().toString().trim()).

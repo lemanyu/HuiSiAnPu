@@ -76,6 +76,7 @@ public class WorkOutActivity extends BaseBackActivity {
     private List<String> idList = new ArrayList<>();//存放 审批人的id
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
+    private int id;
 
     @Override
     public int getLayoutId() {
@@ -107,7 +108,7 @@ public class WorkOutActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
-        int id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getIntExtra("id", 0);
         int state = getIntent().getIntExtra("state", 0);
         if (state == 1) {
             LoadingDailog 获取数据中 = ToastUtils.showDailog(this, "获取数据中");
@@ -242,6 +243,7 @@ public class WorkOutActivity extends BaseBackActivity {
                         params("startTime", tvOutTime.getText().toString().trim()).
                         params("reason", tvOutReason.getText().toString().trim()).
                         params("type", 1).
+                        params("reStart",id).
                         params("endTime", tvReturnTime.getText().toString().trim()).
                         params("type2", etOutArticles.getText().toString().trim()).
                         params("workersId", SpUtils.getInt(ConstantUtils.UserId, WorkOutActivity.this)).

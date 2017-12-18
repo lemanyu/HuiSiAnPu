@@ -45,6 +45,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,6 +92,7 @@ public class WorkCarActivity extends BaseBackActivity {
     private AccompanyGvidViewAdapter accompanyGvidViewAdapter;
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
+    private int id;
 
     @Override
     public int getLayoutId() {
@@ -138,7 +140,7 @@ public class WorkCarActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
-        int id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getIntExtra("id", 0);
         int state = getIntent().getIntExtra("state", 0);
         if (state == 1) {
             LoadingDailog 获取数据中 = ToastUtils.showDailog(this, "获取数据中");
@@ -171,10 +173,10 @@ public class WorkCarActivity extends BaseBackActivity {
                                     + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
                                     bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
                                     bean.getData().getWaIntegration().getEndTime().getMinute());
-                            tvCarChoice.setText(bean.getData().getObject().getLeixing0());
+                            tvCarChoice.setText(bean.getData().getObject().getLeixing());
                             etCarPhone.setText(bean.getData().getWaIntegration().getType2());
-                            etCarMatters.setText(bean.getData().getObject().getShixiang0());
-                            etCarLocation.setText(bean.getData().getObject().getDidian0());
+                            etCarMatters.setText(bean.getData().getObject().getShixiang());
+                            etCarLocation.setText(bean.getData().getObject().getDidian());
                             if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
                                 for (int i = 0; i <bean.getData().getNameList().size(); i++) {
                                     personList.add(new Bean(bean.getData().getNameList().get(i),color[(int) (Math.random() * 6)]));
@@ -355,6 +357,8 @@ public class WorkCarActivity extends BaseBackActivity {
                 map.put("shixiang", etCarMatters.getText().toString().trim());
                 map.put("didian", etCarLocation.getText().toString().trim());
                 map.put("leixing", tvCarChoice.getText().toString().trim());
+                ArrayList<Map<Object, Object>> maps = new ArrayList<>();
+                maps.add(map);
                 final LoadingDailog dailog = ToastUtils.showDailog(WorkCarActivity.this, "提交中");
                 dailog.show();
                 OkGo.<String>post(NetAddressUtils.insertIntegration).
@@ -362,10 +366,12 @@ public class WorkCarActivity extends BaseBackActivity {
                         params("startTime", tvCarBegin.getText().toString().trim()).
                         params("endTime", tvCarEnd.getText().toString().trim()).
                         params("type", 4).
+                        params("reStart",id).
                         params("type2", etCarPhone.getText().toString().trim()).
                         params("ids", new Gson().toJson(personIdList)).
                         params("activity", "com.hsap.huisianpu.push.PushTirpActivity").
-                        params("o", map.toString()).execute(new StringCallback() {
+                        params("o",new Gson().toJson(maps)).
+                        execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         dailog.dismiss();

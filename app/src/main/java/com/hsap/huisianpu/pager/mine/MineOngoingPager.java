@@ -138,6 +138,9 @@ public class MineOngoingPager extends BaseFragmentPager {
             case 6:
                 title += "出差总结";
                 break;
+            case 12:
+                title+="采购";
+                break;
                 default:
         }
         return title;

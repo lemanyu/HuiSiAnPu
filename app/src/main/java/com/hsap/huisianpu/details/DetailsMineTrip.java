@@ -1,5 +1,8 @@
 package com.hsap.huisianpu.details;
 
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
@@ -9,11 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.tu.loadingdialog.LoadingDailog;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.MyAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.CarBean;
+import com.hsap.huisianpu.bean.PurchaseBean;
 import com.hsap.huisianpu.bean.PushTripBean;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
@@ -22,6 +28,9 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.zhy.android.percent.support.PercentLinearLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -53,6 +62,8 @@ public class DetailsMineTrip extends BaseBackActivity {
     StringBuilder end = new StringBuilder();
     @BindView(R.id.bt_details_wancheng)
     Button btDetailsWancheng;
+    @BindView(R.id.ps_purchase)
+    ViewStub psPurchase;
     private int state;
 
 
@@ -99,7 +110,74 @@ public class DetailsMineTrip extends BaseBackActivity {
                 psCar.inflate();
                 dataFormCar(workid, 获取数据中);
                 break;
+            case 12:
+                detailsMineTrip.setText("我的采购");
+                psPurchase.inflate();
+                dataFormPurchase(workid, 获取数据中);
+                break;
             default:
+        }
+    }
+
+    private void dataFormPurchase(int workid, final LoadingDailog 获取数据中) {
+        final TextView et_purchase_reason = findViewById(R.id.et_purchase_reason);
+        final TextView tv_purchase_type = findViewById(R.id.tv_purchase_type);
+        final TextView tv_purchase_time = findViewById(R.id.tv_purchase_time);
+        final RecyclerView rlv_purchase = findViewById(R.id.rlv_purchase);
+        OkGo.<String>post(NetAddressUtils.selectOneIntergration).
+                params("id", workid).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        PurchaseBean bean = new Gson().fromJson(response.body().toString(), PurchaseBean.class);
+                        ArrayList<PurchaseBean.DataBean.ObjectBean.ListBean> list = new ArrayList<>();
+                        if (bean.isSuccess()) {
+                            获取数据中.dismiss();
+                            if (state == 1) {
+                                choiceState(bean.getData().getWaIntegration().getState());
+                            }
+                            Log.e(TAG, "onSuccess: " + response.body().toString());
+                            list.addAll(bean.getData().getObject().getList());
+                            et_purchase_reason.setText(bean.getData().getWaIntegration().getReason() + "");
+                            tv_purchase_type.setText(bean.getData().getWaIntegration().getType2());
+                            tv_purchase_time.setText(bean.getData().getWaIntegration().getEndTime().getYear() + "-"
+                                    + bean.getData().getWaIntegration().getEndTime().getMonthValue() + "-" +
+                                    bean.getData().getWaIntegration().getEndTime().getDayOfMonth());
+                            rlv_purchase.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            rlv_purchase.setAdapter(new PurchaseMyAdapter(R.layout.item_push_purchase,list));
+                        } else {
+                            获取数据中.dismiss();
+                            ToastUtils.showToast(getApplicationContext(), "当前无网络");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        获取数据中.dismiss();
+                        ToastUtils.showToast(getApplicationContext(), "当前无网络");
+                    }
+                });
+    }
+
+    class PurchaseMyAdapter extends BaseQuickAdapter<PurchaseBean.DataBean.ObjectBean.ListBean, BaseViewHolder> {
+
+
+        public PurchaseMyAdapter(int layoutResId, @Nullable List<PurchaseBean.DataBean.ObjectBean.ListBean> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, PurchaseBean.DataBean.ObjectBean.ListBean item) {
+            TextView et_shuliang = helper.getView(R.id.et_shuliang);
+            TextView et_danjia = helper.getView(R.id.et_danjia);
+            helper.setText(R.id.et_mingcheng, item.getName())
+                    .setText(R.id.et_xinghao, item.getGuige())
+                    .setText(R.id.et_shuliang, item.getShuliang())
+                    .setText(R.id.et_danjia, item.getDanjia())
+                    .setText(R.id.tv_jine,Double.valueOf(item.getShuliang())*Double.valueOf(item.getShuliang())+"")
+                    .setText(R.id.et_piaoju, item.getPiaoju())
+                    .setText(R.id.et_yongtu, item.getYongtu());
         }
     }
 
@@ -120,7 +198,7 @@ public class DetailsMineTrip extends BaseBackActivity {
                         CarBean bean = new Gson().fromJson(response.body(), CarBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
-                            if(state==1){
+                            if (state == 1) {
                                 choiceState(bean.getData().getWaIntegration().getState());
                             }
                             tv_car_begin.setText(bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
@@ -133,10 +211,10 @@ public class DetailsMineTrip extends BaseBackActivity {
                                     + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
                                     bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
                                     bean.getData().getWaIntegration().getEndTime().getMinute());
-                            tv_car_choice.setText(bean.getData().getObject().getLeixing0());
+                            tv_car_choice.setText(bean.getData().getObject().getLeixing());
                             et_car_phone.setText(bean.getData().getWaIntegration().getType2());
-                            et_car_matters.setText(bean.getData().getObject().getShixiang0());
-                            et_car_location.setText(bean.getData().getObject().getDidian0());
+                            et_car_matters.setText(bean.getData().getObject().getShixiang());
+                            et_car_location.setText(bean.getData().getObject().getDidian());
                             if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
                                 ll_approval_car.setVisibility(View.VISIBLE);
                                 gv_car_person.setAdapter(new MyAdapter(DetailsMineTrip.this, bean.getData().getNameList()));
@@ -203,7 +281,7 @@ public class DetailsMineTrip extends BaseBackActivity {
                         PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
-                            if(state==1){
+                            if (state == 1) {
                                 choiceState(bean.getData().getWaIntegration().getState());
                             }
                             tv_overtime_begin.setText(
@@ -248,7 +326,7 @@ public class DetailsMineTrip extends BaseBackActivity {
                         PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
-                            if(state==1){
+                            if (state == 1) {
                                 choiceState(bean.getData().getWaIntegration().getState());
                             }
                             TextView tv_out_reason = findViewById(R.id.tv_out_reason);
@@ -297,7 +375,7 @@ public class DetailsMineTrip extends BaseBackActivity {
                         PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
-                            if(state==1){
+                            if (state == 1) {
                                 choiceState(bean.getData().getWaIntegration().getState());
                             }
                             if (bean.getData().getWaIntegration().getStartTime().getHour() == 8) {
@@ -354,7 +432,7 @@ public class DetailsMineTrip extends BaseBackActivity {
                 PushTripBean bean = new Gson().fromJson(response.body().toString(), PushTripBean.class);
                 if (bean.isSuccess()) {
                     获取数据中.dismiss();
-                    if(state==1){
+                    if (state == 1) {
                         choiceState(bean.getData().getWaIntegration().getState());
                     }
                     if (bean.getData().getWaIntegration().getStartTime().getHour() == 8) {
@@ -432,7 +510,7 @@ public class DetailsMineTrip extends BaseBackActivity {
             case R.id.bt_details_wancheng:
                 secondary();//再次申请
                 break;
-                default:
+            default:
 
         }
     }
@@ -448,6 +526,5 @@ public class DetailsMineTrip extends BaseBackActivity {
     private void cancel() {
 
     }
-
 
 }

@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content" />
                 <EditText
                     android:id="@+id/et_purchase_reason"
-                    android:inputType="phone"
+                    android:inputType="textMultiLine"
                     android:textStyle="bold"
                     android:layout_marginLeft="10dp"
                     android:background="@null"

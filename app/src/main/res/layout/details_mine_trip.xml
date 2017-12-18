@@ -80,6 +80,11 @@
                     android:layout="@layout/approval_car"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+                <ViewStub
+                    android:layout="@layout/approval_purchase"
+                    android:id="@+id/ps_purchase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
                 <Button
                     android:layout_marginTop="10dp"
                     android:textColor="@color/text_blue"

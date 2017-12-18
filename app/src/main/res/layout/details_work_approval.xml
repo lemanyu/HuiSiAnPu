@@ -82,6 +82,11 @@
                 android:layout="@layout/approval_project"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <ViewStub
+                android:id="@+id/vs_purchase"
+                android:layout="@layout/approval_purchase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

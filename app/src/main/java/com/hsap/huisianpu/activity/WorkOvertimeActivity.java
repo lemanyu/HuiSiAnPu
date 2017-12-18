@@ -83,6 +83,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
     private ApproveGridViewAdapter adapter;
     private AccompanyGvidViewAdapter accompanyGvidViewAdapter;
+    private int id;
 
     @Override
     public int getLayoutId() {
@@ -131,7 +132,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
-        int id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getIntExtra("id", 0);
         int state = getIntent().getIntExtra("state", 0);
         if (state == 1) {
             LoadingDailog 获取数据中 = ToastUtils.showDailog(this, "获取数据中");
@@ -307,6 +308,7 @@ public class WorkOvertimeActivity extends BaseBackActivity {
                         params("endTime", tvOvertimeEnd.getText().toString().trim()).
                         params("reason", etOvertimeCause.getText().toString().trim()).
                         params("type", 3).
+                        params("reStart",id).
                         params("activity", "com.hsap.huisianpu.push.PushTirpActivity").
                         params("workersId", SpUtils.getInt(ConstantUtils.UserId, WorkOvertimeActivity.this)).
                         params("ids", new Gson().toJson(personIdList))

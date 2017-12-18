@@ -215,22 +215,113 @@ public class PushTripBean {
              * shixiang : 1.0
              */
 
-            private String leixing;
-            private String didian;
-            private String shixiang;
+            /**
+             * guige0 : 看看
+             * shuliang0 : 55.0
+             * danjia0 : 55.0
+             * yongtu0 : 看看
+             * jine0 : 0.0
+             * name0 : 看看
+             * piaoju0 : 看看
+             */
 
-            public String getLeixing() {
-                return leixing;
+            private String guige0;
+            private String shuliang0;
+            private String danjia0;
+            private String yongtu0;
+            private String jine0;
+            private String name0;
+            private String piaoju0;
+            /**
+             * didian0 : 吧
+             * shixiang0 : 把
+             * leixing0 : 商务用车
+             */
+
+            private String didian0;
+            private String shixiang0;
+            private String leixing0;
+
+
+            public String getGuige0() {
+                return guige0;
             }
 
-            public String getDidian() {
-                return didian;
+            public void setGuige0(String guige0) {
+                this.guige0 = guige0;
             }
 
-            public String getShixiang() {
-                return shixiang;
+            public String getShuliang0() {
+                return shuliang0;
             }
 
+            public void setShuliang0(String shuliang0) {
+                this.shuliang0 = shuliang0;
+            }
+
+            public String getDanjia0() {
+                return danjia0;
+            }
+
+            public void setDanjia0(String danjia0) {
+                this.danjia0 = danjia0;
+            }
+
+            public String getYongtu0() {
+                return yongtu0;
+            }
+
+            public void setYongtu0(String yongtu0) {
+                this.yongtu0 = yongtu0;
+            }
+
+            public String getJine0() {
+                return jine0;
+            }
+
+            public void setJine0(String jine0) {
+                this.jine0 = jine0;
+            }
+
+            public String getName0() {
+                return name0;
+            }
+
+            public void setName0(String name0) {
+                this.name0 = name0;
+            }
+
+            public String getPiaoju0() {
+                return piaoju0;
+            }
+
+            public void setPiaoju0(String piaoju0) {
+                this.piaoju0 = piaoju0;
+            }
+
+            public String getDidian0() {
+                return didian0;
+            }
+
+            public void setDidian0(String didian0) {
+                this.didian0 = didian0;
+            }
+
+            public String getShixiang0() {
+                return shixiang0;
+            }
+
+            public void setShixiang0(String shixiang0) {
+                this.shixiang0 = shixiang0;
+            }
+
+            public String getLeixing0() {
+                return leixing0;
+            }
+
+            public void setLeixing0(String leixing0) {
+                this.leixing0 = leixing0;
+            }
         }
     }
 }
