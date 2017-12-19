@@ -18,6 +18,8 @@ import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.bean.EventDate;
 import com.hsap.huisianpu.pager.mine.MineCarPager;
 import com.hsap.huisianpu.pager.mine.MineLeavePager;
+import com.hsap.huisianpu.pager.mine.MinePurchasePager;
+import com.hsap.huisianpu.pager.mine.MineSummaryPager;
 import com.hsap.huisianpu.pager.mine.MineTripPager;
 import com.hsap.huisianpu.pager.mine.MineoutPager;
 import com.hsap.huisianpu.pager.mine.MineoverTimePager;
@@ -77,6 +79,8 @@ public class MineOutDoorActivity extends BaseBackActivity {
         frgamentList.add(new MineTripPager());
         frgamentList.add(new MineoverTimePager());
         frgamentList.add(new MineCarPager());
+        frgamentList.add(new MinePurchasePager());
+        frgamentList.add(new MineSummaryPager());
 
     }
 
@@ -87,6 +91,8 @@ public class MineOutDoorActivity extends BaseBackActivity {
         list.add("我的出差");
         list.add("我的加班");
         list.add("我的用车");
+        list.add("我的采购");
+        list.add("我的总结");
         micMineOutDoor.setBackgroundColor(Color.WHITE);
         CommonNavigator navigator = new CommonNavigator(this);
         navigator.setAdapter(new CommonNavigatorAdapter() {
@@ -127,7 +133,7 @@ public class MineOutDoorActivity extends BaseBackActivity {
     @Override
     public void initData() {
         initMic();
-        vpMineOutDoor.setOffscreenPageLimit(5);
+        vpMineOutDoor.setOffscreenPageLimit(7);
         vpMineOutDoor.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(), frgamentList));
     }
 

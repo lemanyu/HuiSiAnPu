@@ -48,10 +48,10 @@ import com.hsap.huisianpu.activity.WorkModifyPermissionsActivity;
 import com.hsap.huisianpu.activity.WorkMonthNewPaperActivity;
 import com.hsap.huisianpu.activity.WorkOutActivity;
 import com.hsap.huisianpu.activity.WorkOvertimeActivity;
+import com.hsap.huisianpu.activity.WorkPerformanceActivity;
 import com.hsap.huisianpu.activity.WorkPublishProjectActivity;
 import com.hsap.huisianpu.activity.WorkPurchaseActivity;
 import com.hsap.huisianpu.activity.WorkSeeProjectActivity;
-import com.hsap.huisianpu.activity.WorkSummaryActivity;
 import com.hsap.huisianpu.activity.WorkTripActivity;
 import com.hsap.huisianpu.activity.WorkWeekNewPaperActivity;
 import com.hsap.huisianpu.adapter.WorkRecycleAdapter;
@@ -320,6 +320,7 @@ public class WorkFragment extends BaseFragment {
         list.add(new Bean("日报", R.drawable.day));
         list.add(new Bean("周报", R.drawable.week));
         list.add(new Bean("月报", R.drawable.month));
+        list.add(new Bean("绩效自评",R.drawable.jixiao));
         list.add(new Bean("查看汇报", R.drawable.see));
         list.add(new Bean("出差总结", R.drawable.chuchaizongjie));
         business.setLayoutManager(new GridLayoutManager(mActivity, 4));
@@ -340,6 +341,10 @@ public class WorkFragment extends BaseFragment {
                         startActivity(new Intent(mActivity, WorkMonthNewPaperActivity.class));
                         break;
                     case 3:
+                        startActivity(new Intent(mActivity, WorkPerformanceActivity.class));
+                        break;
+                    case 4:
+                       // startActivity(new Intent(mActivity, WorkSummaryActivity.class));
                         获取权限中.show();
                         OkGo.<String>post(NetAddressUtils.getJurisdiction).
                                 params("id", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
@@ -363,10 +368,6 @@ public class WorkFragment extends BaseFragment {
 
                                     }
                                 });
-
-                        break;
-                    case 4:
-                        startActivity(new Intent(mActivity, WorkSummaryActivity.class));
                         break;
                     default:
                 }

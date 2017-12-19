@@ -37,18 +37,18 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * 我的外出
+ * 我的采购
  */
 
-public class MineoutPager extends BaseFragmentPager {
-    @BindView(R.id.mine_rlv_out)
-    RecyclerView mineRlvOut;
-    Unbinder unbinder;
+public class MinePurchasePager extends BaseFragmentPager {
+    @BindView(R.id.rlv_purchase)
+    RecyclerView rlvPurchase;
     private MyAdapter adapter;
+    Unbinder unbinder;
 
     @Override
     public View initView() {
-        View view = View.inflate(mActivity, R.layout.pager_mine_out, null);
+        View view = View.inflate(mActivity, R.layout.pager_mine_purchase, null);
         return view;
     }
 
@@ -57,47 +57,74 @@ public class MineoutPager extends BaseFragmentPager {
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
-        dataFormNet(year,month);
-
+        dataFormNet(year, month);
     }
 
     private void dataFormNet(int year, int month) {
         OkGo.<String>post(NetAddressUtils.selectIntegration).
                 params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
-                params("type",1).params("year",year).params("month",month).
+                params("type", 12).params("year", year).params("month", month).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
-                        if(bean.isSuccess()){
-                            mineRlvOut.setLayoutManager(new LinearLayoutManager(mActivity));
-                            if(adapter==null){
+                        if (bean.isSuccess()) {
+                            rlvPurchase.setLayoutManager(new LinearLayoutManager(mActivity));
+                            if (adapter == null) {
                                 adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
-                                mineRlvOut.setAdapter(adapter);
-                            }else {
+                                rlvPurchase.setAdapter(adapter);
+                            } else {
                                 adapter.setNewData(bean.getData());
                                 adapter.notifyDataSetChanged();
                             }
-
                             adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     Intent intent = new Intent(mActivity, DetailsMineTrip.class);
-                                    intent.putExtra("type",1);
-                                    intent.putExtra("workid",bean.getData().get(position).getId());
+                                    intent.putExtra("type", 1);
+                                    intent.putExtra("workid", bean.getData().get(position).getId());
                                     startActivity(intent);
                                 }
                             });
-                        }else {
-                            ToastUtils.showToast(mActivity,"当前没有请假数据");
+                        } else {
+                            ToastUtils.showToast(mActivity, "当前没有请假数据");
                         }
                     }
                 });
     }
+    class MyAdapter extends BaseQuickAdapter<MineLeaveBean.DataBean, BaseViewHolder> {
 
+        public MyAdapter(int layoutResId, @Nullable List<MineLeaveBean.DataBean> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, MineLeaveBean.DataBean item) {
+            helper.setText(R.id.mine_tv_time, "采购时间：" +
+                    item.getStartTime());
+        }
+    }
     @Override
     public void initListener() {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDate(EventDate event) {
+
+        dataFormNet(event.getYear(), event.getMonth());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Override
@@ -112,34 +139,5 @@ public class MineoutPager extends BaseFragmentPager {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-    class MyAdapter extends BaseQuickAdapter<MineLeaveBean.DataBean, BaseViewHolder> {
-
-        public MyAdapter(int layoutResId, @Nullable List<MineLeaveBean.DataBean> data) {
-            super(layoutResId, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, MineLeaveBean.DataBean item) {
-            helper.setText(R.id.mine_tv_time, "外出时间：" +
-                    item.getStartTime());
-        }
-    }
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDate(EventDate event) {
-
-        dataFormNet(event.getYear(),event.getMonth());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
     }
 }

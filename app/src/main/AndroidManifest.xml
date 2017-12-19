@@ -162,7 +162,8 @@
         <activity android:name=".activity.WorkPurchaseActivity"
             android:theme="@style/BackTheme"></activity>
 
-
+        <activity android:name=".activity.WorkPerformanceActivity"
+            android:theme="@style/BackTheme"></activity>
 
 
 
