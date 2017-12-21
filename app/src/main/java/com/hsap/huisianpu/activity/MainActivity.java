@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         ButterKnife.bind(this);
         ActivityManagerUtils.getInstance().addActivity(this);
         OkGo.<String>post(NetAddressUtils.url+"getNoAuditSize").
-                params("id", SpUtils.getInt(ConstantUtils.UserId,this)).
+                params("managerId", SpUtils.getInt(ConstantUtils.UserId,this)).
                 execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {

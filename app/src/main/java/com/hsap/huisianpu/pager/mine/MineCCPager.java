@@ -72,6 +72,7 @@ public class MineCCPager extends BaseFragmentPager {
     }
 
     private void dataFromNet(int year, int month, int day) {
+        Log.e(TAG, "dataFromNet: "+year+month+day );
         OkGo.<String>post(NetAddressUtils.getMyReportForms).
                 params("id", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
                 params("type", 6).
@@ -79,6 +80,7 @@ public class MineCCPager extends BaseFragmentPager {
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+
                         Log.e(TAG, "onSuccess: " + response.body().toString());
                         final WorkNameBean bean = new Gson().fromJson(response.body().toString(), WorkNameBean.class);
                         mineRlvCc.setLayoutManager(new LinearLayoutManager(mActivity));

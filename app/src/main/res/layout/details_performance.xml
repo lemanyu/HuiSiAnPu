@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            app:titleTextColor="@color/text_blue"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
+            android:theme="@style/ToolBarTheme"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+            <ImageButton
+                android:id="@id/back"
+                android:layout_width="30dp"
+                android:background="@drawable/back"
+                android:layout_height="25dp" />
+            <TextView
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"
+                android:text="绩效自评"
+                style="@style/CommonText" />
+            <Button
+                android:id="@+id/bt_car_commit"
+                android:background="@null"
+                android:layout_gravity="right"
+                android:textSize="18sp"
+                android:text="提交"
+                style="@style/CommonText" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+          <com.hsap.huisianpu.view.CustomExpandableListView
+              android:id="@+id/item_details_performance"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+          </com.hsap.huisianpu.view.CustomExpandableListView>
+          <LinearLayout
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+              <TextView
+                  android:id="@+id/tv_zongfen"
+                  android:layout_weight="1"
+                  android:textColor="@color/text_blue"
+                  android:text="全部总分："
+                  android:textSize="18sp"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content" />
+              <TextView
+                  android:id="@+id/tv_zipingzongfen"
+                  android:layout_weight="1"
+                  android:textColor="@color/text_blue"
+                  android:text="自评总分："
+                  android:textSize="18sp"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content" />
+              <TextView
+                  android:id="@+id/tv_jinglizongfen"
+                  android:layout_weight="1"
+                  android:textColor="@color/text_blue"
+                  android:text="经理总分："
+                  android:textSize="18sp"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content" />
+          </LinearLayout>
+      </LinearLayout>
+  </ScrollView>
+
+</LinearLayout>

@@ -18,6 +18,7 @@ import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.bean.EventDate;
 import com.hsap.huisianpu.pager.work.WorkDayPager;
 import com.hsap.huisianpu.pager.work.WorkMonthPager;
+import com.hsap.huisianpu.pager.work.WorkPerformancePager;
 import com.hsap.huisianpu.pager.work.WorkWeekPager;
 import com.hsap.huisianpu.view.MyViewPager;
 
@@ -77,19 +78,20 @@ public class WorkCheckReportActivity extends BaseBackActivity {
         frgamentList.add(new WorkDayPager());
         frgamentList.add(new WorkWeekPager());
         frgamentList.add(new WorkMonthPager());
+        frgamentList.add(new WorkPerformancePager());
         initMic();
-        vpWorkCheckPeport.setOffscreenPageLimit(2);
+        vpWorkCheckPeport.setOffscreenPageLimit(3);
         vpWorkCheckPeport.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(), frgamentList));
     }
 
     public void initMic() {
         final ArrayList<String> list = new ArrayList<>();
-        list.add("日报");
-        list.add("周报");
-        list.add("月报");
+        list.add("查看日报");
+        list.add("查看周报");
+        list.add("查看月报");
+        list.add("绩效自评");
         micWorkCheckPeport.setBackgroundColor(Color.WHITE);
         CommonNavigator navigator = new CommonNavigator(this);
-        navigator.setAdjustMode(true);
         navigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -154,6 +156,9 @@ public class WorkCheckReportActivity extends BaseBackActivity {
                         break;
                     case 2:
                         tvWorkCheckreport.setText("查看月报");
+                        break;
+                    case 3:
+                        tvWorkCheckreport.setText("绩效自评");
                         break;
                     default:
                 }

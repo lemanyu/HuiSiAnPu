@@ -163,8 +163,13 @@
             android:theme="@style/BackTheme"></activity>
 
         <activity android:name=".activity.WorkPerformanceActivity"
+            android:theme="@style/BackTheme"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".details.DetailsPerformance"
+            android:theme="@style/BackTheme"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".push.PushPerformance"
             android:theme="@style/BackTheme"></activity>
-
 
 
 

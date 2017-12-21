@@ -46,7 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 推送的周月报
+ * 推送的周月报绩效
  */
 
 public class PushWeekActivity extends BaseBackActivity {
@@ -67,12 +67,15 @@ public class PushWeekActivity extends BaseBackActivity {
     MyGridView gvShare;
     @BindView(R.id.pll_details_mine_day)
     PercentLinearLayout pllDetailsMineDay;
-    private ArrayList<String> imageList=new ArrayList();
+    @BindView(R.id.vs_performance)
+    ViewStub vsPerformance;
+    private ArrayList<String> imageList = new ArrayList();
     private List<Bean> personList = new ArrayList<>();//陪同人
     private List<Integer> personIdList = new ArrayList<>();//陪同人id
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
     private AccompanyGvidViewAdapter adapter;
+
     @Override
     public int getLayoutId() {
         return R.layout.details_mine_day;
@@ -82,20 +85,21 @@ public class PushWeekActivity extends BaseBackActivity {
     public void initView() {
 
 
-
     }
-    private void isStyle(boolean state){
-        if (state){
+
+    private void isStyle(boolean state) {
+        if (state) {
             btCc.setVisibility(View.VISIBLE);
             pllDetailsMineDay.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             btCc.setVisibility(View.GONE);
             pllDetailsMineDay.setVisibility(View.GONE);
         }
 
     }
+
     private void isVisiableLiearent(int id, int type) {
-        switch (type){
+        switch (type) {
             case 0:
                 vsDay.inflate();
                 vsDay(id);
@@ -105,49 +109,55 @@ public class PushWeekActivity extends BaseBackActivity {
                 vsWeek(id);
                 break;
             case 2:
-
                 vsMonth.inflate();
                 vsMonth(id);
                 break;
+            case 3:
+                vsPerformance.inflate();
+                vsPerformance(id);
             default:
         }
     }
 
+    private void vsPerformance(int id) {
+
+    }
+
     private void vsMonth(int id) {
-        final  TextView et_month_work_content = findViewById(R.id.et_month_work_content);
-        final  TextView et_month_work_summary = findViewById(R.id.et_month_work_summary);
+        final TextView et_month_work_content = findViewById(R.id.et_month_work_content);
+        final TextView et_month_work_summary = findViewById(R.id.et_month_work_summary);
         final TextView et_month_plan_next = findViewById(R.id.et_month_plan_next);
         final TextView et_month_coordination_work = findViewById(R.id.et_month_coordination_work);
         final NineGridImageView niv = findViewById(R.id.niv);
         final LoadingDailog 获取数据中 = ToastUtils.showDailog(PushWeekActivity.this, "获取数据中");
         获取数据中.show();
         OkGo.<String>post(NetAddressUtils.getOneReportForm).
-                params("id",id).
+                params("id", id).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Log.e(TAG, "onSuccess: "+response.body().toString());
+                        Log.e(TAG, "onSuccess: " + response.body().toString());
                         DetailsMineDayBean bean = new Gson().fromJson(response.body().toString(), DetailsMineDayBean.class);
-                        if(bean.isSuccess()){
+                        if (bean.isSuccess()) {
                             获取数据中.dismiss();
                             et_month_work_content.setText(bean.getData().getReportForm().getFinishWork());
                             et_month_work_summary.setText(bean.getData().getReportForm().getSummary());
                             et_month_coordination_work.setText(bean.getData().getReportForm().getCoordinateWork());
                             et_month_plan_next.setText(bean.getData().getReportForm().getWorkPlay());
-                            if(bean.getData().getList()!=null&&bean.getData().getList().size()!=0){
+                            if (bean.getData().getList() != null && bean.getData().getList().size() != 0) {
                                 niv.setVisibility(View.VISIBLE);
-                                for (int i = 0; i <bean.getData().getList().size(); i++) {
-                                    imageList.add(NetAddressUtils.getPhoto+bean.getData().getList().get(i).getFileName()+
-                                            "?type="+bean.getData().getList().get(i).getType());
+                                for (int i = 0; i < bean.getData().getList().size(); i++) {
+                                    imageList.add(NetAddressUtils.getPhoto + bean.getData().getList().get(i).getFileName() +
+                                            "?type=" + bean.getData().getList().get(i).getType());
                                 }
                                 niv.setAdapter(mAdapter);
                                 niv.setImagesData(imageList);
-                            }else {
+                            } else {
                                 niv.setVisibility(View.GONE);
                             }
-                        }else {
+                        } else {
                             获取数据中.dismiss();
-                            ToastUtils.showToast(getApplicationContext(),"获取失败");
+                            ToastUtils.showToast(getApplicationContext(), "获取失败");
                         }
                     }
 
@@ -155,7 +165,7 @@ public class PushWeekActivity extends BaseBackActivity {
                     public void onError(Response<String> response) {
                         super.onError(response);
                         获取数据中.dismiss();
-                        ToastUtils.showToast(getApplicationContext(),"获取失败");
+                        ToastUtils.showToast(getApplicationContext(), "获取失败");
                     }
                 });
     }
@@ -169,32 +179,32 @@ public class PushWeekActivity extends BaseBackActivity {
         final LoadingDailog 获取数据中 = ToastUtils.showDailog(PushWeekActivity.this, "获取数据中");
         获取数据中.show();
         OkGo.<String>post(NetAddressUtils.getOneReportForm).
-                params("id",id).
+                params("id", id).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Log.e(TAG, "onSuccess: "+response.body().toString());
+                        Log.e(TAG, "onSuccess: " + response.body().toString());
                         DetailsMineDayBean bean = new Gson().fromJson(response.body().toString(), DetailsMineDayBean.class);
-                        if(bean.isSuccess()){
+                        if (bean.isSuccess()) {
                             获取数据中.dismiss();
                             et_week_work_content.setText(bean.getData().getReportForm().getFinishWork());
                             et_week_work_summary.setText(bean.getData().getReportForm().getSummary());
                             et_week_coordination_work.setText(bean.getData().getReportForm().getCoordinateWork());
                             et_week_plan_next.setText(bean.getData().getReportForm().getWorkPlay());
-                            if(bean.getData().getList()!=null&&bean.getData().getList().size()!=0){
+                            if (bean.getData().getList() != null && bean.getData().getList().size() != 0) {
                                 niv.setVisibility(View.VISIBLE);
-                                for (int i = 0; i <bean.getData().getList().size(); i++) {
-                                    imageList.add(NetAddressUtils.getPhoto+bean.getData().getList().get(i).getFileName()+
-                                            "?type="+bean.getData().getList().get(i).getType());
+                                for (int i = 0; i < bean.getData().getList().size(); i++) {
+                                    imageList.add(NetAddressUtils.getPhoto + bean.getData().getList().get(i).getFileName() +
+                                            "?type=" + bean.getData().getList().get(i).getType());
                                 }
                                 niv.setAdapter(mAdapter);
                                 niv.setImagesData(imageList);
-                            }else {
+                            } else {
                                 niv.setVisibility(View.GONE);
                             }
-                        }else {
+                        } else {
                             获取数据中.dismiss();
-                            ToastUtils.showToast(getApplicationContext(),"获取失败");
+                            ToastUtils.showToast(getApplicationContext(), "获取失败");
                         }
                     }
 
@@ -202,7 +212,7 @@ public class PushWeekActivity extends BaseBackActivity {
                     public void onError(Response<String> response) {
                         super.onError(response);
                         获取数据中.dismiss();
-                        ToastUtils.showToast(getApplicationContext(),"获取失败");
+                        ToastUtils.showToast(getApplicationContext(), "获取失败");
                     }
                 });
     }
@@ -215,6 +225,7 @@ public class PushWeekActivity extends BaseBackActivity {
                     .load(url)
                     .into(imageView);
         }
+
         @Override
         protected ImageView generateImageView(Context context) {
             ImageView imageView = new ImageView(context);
@@ -226,8 +237,8 @@ public class PushWeekActivity extends BaseBackActivity {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     width, height);
             imageView.setLayoutParams(layoutParams);
-            imageView.setMinimumWidth(width/3);
-            imageView.setMinimumHeight(height/3);
+            imageView.setMinimumWidth(width / 3);
+            imageView.setMinimumHeight(height / 3);
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             return imageView;
         }
@@ -235,9 +246,9 @@ public class PushWeekActivity extends BaseBackActivity {
         @Override
         protected void onItemImageClick(Context context, int index, List list) {
             Intent intent = new Intent(context, PhotoViewPgaerActivity.class);
-            intent.putExtra("position",index);
-            intent.putExtra("size",list.size());
-            intent.putStringArrayListExtra("imageList",imageList);
+            intent.putExtra("position", index);
+            intent.putExtra("size", list.size());
+            intent.putStringArrayListExtra("imageList", imageList);
             startActivity(intent);
         }
 
@@ -251,31 +262,31 @@ public class PushWeekActivity extends BaseBackActivity {
         final LoadingDailog 获取数据中 = ToastUtils.showDailog(PushWeekActivity.this, "获取数据中");
         获取数据中.show();
         OkGo.<String>post(NetAddressUtils.getOneReportForm).
-                params("id",id).
+                params("id", id).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
 
                         DetailsMineDayBean bean = new Gson().fromJson(response.body().toString(), DetailsMineDayBean.class);
-                        if(bean.isSuccess()){
+                        if (bean.isSuccess()) {
                             获取数据中.dismiss();
                             et_day_finish_work.setText(bean.getData().getReportForm().getFinishWork());
                             et_day_no_work.setText(bean.getData().getReportForm().getUnWork());
                             et_day_concert.setText(bean.getData().getReportForm().getCoordinateWork());
-                            if(bean.getData().getList()!=null&&bean.getData().getList().size()!=0){
+                            if (bean.getData().getList() != null && bean.getData().getList().size() != 0) {
                                 niv.setVisibility(View.VISIBLE);
-                                for (int i = 0; i <bean.getData().getList().size(); i++) {
-                                    imageList.add(NetAddressUtils.getPhoto+bean.getData().getList().get(i).getFileName()+
-                                            "?type="+bean.getData().getList().get(i).getType());
+                                for (int i = 0; i < bean.getData().getList().size(); i++) {
+                                    imageList.add(NetAddressUtils.getPhoto + bean.getData().getList().get(i).getFileName() +
+                                            "?type=" + bean.getData().getList().get(i).getType());
                                 }
                                 niv.setAdapter(mAdapter);
                                 niv.setImagesData(imageList);
-                            }else {
+                            } else {
                                 niv.setVisibility(View.GONE);
                             }
-                        }else {
+                        } else {
                             获取数据中.dismiss();
-                            ToastUtils.showToast(getApplicationContext(),"获取失败");
+                            ToastUtils.showToast(getApplicationContext(), "获取失败");
                         }
                     }
 
@@ -283,7 +294,7 @@ public class PushWeekActivity extends BaseBackActivity {
                     public void onError(Response<String> response) {
                         super.onError(response);
                         获取数据中.dismiss();
-                        ToastUtils.showToast(getApplicationContext(),"获取失败");
+                        ToastUtils.showToast(getApplicationContext(), "获取失败");
                     }
                 });
     }
@@ -318,7 +329,7 @@ public class PushWeekActivity extends BaseBackActivity {
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt_cc:
                 share();
                 break;
@@ -328,17 +339,18 @@ public class PushWeekActivity extends BaseBackActivity {
 
     private void share() {
 
-        if(personIdList.size()==0){
-            ToastUtils.showToast(PushWeekActivity.this,"请选择抄送人");
+        if (personIdList.size() == 0) {
+            ToastUtils.showToast(PushWeekActivity.this, "请选择抄送人");
             return;
         }
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==200){
-            if (resultCode==201){
+        if (requestCode == 200) {
+            if (resultCode == 201) {
                 ArrayList<String> namelist = data.getStringArrayListExtra("namelist");
                 ArrayList<Integer> idlist = data.getIntegerArrayListExtra("idlist");
                 for (int i = 0; i < namelist.size(); i++) {
@@ -353,6 +365,7 @@ public class PushWeekActivity extends BaseBackActivity {
             }
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -364,7 +377,7 @@ public class PushWeekActivity extends BaseBackActivity {
             PushAnnouncenBean bean = new Gson().fromJson(content, PushAnnouncenBean.class);
             int id = bean.getId();
             isStyle(bean.isState());
-            isVisiableLiearent(id,bean.getType());
+            isVisiableLiearent(id, bean.getType());
         }
     }
 

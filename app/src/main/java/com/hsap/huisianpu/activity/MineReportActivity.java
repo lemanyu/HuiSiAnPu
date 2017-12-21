@@ -19,6 +19,7 @@ import com.hsap.huisianpu.bean.EventDate;
 import com.hsap.huisianpu.pager.mine.MineCCPager;
 import com.hsap.huisianpu.pager.mine.MineDayPager;
 import com.hsap.huisianpu.pager.mine.MineMonthPager;
+import com.hsap.huisianpu.pager.mine.MinePerformancePager;
 import com.hsap.huisianpu.pager.mine.MineWeekPager;
 import com.hsap.huisianpu.view.MyViewPager;
 
@@ -62,6 +63,7 @@ public class MineReportActivity extends BaseBackActivity {
 
     @Override
     public int getLayoutId() {
+
         return R.layout.activity_mine_report;
     }
 
@@ -76,8 +78,9 @@ public class MineReportActivity extends BaseBackActivity {
         fragmentList.add(new MineWeekPager());
         fragmentList.add(new MineMonthPager());
         fragmentList.add(new MineCCPager());
+        fragmentList.add(new MinePerformancePager());
         initMic();
-        vpMineReport.setOffscreenPageLimit(2);
+        vpMineReport.setOffscreenPageLimit(4);
         vpMineReport.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
     }
 
@@ -113,8 +116,11 @@ public class MineReportActivity extends BaseBackActivity {
                     case 2:
                         tvMineHuibao.setText("我的月报");
                         break;
-                    case 4:
+                    case 3:
                         tvMineHuibao.setText("抄送信息");
+                        break;
+                    case 4:
+                        tvMineHuibao.setText("绩效自评");
                         break;
                     default:
                 }
@@ -155,7 +161,8 @@ public class MineReportActivity extends BaseBackActivity {
         list.add("我的日报");
         list.add("我的周报");
         list.add("我的月报");
-        list.add("抄送信息");
+        list.add("我的抄送");
+        list.add("我的绩效");
         micMineReport.setBackgroundColor(Color.WHITE);
         CommonNavigator navigator = new CommonNavigator(this);
         navigator.setAdapter(new CommonNavigatorAdapter() {

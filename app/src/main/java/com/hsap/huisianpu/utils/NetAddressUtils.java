@@ -7,10 +7,11 @@ package com.hsap.huisianpu.utils;
  */
 
 public class NetAddressUtils {
-    public static String url="http://192.168.9.200:8082/phone/";
+    public static String url="http://192.168.9.216:8082/phone/";
     public static String attend=url+"Attend/";
     public static String sign=url+"Sign/";
     public static String login=url+"login";//登录
+    public static String kaohe=url+"MonthAssessment/";
     public static String registration=url+"registration";//注册
     public static String invitation=url+"invitation";//工作邀请
     public static String invitationList=url+"invitationList";//我的邀请
@@ -40,4 +41,9 @@ public class NetAddressUtils {
     public static String deleteNotice=url+"Notice/deleteNotice";
     public static String getPhoto=url+"images/";
     public static String setAudit=url+"setAudit";//审批
+    public static String insertOneMonth=kaohe+"insertOneMonth";//提交绩效
+    public static String selectMySumScoreMonthInfo=kaohe+"selectMySumScoreMonthInfo";
+    public static String selectByMyDepartmentSumScoreMonth=kaohe+"selectByMyDepartmentSumScoreMonth";
+    public static String isNowMonth=kaohe+"isNowMonth";//是否当月提交过
+    public static String selectMySumScoreMonth=kaohe+"selectMySumScoreMonth";//获取自己的
 }

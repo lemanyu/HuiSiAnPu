@@ -53,6 +53,9 @@ public class WorkMonthPager extends BaseFragmentPager {
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
         int day = instance.get(Calendar.DAY_OF_MONTH);
+        if (day==0){
+            day = instance.get(Calendar.DAY_OF_MONTH);
+        }
         dataFromNet(year, month, day);
     }
 
