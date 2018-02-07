@@ -1,5 +1,6 @@
 package com.hsap.huisianpu.bean;
 
+import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -79,6 +80,7 @@ public class Bean implements Parcelable {
         dest.writeInt(this.pic);
         dest.writeString(this.number);
         dest.writeByte(this.select ? (byte) 1 : (byte) 0);
+
     }
 
     protected Bean(Parcel in) {

@@ -80,7 +80,7 @@ public class MineReportActivity extends BaseBackActivity {
         fragmentList.add(new MineCCPager());
         fragmentList.add(new MinePerformancePager());
         initMic();
-        vpMineReport.setOffscreenPageLimit(4);
+        vpMineReport.setOffscreenPageLimit(5);
         vpMineReport.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
     }
 

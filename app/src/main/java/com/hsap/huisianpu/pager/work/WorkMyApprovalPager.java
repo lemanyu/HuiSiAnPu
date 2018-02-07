@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class WorkMyApprovalPager extends BaseFragmentPager {
 
     @Override
     public void initData() {
+        rlvWorkMyApproval.setLayoutManager(new LinearLayoutManager(mActivity));
         OkGo.<String>post(NetAddressUtils.getAuditList).
                 params("managerId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
                 params("opinion", 0).
@@ -63,7 +65,7 @@ public class WorkMyApprovalPager extends BaseFragmentPager {
                         final ApprovalBean bean = new Gson().fromJson(response.body().toString(), ApprovalBean.class);
                         if (bean.isSuccess()){
                             if (!(bean.getData()==null&&bean.getData().size()==0)){
-                                rlvWorkMyApproval.setLayoutManager(new LinearLayoutManager(mActivity));
+
                                 if(adapter==null){
                                     adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
                                     rlvWorkMyApproval.setAdapter(adapter);
@@ -79,7 +81,6 @@ public class WorkMyApprovalPager extends BaseFragmentPager {
                                         intent.putExtra("name",bean.getData().get(position).getName());
                                         intent.putExtra("type",bean.getData().get(position).getType());
                                         intent.putExtra("projectId",bean.getData().get(position).getProjectId());
-
                                         startActivity(intent);
                                     }
                                 });
@@ -103,7 +104,8 @@ public class WorkMyApprovalPager extends BaseFragmentPager {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFalse(FalseBean event) {
-         initData();
+        Log.e(TAG, "onFalse: "+"aaa" );
+        initData();
     }
 
     @Override

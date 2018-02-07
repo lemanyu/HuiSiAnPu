@@ -44,6 +44,96 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <!--<com.zhy.android.percent.support.PercentLinearLayout
+                android:id="@+id/pll_kaifa"
+                android:layout_margin="5dp"
+                android:background="@color/text_white"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:clickable="false"
+                    android:layout_weight="5"
+                    android:layout_marginLeft="5dp"
+                    android:layout_margin="5dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="开发|改进"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_kaifa"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_blue"
+                    android:clickable="false"
+                    android:layout_weight="1"
+                    android:text="请选择（必填）"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:clickable="false"
+                    android:layout_gravity="center_vertical"
+                    app:layout_marginRightPercent="2%w"
+                    app:layout_widthPercent="7%w"
+                    app:layout_heightPercent="7%w"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/right_gray"
+                    android:gravity="right" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                app:layout_marginRightPercent="2%w"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:id="@+id/pll_weiji"
+                android:layout_margin="5dp"
+                android:background="@color/text_white"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:clickable="false"
+                    android:layout_weight="5"
+                    android:layout_marginLeft="5dp"
+                    android:layout_margin="5dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="上位机|下位机"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_weiji"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_blue"
+                    android:clickable="false"
+                    android:layout_weight="1"
+                    android:text="请选择（必填）"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:clickable="false"
+                    android:layout_gravity="center_vertical"
+                    app:layout_marginRightPercent="2%w"
+                    app:layout_widthPercent="7%w"
+                    app:layout_heightPercent="7%w"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/right_gray"
+                    android:gravity="right" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                app:layout_marginRightPercent="2%w"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />-->
             <TextView
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -90,23 +180,45 @@
                 android:layout_height="2dp"
                 android:layout_marginTop="2dp"
                 android:background="@color/linecolor" />
-            <TextView
-                android:textSize="18sp"
-                android:textStyle="bold"
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:id="@+id/pll_fuzeren"
                 android:layout_margin="5dp"
-                android:text="负责人："
+                android:background="@color/text_white"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_publish_person"
-                android:gravity="left|top"
-                android:minLines="1"
-                android:inputType="textMultiLine"
-                android:padding="10dp"
-                android:hint="请填写负责人"
-                android:background="@null"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:clickable="false"
+                    android:layout_weight="5"
+                    android:layout_marginLeft="5dp"
+                    android:layout_margin="5dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="请选择负责人"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_weiji"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_blue"
+                    android:clickable="false"
+                    android:layout_weight="1"
+                    android:text="请选择（必填）"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:clickable="false"
+                    android:layout_gravity="center_vertical"
+                    app:layout_marginRightPercent="2%w"
+                    app:layout_widthPercent="7%w"
+                    app:layout_heightPercent="7%w"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/right_gray"
+                    android:gravity="right" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
             <View
                 app:layout_marginRightPercent="2%w"
                 android:layout_width="match_parent"
@@ -221,8 +333,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <com.hsap.huisianpu.view.MyGridView
-                android:horizontalSpacing="10dp"
-                android:verticalSpacing="40dp"
+                android:id="@+id/gv_project"
+                android:horizontalSpacing="20dp"
+                android:verticalSpacing="30dp"
                 android:numColumns="4"
                 android:layout_margin="5dp"
                 android:stretchMode="columnWidth"
@@ -233,26 +346,7 @@
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"></View>
-            <TextView
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="请选择审批人："
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.hsap.huisianpu.view.MyGridView
-                android:horizontalSpacing="10dp"
-                android:verticalSpacing="40dp"
-                android:numColumns="4"
-                android:layout_margin="5dp"
-                android:stretchMode="columnWidth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <View
-                android:layout_marginTop="5dp"
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
+
 
 
 

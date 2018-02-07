@@ -3,6 +3,7 @@ package com.hsap.huisianpu.details;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,11 +24,14 @@ import android.widget.TextView;
 import com.android.tu.loadingdialog.LoadingDailog;
 import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.activity.WorkCheckReportActivity;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.EventDate;
+import com.hsap.huisianpu.bean.HavePermissionBean;
 import com.hsap.huisianpu.bean.PerformanceInfoBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
+import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
 import com.hsap.huisianpu.view.CustomExpandableListView;
 import com.lzy.okgo.OkGo;
@@ -54,13 +59,6 @@ public class DetailsPerformance extends BaseBackActivity {
     Button btCarCommit;
     @BindView(R.id.item_details_performance)
     CustomExpandableListView itemDetailsPerformance;
-
-    @BindView(R.id.tv_zongfen)
-    TextView tvZongfen;
-    @BindView(R.id.tv_zipingzongfen)
-    TextView tvZipingzongfen;
-    @BindView(R.id.tv_jinglizongfen)
-    TextView tvJinglizongfen;
     private TreeMap<Integer, String> treeMap = new TreeMap<>();
     private MyExpandableListViewAdapter adapter;
     private int id;
@@ -73,10 +71,18 @@ public class DetailsPerformance extends BaseBackActivity {
     private boolean state;
     private int style;
     private int day;
+    private boolean flag;
     private Map<String, List<String>> map;
     public String[] groupStrings = {"研发过程的规范性（20）", "产品研发周期控制（20）",
             "工作内容饱和度（20）","工作积极主动性（10）","与其他部门沟通配合（10）",
             "解决问题（10）","工作日志（10）","工作失误","其他人员投诉","违反公司纪律"};
+    private String name;
+    private int size;
+    private boolean zong;
+    private HavePermissionBean isBean;
+    private PerformanceInfoBean bean;
+    private int type;
+
     @Override
     public int getLayoutId() {
         return R.layout.details_performance;
@@ -102,17 +108,18 @@ public class DetailsPerformance extends BaseBackActivity {
         map.put(groupStrings[8],utils.getNineList());
         map.put(groupStrings[9],utils.getTenList());
         state = getIntent().getBooleanExtra("state", false);
-        if (state) {
-            btCarCommit.setVisibility(View.VISIBLE);
-        } else {
-            btCarCommit.setVisibility(View.GONE);
-        }
         id = getIntent().getIntExtra("id", 0);
         year = getIntent().getIntExtra("year", 0);
         month = getIntent().getIntExtra("month", 0);
         day = getIntent().getIntExtra("day", 0);
         workid = getIntent().getIntExtra("workid", 0);
         style = getIntent().getIntExtra("style", 0);
+        name = getIntent().getStringExtra("name");
+        size = getIntent().getIntExtra("size", 0);
+        zong = getIntent().getBooleanExtra("zong", false);
+        if (style!=0){
+            btCarCommit.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -127,39 +134,111 @@ public class DetailsPerformance extends BaseBackActivity {
         itemDetailsPerformance.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         final LoadingDailog 获取数据中 = ToastUtils.showDailog(DetailsPerformance.this, "获取数据中");
         获取数据中.show();
-        OkGo.<String>post(NetAddressUtils.selectMySumScoreMonthInfo).
-                params("id", id).
+        OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                params("id", SpUtils.getInt(ConstantUtils.UserId, this)).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        获取数据中.dismiss();
-                        Log.e(TAG, "onSuccess: " + response.body().toString());
-                        PerformanceInfoBean bean = new Gson().fromJson(response.body().toString(), PerformanceInfoBean.class);
-                        for (int i = 0; i < ConstantUtils.getGroupStrings().length; i++) {
-                            Log.e(TAG, "onSuccess: " + bean.getData().getMyScore().get(i).getValue());
-                            map.get(ConstantUtils.getGroupStrings()[i]).add("自评打分：" + bean.getData().getMyScore().get(i).getValue() + "分");
-                            zipingzongfen+=bean.getData().getMyScore().get(i).getValue();
-                            if (state) {
-
-                            } else if ((style==0)){
-                                treeMap.put(i, "经理打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
-                                zipingzongfen+=bean.getData().getMyScore().get(i).getValue();
-                                jinglizongfen+=bean.getData().getManagerScore().get(i).getValue();
-                            }else {
-
+                        Log.e(TAG, "getJurisdiction: " +response.body());
+                        isBean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                        if (isBean.isSuccess()) {
+                            if (zong) {
+                                btCarCommit.setVisibility(View.VISIBLE);
+                            } else {
+                                btCarCommit.setVisibility(View.GONE);
                             }
-
-                            adapter = new MyExpandableListViewAdapter();
-                            itemDetailsPerformance.setAdapter(adapter);
+                        } else {
+                            if (state) {
+                                btCarCommit.setVisibility(View.VISIBLE);
+                            } else {
+                                btCarCommit.setVisibility(View.GONE);
+                            }
                         }
-                        zongfen+=zipingzongfen;
-                        zongfen+=jinglizongfen;
-                        tvZongfen.setText("总分："+zongfen);
-                        tvZipingzongfen.setText("自评打分："+zipingzongfen);
-                        tvJinglizongfen.setText("经理打分："+jinglizongfen);
+
+                        OkGo.<String>post(NetAddressUtils.selectMySumScoreMonthInfo).
+                                params("id", id).
+                                execute(new StringCallback() {
+                                    @Override
+                                    public void onSuccess(Response<String> response) {
+                                        获取数据中.dismiss();
+                                        Log.e(TAG, "onSuccess: " + response.body().toString());
+                                        bean = new Gson().fromJson(response.body().toString(), PerformanceInfoBean.class);
+                                        OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                                                params("id", SpUtils.getInt(ConstantUtils.UserId, DetailsPerformance.this)).
+                                                execute(new StringCallback() {
+                                                    @Override
+                                                    public void onSuccess(Response<String> response) {
+                                                        HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                                                        if (bean.isSuccess()) {
+                                                            flag=true;
+                                                        } else {
+                                                           flag=false;
+                                                        }
+                                                    }
+                                                });
+                                        for (int i = 0; i < ConstantUtils.getGroupStrings().length; i++) {
+                                            if (style!=0){
+                                                if (bean.getData().getMyScore()!=null&&bean.getData().getManagerScore()==null){
+                                                    map.get(ConstantUtils.getGroupStrings()[i]).add("自评打分：" + bean.getData().getMyScore().get(i).getValue() + "分");
+                                                }else {
+                                                    map.get(ConstantUtils.getGroupStrings()[i]).add("自评打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
+                                                }
+
+                                               if (style==1){
+                                                   if (bean.getData().getM2Score()!=null){
+                                                       treeMap.put(i,"总监打分：" + bean.getData().getM2Score().get(i).getValue() + "分");
+                                                   }
+                                               }else {
+                                                   if (bean.getData().getManagerScore()!=null){
+                                                       map.get(ConstantUtils.getGroupStrings()[i]).add("经理打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
+                                                       if (bean.getData().getM2Score()!=null){
+                                                           treeMap.put(i, "总监打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
+                                                       }
+                                                   }
+                                               }
+                                            }else {
+                                               map.get(ConstantUtils.getGroupStrings()[i]).add(name+"打分：" + bean.getData().getMyScore().get(i).getValue() + "分");
+                                                if (isBean.isSuccess()){
+                                                    if (bean.getData().getManagerScore()!=null){
+                                                        map.get(ConstantUtils.getGroupStrings()[i]).add("经理打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
+                                                    }
+
+                                                    if (zong){
+                                                    }else {
+                                                        if (bean.getData().getM2Score()!=null){
+                                                            treeMap.put(i, "总监打分：" + bean.getData().getM2Score().get(i).getValue() + "分");
+                                                        }
+
+                                                    }
+                                                }else {
+                                                    if (state) {
+                                                        zipingzongfen+= bean.getData().getMyScore().get(i).getValue();
+                                                        Log.e(TAG, "onSuccess: "+ bean.getData().getMyScore().get(i).getValue());
+                                                    } else{
+                                                        treeMap.put(i, "经理打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
+                                                        jinglizongfen+= bean.getData().getManagerScore().get(i).getValue();
+                                                    }
+                                                }
+                                            }
+
+                                            adapter = new MyExpandableListViewAdapter();
+                                            itemDetailsPerformance.setAdapter(adapter);
+                                        }
+                                        zongfen+=zipingzongfen;
+                                        zongfen+=jinglizongfen;
+                                    }
+
+                                });
                     }
 
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+
+
+                    }
                 });
+
     }
 
     @Override
@@ -180,6 +259,11 @@ public class DetailsPerformance extends BaseBackActivity {
     }
 
     private void commit() {
+        if (isBean.isSuccess()){
+            type =2;
+        }else {
+            type =1;
+        }
         boolean flag = false;
         for (int i = 0; i < ConstantUtils.getGroupStrings().length; i++) {
             if (TextUtils.isEmpty(treeMap.get(i))) {
@@ -207,7 +291,7 @@ public class DetailsPerformance extends BaseBackActivity {
                 OkGo.<String>post(NetAddressUtils.insertOneMonth).
                         params("workerId", workid).
                         params("json", new Gson().toJson(treeMap).toString()).
-                        params("type", 1).
+                        params("type", type).
                         params("id", id).
                         params("activity", "com.hsap.huisianpu.push.PushPerformance").
                         execute(new StringCallback() {
@@ -216,11 +300,13 @@ public class DetailsPerformance extends BaseBackActivity {
                                 提交中.dismiss();
                                 ToastUtils.showToast(DetailsPerformance.this, "提交成功");
                                 btCarCommit.setVisibility(View.GONE);
-                                state = false;
+                                if (isBean.isSuccess()){
+                                    zong=false;
+                                }else {
+                                    state = false;
+                                }
                                 adapter.notifyDataSetChanged();
                                 zongfen+=jinglizongfen;
-                                tvJinglizongfen.setText("经理总分："+jinglizongfen);
-                                tvZongfen.setText("总分："+zongfen);
                             }
 
                             @Override
@@ -299,6 +385,9 @@ public class DetailsPerformance extends BaseBackActivity {
             tv_father.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    InputMethodManager imm = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     if (itemDetailsPerformance.isGroupExpanded(i)) {
                         itemDetailsPerformance.collapseGroup(i);
                     } else {
@@ -307,12 +396,35 @@ public class DetailsPerformance extends BaseBackActivity {
                 }
             });
             final EditText ettext = view.findViewById(R.id.ettext);
-            if (state) {
-                // ettext.setKeyListener(null);
-                ettext.setEnabled(true);
-            } else {
-                ettext.setHint("经理尚未打分");
-                ettext.setEnabled(false);
+            if (style!=0){
+                if (style==1){
+                   ettext.setHint("总监尚未打分");
+                   ettext.setEnabled(false);
+                }else {
+                    if ( bean.getData().getManagerScore()==null){
+                        ettext.setHint("经理尚未打分");
+                        ettext.setEnabled(false);
+                    }else {
+                        ettext.setHint("总监尚未打分");
+                        ettext.setEnabled(false);
+                    }
+             }
+            }else {
+                if (isBean.isSuccess()) {
+                    if (zong) {
+                        ettext.setEnabled(true);
+                    } else {
+                        ettext.setHint("总监尚未打分");
+                        ettext.setEnabled(false);
+                    }
+                } else {
+                    if (state) {
+                        ettext.setEnabled(true);
+                    } else {
+                        ettext.setHint("经理尚未打分");
+                        ettext.setEnabled(false);
+                    }
+                }
             }
             tv_father.setText(ConstantUtils.getGroupStrings()[i]);
             if (!TextUtils.isEmpty(treeMap.get(i))) {

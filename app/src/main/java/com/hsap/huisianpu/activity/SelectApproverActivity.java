@@ -48,30 +48,30 @@ public class SelectApproverActivity extends BaseBackActivity {
 
     @Override
     public void initData() {
+        rlvSelectApprover.setLayoutManager(new LinearLayoutManager(SelectApproverActivity.this));
         OkGo.<String>post(NetAddressUtils.getWorkerAdmin).params("id", SpUtils.getInt(ConstantUtils.UserId,SelectApproverActivity.this))
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         final SelectApproverBean bean = new Gson().fromJson(response.body().toString(), SelectApproverBean.class);
-                        if(bean.isSuccess()){
-                            rlvSelectApprover.setLayoutManager(new LinearLayoutManager(SelectApproverActivity.this));
-                            SelectApproverRecycleAdapter adapter = new SelectApproverRecycleAdapter(R.layout.item_select, bean.getData());
+
+                            SelectApproverRecycleAdapter adapter = new SelectApproverRecycleAdapter(R.layout.item_select, bean.getUsers());
                             rlvSelectApprover.setAdapter(adapter);
                             Log.e("getWorkerAdmin","aaa");
                             adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     Intent intent = new Intent();
-                                    intent.putExtra("name",bean.getData().get(position).getName());
-                                    intent.putExtra("id",bean.getData().get(position).getId());
-                                    Log.e("getWorkerAdmin",bean.getData().get(position).getId()+"");
+                                    intent.putExtra("name",bean.getUsers().get(position).getUser().getName());
+                                    intent.putExtra("id",bean.getUsers().get(position).getUser().getId());
+
                                     setResult(101,intent);
 
                                     finish();
                                 }
                             });
                         }
-                    }
+
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);

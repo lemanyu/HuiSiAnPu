@@ -46,35 +46,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
           </com.hsap.huisianpu.view.CustomExpandableListView>
-          <LinearLayout
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-              <TextView
-                  android:id="@+id/tv_zongfen"
-                  android:layout_weight="1"
-                  android:textColor="@color/text_blue"
-                  android:text="全部总分："
-                  android:textSize="18sp"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content" />
-              <TextView
-                  android:id="@+id/tv_zipingzongfen"
-                  android:layout_weight="1"
-                  android:textColor="@color/text_blue"
-                  android:text="自评总分："
-                  android:textSize="18sp"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content" />
-              <TextView
-                  android:id="@+id/tv_jinglizongfen"
-                  android:layout_weight="1"
-                  android:textColor="@color/text_blue"
-                  android:text="经理总分："
-                  android:textSize="18sp"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content" />
-          </LinearLayout>
       </LinearLayout>
   </ScrollView>
 

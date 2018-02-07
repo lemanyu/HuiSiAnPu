@@ -46,6 +46,8 @@ public class MineOngoingPager extends BaseFragmentPager {
     RecyclerView mRlvOngoing;
     Unbinder unbinder;
    private static final String TAG="MineOngoingPager";
+    private MyAdapter adapter;
+
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.pager_mine_ongoing, null);
@@ -57,11 +59,12 @@ public class MineOngoingPager extends BaseFragmentPager {
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH)+1;
+        mRlvOngoing.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFormNet(year,month);
 
     }
 
-    private void dataFormNet(int year, int month) {
+    private void dataFormNet(final int year, final int month) {
         OkGo.<String>post(NetAddressUtils.selectIntegration).
                 params("workersId", SpUtils.getInt(ConstantUtils.UserId,mActivity)).
                 params("state",0).params("year",year).params("month",month).
@@ -71,16 +74,24 @@ public class MineOngoingPager extends BaseFragmentPager {
                         Log.e(TAG, response.body().toString());
                         final OngoingBean bean = new Gson().fromJson(response.body().toString(), OngoingBean.class);
                         if (bean.isSuccess()){
-                            mRlvOngoing.setLayoutManager(new LinearLayoutManager(mActivity));
-                            MyAdapter adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
-                            mRlvOngoing.setAdapter(adapter);
+
+                            if(adapter==null){
+                                adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
+                                mRlvOngoing.setAdapter(adapter);
+                            }else {
+                                adapter.setNewData(bean.getData());
+                                adapter.notifyDataSetChanged();
+                            }
+
                             adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     Intent intent = new Intent(mActivity, DetailsMineTrip.class);
                                     intent.putExtra("type",bean.getData().get(position).getType());
                                     intent.putExtra("workid",bean.getData().get(position).getId());
-                                    intent.putExtra("state",1);
+                                    intent.putExtra("state",0);
+                                    intent.putExtra("year",year);
+                                    intent.putExtra("month",month);
                                     startActivity(intent);
                                 }
                             });
@@ -163,13 +174,11 @@ public class MineOngoingPager extends BaseFragmentPager {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDate(EventDate event){
+        Log.e(TAG, "onDate: "+event.getYear() );
+        Log.e(TAG, "onDate: "+event.getMonth() );
         dataFormNet(event.getYear(), event.getMonth());
     }
 

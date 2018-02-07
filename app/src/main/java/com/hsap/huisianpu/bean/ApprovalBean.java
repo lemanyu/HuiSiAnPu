@@ -55,7 +55,7 @@ public class ApprovalBean {
 
         private int opinion;
         private Object date;
-        private CreateTimeBean createTime;
+        private DateBean createTime;
         private String name;
         private String typeName;
 
@@ -67,7 +67,7 @@ public class ApprovalBean {
             return type;
         }
 
-        public CreateTimeBean getCreateTime() {
+        public DateBean getCreateTime() {
             return createTime;
         }
 
@@ -77,165 +77,6 @@ public class ApprovalBean {
 
         public String getTypeName() {
             return typeName;
-        }
-
-        public static class CreateTimeBean {
-            /**
-             * month : DECEMBER
-             * year : 2017
-             * dayOfMonth : 6
-             * dayOfWeek : WEDNESDAY
-             * dayOfYear : 340
-             * hour : 11
-             * minute : 57
-             * nano : 0
-             * second : 35
-             * monthValue : 12
-             * chronology : {"id":"ISO","calendarType":"iso8601"}
-             */
-
-            private String month;
-            private int year;
-            private int dayOfMonth;
-            private String dayOfWeek;
-            private int dayOfYear;
-            private int hour;
-            private int minute;
-            private int nano;
-            private int second;
-            private int monthValue;
-            private ChronologyBean chronology;
-
-            @Override
-            public String toString() {
-                return "CreateTimeBean{" +
-                        "month='" + month + '\'' +
-                        ", year=" + year +
-                        ", dayOfMonth=" + dayOfMonth +
-                        ", dayOfWeek='" + dayOfWeek + '\'' +
-                        ", dayOfYear=" + dayOfYear +
-                        ", hour=" + hour +
-                        ", minute=" + minute +
-                        ", nano=" + nano +
-                        ", second=" + second +
-                        ", monthValue=" + monthValue +
-                        ", chronology=" + chronology +
-                        '}';
-            }
-
-            public String getMonth() {
-                return month;
-            }
-
-            public void setMonth(String month) {
-                this.month = month;
-            }
-
-            public int getYear() {
-                return year;
-            }
-
-            public void setYear(int year) {
-                this.year = year;
-            }
-
-            public int getDayOfMonth() {
-                return dayOfMonth;
-            }
-
-            public void setDayOfMonth(int dayOfMonth) {
-                this.dayOfMonth = dayOfMonth;
-            }
-
-            public String getDayOfWeek() {
-                return dayOfWeek;
-            }
-
-            public void setDayOfWeek(String dayOfWeek) {
-                this.dayOfWeek = dayOfWeek;
-            }
-
-            public int getDayOfYear() {
-                return dayOfYear;
-            }
-
-            public void setDayOfYear(int dayOfYear) {
-                this.dayOfYear = dayOfYear;
-            }
-
-            public int getHour() {
-                return hour;
-            }
-
-            public void setHour(int hour) {
-                this.hour = hour;
-            }
-
-            public int getMinute() {
-                return minute;
-            }
-
-            public void setMinute(int minute) {
-                this.minute = minute;
-            }
-
-            public int getNano() {
-                return nano;
-            }
-
-            public void setNano(int nano) {
-                this.nano = nano;
-            }
-
-            public int getSecond() {
-                return second;
-            }
-
-            public void setSecond(int second) {
-                this.second = second;
-            }
-
-            public int getMonthValue() {
-                return monthValue;
-            }
-
-            public void setMonthValue(int monthValue) {
-                this.monthValue = monthValue;
-            }
-
-            public ChronologyBean getChronology() {
-                return chronology;
-            }
-
-            public void setChronology(ChronologyBean chronology) {
-                this.chronology = chronology;
-            }
-
-            public static class ChronologyBean {
-                /**
-                 * id : ISO
-                 * calendarType : iso8601
-                 */
-
-                private String id;
-                private String calendarType;
-
-                public String getId() {
-                    return id;
-                }
-
-                public void setId(String id) {
-                    this.id = id;
-                }
-
-                public String getCalendarType() {
-                    return calendarType;
-                }
-
-                public void setCalendarType(String calendarType) {
-                    this.calendarType = calendarType;
-                }
-            }
         }
 
         @Override

@@ -55,6 +55,7 @@ public class MineTripPager extends BaseFragmentPager {
 
     @Override
     public void initData() {
+        mineRlvTrip.setLayoutManager(new LinearLayoutManager(mActivity));
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
@@ -98,7 +99,7 @@ public class MineTripPager extends BaseFragmentPager {
         dataFormNet(event.getYear(), event.getMonth());
     }
 
-    private void dataFormNet(int year, int month) {
+    private void dataFormNet(final int year, final int month) {
         OkGo.<String>post(NetAddressUtils.selectIntegration).
                 params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
                 params("type",2).params("year",year).params("month",month).
@@ -108,7 +109,6 @@ public class MineTripPager extends BaseFragmentPager {
                         Log.e(TAG, response.body().toString() );
                         final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
                         if(bean.isSuccess()){
-                            mineRlvTrip.setLayoutManager(new LinearLayoutManager(mActivity));
                             MyAdapter adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
                             mineRlvTrip.setAdapter(adapter);
                             adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -117,6 +117,9 @@ public class MineTripPager extends BaseFragmentPager {
                                     Intent intent = new Intent(mActivity, DetailsMineTrip.class);
                                     intent.putExtra("type",2);
                                     intent.putExtra("workid",bean.getData().get(position).getId());
+                                    intent.putExtra("flag",false);
+                                    intent.putExtra("year",year);
+                                    intent.putExtra("month",month);
                                     startActivity(intent);
                                 }
                             });

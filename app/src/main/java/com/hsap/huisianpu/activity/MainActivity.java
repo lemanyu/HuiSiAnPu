@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             });
             builder.setNegativeButton("取消",null);
             builder.show();
-
         }
         RadioGroup rg_main = findViewById(R.id.rg_main);
         RadioButton rb_news=findViewById(R.id.rb_news);

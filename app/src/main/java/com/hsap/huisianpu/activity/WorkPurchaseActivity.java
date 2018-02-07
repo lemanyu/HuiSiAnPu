@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -29,6 +30,7 @@ import com.hsap.huisianpu.utils.EditTextUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.hsap.huisianpu.utils.Utils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -45,6 +47,7 @@ import butterknife.BindView;
  */
 
 public class WorkPurchaseActivity extends BaseBackActivity {
+    private static final String TAG = "WorkPurchaseActivity";
     @BindView(R.id.back)
     ImageButton back;
     @BindView(R.id.bt_purchase_commit)
@@ -74,6 +77,7 @@ public class WorkPurchaseActivity extends BaseBackActivity {
 
     @Override
     public int getLayoutId() {
+
         return R.layout.activity_work_purchase;
     }
 
@@ -96,35 +100,9 @@ public class WorkPurchaseActivity extends BaseBackActivity {
             btPurchaseCommit.setVisibility(View.VISIBLE);
             btLeaveAgain.setVisibility(View.GONE);
             rlvPurchase.setNestedScrollingEnabled(false);
-            flagList.add(new PurchaseBean.DataBean.ObjectBean.ListBean());
-            adapter = new MyAdapter(R.layout.item_purchase,flagList);
             rlvPurchase.setLayoutManager(new LinearLayoutManager(this));
-            rlvPurchase.setAdapter(adapter);
-            adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
-                    if (position==0){
-                        ToastUtils.showToast(WorkPurchaseActivity.this,"采购申请必须填写");
-                        return;
-                    }
-                    switch (view.getId()){
-                        case R.id.bt_purchase_delete:
-                            AlertDialog.Builder builder = new AlertDialog.Builder(WorkPurchaseActivity.this);
-                            builder.setMessage("确定要删除此条采购信息嘛？");
-                            builder.setNegativeButton("取消",null);
-                            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    flagList.remove(position);
-                                    adapter.notifyDataSetChanged();
-                                }
-                            });
-                            builder.show();
-                            break;
-                        default:
-                    }
-                }
-            });
+
+
         }
     }
 
@@ -144,7 +122,7 @@ public class WorkPurchaseActivity extends BaseBackActivity {
                             tvPurchaseType.setText(bean.getData().getWaIntegration().getType2());
                             etPurchaseReason.setText(bean.getData().getWaIntegration().getReason()+"");
                             rlvPurchase.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                            myAdapter = new PurchaseMyAdapter(R.layout.item_purchase,list);
+                            myAdapter = new PurchaseMyAdapter(R.layout.item_purchase,list,bean.getData().getWaIntegration().getType2());
                             rlvPurchase.setAdapter(myAdapter);
                             myAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                                @Override
@@ -187,9 +165,10 @@ public class WorkPurchaseActivity extends BaseBackActivity {
     }
     class PurchaseMyAdapter extends BaseQuickAdapter<PurchaseBean.DataBean.ObjectBean.ListBean,BaseViewHolder>{
 
-
-        public PurchaseMyAdapter(int layoutResId, @Nullable List<PurchaseBean.DataBean.ObjectBean.ListBean> data) {
+          private String type2;
+        public PurchaseMyAdapter(int layoutResId, @Nullable List<PurchaseBean.DataBean.ObjectBean.ListBean> data, String type2) {
             super(layoutResId, data);
+            this.type2=type2;
         }
 
         @Override
@@ -247,13 +226,25 @@ public class WorkPurchaseActivity extends BaseBackActivity {
             if (helper.getAdapterPosition()==0){
                 helper.getView(R.id.bt_purchase_delete).setVisibility(View.GONE);
             }
+            if (type2.equals("生产原料")){
+                helper.getView(R.id.ll_purchase_caigou).setVisibility(View.VISIBLE);
+                helper.setText(R.id.et_fengzhuang,item.getFengzhuang())
+                        .setText(R.id.et_pinpai,item.getPinpai())
+                        .setText(R.id.et_fenlei,item.getFenlei())
+                        .setText(R.id.et_lianxiren,item.getLianxiren())
+                        .setText(R.id.et_dianhua,item.getDianhua());
+                helper.getView(R.id.ll_piaoju).setVisibility(View.GONE);
+                helper.getView(R.id.ll_beizhu).setVisibility(View.VISIBLE);
+            }
+
             helper.addOnClickListener(R.id.bt_purchase_delete);
             helper.setText(R.id.et_mingcheng,item.getName())
                     .setText(R.id.et_xinghao,item.getGuige())
                     .setText(R.id.et_shuliang,item.getShuliang())
                     .setText(R.id.et_danjia,item.getDanjia())
                     .setText(R.id.et_piaoju,item.getPiaoju())
-                    .setText(R.id.et_yongtu,item.getYongtu());
+                    .setText(R.id.et_yongtu,item.getYongtu())
+                     .setText(R.id.et_beizhu,item.getBeizhu());
             if (!TextUtils.isEmpty(et_danjia.getText().toString().trim())
                     &&!TextUtils.isEmpty(et_shuliang.getText().toString().trim())){
                 helper.setText(R.id.tv_jine,Double.valueOf(et_shuliang.getText().toString())*Double.valueOf(et_danjia.getText().toString())+"");
@@ -295,11 +286,15 @@ public class WorkPurchaseActivity extends BaseBackActivity {
     }
 
     private void addItem() {
-
+           if (tvPurchaseType.getText().toString().equals("请选择（必填）")){
+               ToastUtils.showToast(this,"请先选择采购类型");
+               return;
+           }
            //adapter.setNewData(list);
          if(state==0){
              flagList.add(new PurchaseBean.DataBean.ObjectBean.ListBean());
-             adapter.notifyItemChanged(flagList.size());
+             adapter.notifyItemChanged(flagList.size()-1);
+            // adapter.notifyDataSetChanged();
          }else {
              list.add(new PurchaseBean.DataBean.ObjectBean.ListBean());
              myAdapter.notifyItemChanged(list.size());
@@ -337,10 +332,41 @@ public class WorkPurchaseActivity extends BaseBackActivity {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                flagList.clear();
                 tvPurchaseType.setText(item[choose[0]]);
+                flagList.add(new PurchaseBean.DataBean.ObjectBean.ListBean());
+                adapter = new MyAdapter(R.layout.item_purchase,flagList);
+                rlvPurchase.setAdapter(adapter);
+                adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                    @Override
+                    public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
+                        if (position==0){
+                            ToastUtils.showToast(WorkPurchaseActivity.this,"采购申请必须填写");
+                            return;
+                        }
+                        switch (view.getId()){
+                            case R.id.bt_purchase_delete:
+                                AlertDialog.Builder builder = new AlertDialog.Builder(WorkPurchaseActivity.this);
+                                builder.setMessage("确定要删除此条采购信息嘛？");
+                                builder.setNegativeButton("取消",null);
+                                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        flagList.remove(position);
+                                        adapter.notifyItemChanged(position);
+                                    }
+                                });
+                                builder.show();
+                                break;
+                            default:
+                        }
+                    }
+                });
             }
         });
         builder.show();
+
+
     }
 
     private void commit() {
@@ -358,61 +384,116 @@ public class WorkPurchaseActivity extends BaseBackActivity {
              return;
          }
         list.clear();
+
         for (int i = 0; i <flagList.size(); i++) {
             PurchaseBean.DataBean.ObjectBean.ListBean bean = new PurchaseBean.DataBean.ObjectBean.ListBean();
-            EditText et_mingcheng = (EditText) adapter.getViewByPosition(rlvPurchase,i,R.id.et_mingcheng);
-            EditText et_xinghao = (EditText) adapter.getViewByPosition(rlvPurchase,i,R.id.et_xinghao);
-            EditText et_shuliang = (EditText) adapter.getViewByPosition(rlvPurchase,i, R.id.et_shuliang);
+            EditText etMingCheng = (EditText) adapter.getViewByPosition(rlvPurchase,i,R.id.et_mingcheng);
+            EditText etXinghao = (EditText) adapter.getViewByPosition(rlvPurchase,i,R.id.et_xinghao);
+            EditText etShuliang = (EditText) adapter.getViewByPosition(rlvPurchase,i, R.id.et_shuliang);
             EditText et_danjia = (EditText) adapter.getViewByPosition(rlvPurchase,i, R.id.et_danjia);
             EditText et_piaoju = (EditText) adapter.getViewByPosition(rlvPurchase,i, R.id.et_piaoju);
             EditText et_yongtu = (EditText) adapter.getViewByPosition(rlvPurchase,i, R.id.et_yongtu);
-            if(TextUtils.isEmpty(et_mingcheng.getText().toString().trim())){
+            EditText et_fengzhuang = (EditText) adapter.getViewByPosition(rlvPurchase, i, R.id.et_fengzhuang);
+            EditText et_pinpai = (EditText) adapter.getViewByPosition(rlvPurchase, i, R.id.et_pinpai);
+            EditText et_fenlei = (EditText) adapter.getViewByPosition(rlvPurchase, i, R.id.et_fenlei);
+            EditText et_lianxiren = (EditText) adapter.getViewByPosition(rlvPurchase, i, R.id.et_lianxiren);
+            EditText et_dianhua = (EditText) adapter.getViewByPosition(rlvPurchase, i, R.id.et_dianhua);
+            EditText et_beizhu = (EditText) adapter.getViewByPosition(rlvPurchase, i, R.id.et_beizhu);
+            LinearLayout ll_piaoju = (LinearLayout) adapter.getViewByPosition(rlvPurchase, i, R.id.ll_piaoju);
+            if(TextUtils.isEmpty(etMingCheng.getText().toString().trim())){
                 flag=true;
                 ToastUtils.showToast(this,"名称不能为空");
-                list.remove(i);
                 break;
             }else {
-                bean.setName(et_mingcheng.getText().toString().trim());
+                bean.setName(etMingCheng.getText().toString().trim());
             }
-            if(TextUtils.isEmpty(et_xinghao.getText().toString().trim())){
+            if(TextUtils.isEmpty(etXinghao.getText().toString().trim())){
                 flag=true;
                 ToastUtils.showToast(this,"型号不能为空");
-                list.remove(i);
                 break;
             }else {
-                bean.setGuige(et_xinghao.getText().toString().trim());
+                bean.setGuige(etXinghao.getText().toString().trim());
             }
-            if (TextUtils.isEmpty(et_shuliang.getText().toString().trim())){
+            if (TextUtils.isEmpty(etShuliang.getText().toString().trim())){
                 flag=true;
                 ToastUtils.showToast(this,"数量不能为空");
-                list.remove(i);
                 break;
             }else {
-                bean.setShuliang(Integer.valueOf(et_shuliang.getText().toString().trim())+"");
+                bean.setShuliang(Integer.valueOf(etShuliang.getText().toString().trim())+"");
             }
             if (TextUtils.isEmpty(et_danjia.getText().toString().trim())){
                 flag=true;
                 ToastUtils.showToast(this,"单价不能为空");
-                list.remove(i);
                 break;
             }else {
                 bean.setDanjia(Double.valueOf(et_danjia.getText().toString().trim())+"");
             }
-            if (TextUtils.isEmpty(et_piaoju.getText().toString().trim())){
-                flag=true;
-                ToastUtils.showToast(this,"票据类型不能为空");
-                list.remove(i);
-                break;
+            if("生产原料".equals(tvPurchaseType.getText().toString())){
+                if(TextUtils.isEmpty(et_fengzhuang.getText().toString().trim())){
+                    flag=true;
+                    ToastUtils.showToast(this,"封装不能为空");
+                    break;
+                }else {
+                    bean.setFengzhuang(et_fengzhuang.getText().toString().trim());
+                }
+                if(TextUtils.isEmpty(et_pinpai.getText().toString().trim())){
+                    flag=true;
+                    ToastUtils.showToast(this,"品牌不能为空");
+                    break;
+                }else {
+                    bean.setPinpai(et_pinpai.getText().toString().trim());
+                }
+
+                if(TextUtils.isEmpty(et_fenlei.getText().toString().trim())){
+                    flag=true;
+                    ToastUtils.showToast(this,"分类不能为空");
+                    break;
+                }else {
+                    bean.setFenlei(et_fenlei.getText().toString().trim());
+                }
+
+                if(TextUtils.isEmpty(et_lianxiren.getText().toString().trim())){
+                    flag=true;
+                    ToastUtils.showToast(this,"联系人不能为空");
+                    break;
+                }else {
+                    bean.setLianxiren(et_lianxiren.getText().toString().trim());
+                }
+
+                if(TextUtils.isEmpty(et_dianhua.getText().toString().trim())){
+                    flag=true;
+                    ToastUtils.showToast(this,"联系人不能为空");
+                    break;
+                }else if(Utils.isPhone(et_dianhua.getText().toString().trim())){
+                    bean.setDianhua(et_dianhua.getText().toString().trim());
+                } else {
+                    flag=true;
+                    ToastUtils.showToast(this,"请输入正确电话号码");
+                    break;
+                }
+                if (TextUtils.isEmpty(et_beizhu.getText().toString().trim())){
+                    flag=true;
+                    ToastUtils.showToast(this,"备注不能为空");
+                    break;
+                }else {
+                    bean.setBeizhu(et_beizhu.getText().toString().trim());
+                }
             }else {
-                bean.setPiaoju(et_piaoju.getText().toString().trim());
+                if (TextUtils.isEmpty(et_piaoju.getText().toString().trim())){
+                    flag=true;
+                    ToastUtils.showToast(this,"票据类型不能为空");
+                    break;
+                }else {
+                    bean.setPiaoju(et_piaoju.getText().toString().trim());
+                }
             }
+
             if (TextUtils.isEmpty(et_yongtu.getText().toString().trim())){
                 flag=true;
                 ToastUtils.showToast(this,"用途说明不能为空");
-                list.remove(i);
                 break;
             }else {
-                 bean.setYongtu(et_yongtu.getText().toString().trim());
+                bean.setYongtu(et_yongtu.getText().toString().trim());
             }
             list.add(bean);
          }
@@ -462,6 +543,16 @@ public class WorkPurchaseActivity extends BaseBackActivity {
 
       @Override
       protected void convert(BaseViewHolder helper, PurchaseBean.DataBean.ObjectBean.ListBean item) {
+          LinearLayout ll_purchase_caigou = helper.getView(R.id.ll_purchase_caigou);
+          if(tvPurchaseType.getText().toString().equals("生产原料")){
+              ll_purchase_caigou.setVisibility(View.VISIBLE);
+              helper.getView(R.id.ll_piaoju).setVisibility(View.GONE);
+              helper.getView(R.id.ll_beizhu).setVisibility(View.VISIBLE);
+          }else {
+              ll_purchase_caigou.setVisibility(View.GONE);
+              helper.getView(R.id.ll_piaoju).setVisibility(View.VISIBLE);
+              helper.getView(R.id.ll_beizhu).setVisibility(View.GONE);
+          }
           final EditText et_danjia = helper.getView(R.id.et_danjia);
           final EditText et_shuliang = helper.getView(R.id.et_shuliang);
           final TextView jine = helper.getView(R.id.tv_jine);

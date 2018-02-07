@@ -7,11 +7,12 @@ package com.hsap.huisianpu.utils;
  */
 
 public class NetAddressUtils {
-    public static String url="http://192.168.9.216:8082/phone/";
+    public static String url="http://101.200.229.18:8082/phone/";
     public static String attend=url+"Attend/";
     public static String sign=url+"Sign/";
     public static String login=url+"login";//登录
     public static String kaohe=url+"MonthAssessment/";
+    public static String project=url+"Project/";//项目一级
     public static String registration=url+"registration";//注册
     public static String invitation=url+"invitation";//工作邀请
     public static String invitationList=url+"invitationList";//我的邀请
@@ -46,4 +47,26 @@ public class NetAddressUtils {
     public static String selectByMyDepartmentSumScoreMonth=kaohe+"selectByMyDepartmentSumScoreMonth";
     public static String isNowMonth=kaohe+"isNowMonth";//是否当月提交过
     public static String selectMySumScoreMonth=kaohe+"selectMySumScoreMonth";//获取自己的
+    public static String successIntergration=url+"successIntergration";//完成
+    public static String deleteIntergration=url+"deleteIntergration";//撤销
+    public static String insertTTBSummary=attend+"insertTTBSummary";//提交出差总结
+    public static String queryTTBSummar=attend+"queryTTBSummar";//获取一条出差总结
+    public static String queryOneTTBSummar=attend+"queryOneTTBSummar";//获取一条出差总结
+    public static String queryTTBSummarAll=attend+"queryTTBSummarAll";//查询所有出差
+    public static String selectOneNotice=url+"Notice/selectOneNotice";
+    public static String insertProjectBase=project+"insertProjectBase";//提交一个项目
+    public static String getMyProjectInfo=project+"getMyProjectInfo";//获取详细信息
+    public static String getDepartmentAllProject=project+"getDepartmentAllProject";//获取部门项目
+    public static String getMyAllProject=project+"getMyAllProject";//获取自己项目
+    public static String setProjectBar=project+"setProjectBar";//设置进度
+    public static String reportForward=url+"reportForward";
+    //获取个人信息
+    public static String getBaseInformation = url + "getBaseInformation";
+    public static String setBaseInformation = url + "setBaseInformation";
+    public static String SelectDepartment = url + "SelectDepartment";
+    public static String phoneImages = url + "images/";
+
+    public static String Department = url + "Department/";
+    public static String SelectDepartmentAll = Department + "SelectDepartmentAll";
+    public static String selectByMyPutMonth=kaohe+"selectByMyPutMonth";
 }

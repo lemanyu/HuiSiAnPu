@@ -53,6 +53,7 @@ public class MineWeekPager extends BaseFragmentPager {
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH)+1;
         int day = instance.get(Calendar.DAY_OF_MONTH);
+        mineRlvWeek.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFromNet(year, month, day);
     }
 
@@ -69,13 +70,15 @@ public class MineWeekPager extends BaseFragmentPager {
                     @Override
                     public void onSuccess(Response<String> response) {
                         bean = new Gson().fromJson(response.body().toString(), WorkNameBean.class);
-                        mineRlvWeek.setLayoutManager(new LinearLayoutManager(mActivity));
+
                         if (adapter == null) {
                             adapter = new MyAdapter(R.layout.item_work_week, bean.getData().getList());
                             mineRlvWeek.setAdapter(adapter);
                         } else {
-                            adapter.setNewData(bean.getData().getList());
-                            adapter.notifyDataSetChanged();
+                            if (bean.getData().getList()!=null&&bean.getData().getList().size()!=0){
+                                adapter.setNewData(bean.getData().getList());
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override

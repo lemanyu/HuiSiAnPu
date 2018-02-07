@@ -75,7 +75,7 @@ public class MineFragment extends BaseFragment {
         list.add(new Bean("我的汇报", R.drawable.wodehuibao));
         list.add(new Bean("我的审批", R.drawable.wodeshenpi));
         list.add(new Bean("我的项目",R.drawable.wodexiangmu));
-        list.add(new Bean("我的邀请", R.drawable.wodeyaoqing));
+        list.add(new Bean("我的打分", R.drawable.wodeyaoqing));
     }
 
 
@@ -125,7 +125,7 @@ public class MineFragment extends BaseFragment {
                               public void onSuccess(Response<String> response) {
                                   TokenBena bena = new Gson().fromJson(response.body().toString(), TokenBena.class);
                                   if(bena.isSuccess()){
-                                     XGPushManager.registerPush(mActivity.getApplicationContext(),"*");
+                                     XGPushManager.delAccount(mActivity.getApplicationContext(),SpUtils.getString(ConstantUtils.Username,mActivity));
                                      //XGPushManager.unregisterPush(mActivity.getApplicationContext());
                                       SpUtils.putBoolean(ConstantUtils.Login,false,mActivity);
                                       SpUtils.putInt(ConstantUtils.UserId,0,mActivity);

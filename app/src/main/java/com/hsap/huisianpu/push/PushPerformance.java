@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ import com.hsap.huisianpu.bean.PushPerformanceBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.hsap.huisianpu.view.CustomExpandableListView;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -55,19 +57,13 @@ public class PushPerformance extends BaseBackActivity {
     @BindView(R.id.bt_push_performance_commit)
     Button btPushPerformanceCommit;
     @BindView(R.id.push_details_performance)
-    ExpandableListView pushDetailsPerformance;
+    CustomExpandableListView pushDetailsPerformance;
 
-    @BindView(R.id.tv_zongfen)
-    TextView tvZongfen;
-    @BindView(R.id.tv_zipingzongfen)
-    TextView tvZipingzongfen;
-    @BindView(R.id.tv_jinglizongfen)
-    TextView tvJinglizongfen;
     private TreeMap<Integer, String> treeMap = new TreeMap<>();
     private MyExpandableListViewAdapter adapter;
     private int id;
     private int workerId;
-    private boolean state;
+    private boolean isMy;
     private int zongfen;
     private int zipingzongfen;
     private int jinglizongfen;
@@ -75,6 +71,9 @@ public class PushPerformance extends BaseBackActivity {
     public String[] groupStrings = {"研发过程的规范性（20）", "产品研发周期控制（20）",
             "工作内容饱和度（20）","工作积极主动性（10）","与其他部门沟通配合（10）",
             "解决问题（10）","工作日志（10）","工作失误","其他人员投诉","违反公司纪律"};
+    private int state;
+    private PerformanceInfoBean bean;
+
     @Override
     public int getLayoutId() {
         return R.layout.push_performance;
@@ -143,24 +142,22 @@ public class PushPerformance extends BaseBackActivity {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
                 final LoadingDailog 提交中 = ToastUtils.showDailog(PushPerformance.this, "提交中");
                 提交中.show();
                 Log.e(TAG, "onClick: " + new Gson().toJson(treeMap).toString());
                 OkGo.<String>post(NetAddressUtils.insertOneMonth).
                         params("workerId", workerId).
                         params("json", new Gson().toJson(treeMap).toString()).
-                        params("type", 1).
+                        params("type",state).
                         params("id", id).
                         params("activity", "com.hsap.huisianpu.push.PushPerformance").
                         execute(new StringCallback() {
                             @Override
                             public void onSuccess(Response<String> response) {
-                                state = false;
+                                  isMy = false;
                                 adapter.notifyDataSetChanged();
                                 zongfen+=jinglizongfen;
-                                tvJinglizongfen.setText("经理总分："+jinglizongfen);
-                                tvZongfen.setText("总分："+zongfen);
-
                                 提交中.dismiss();
                                 ToastUtils.showToast(PushPerformance.this, "提交成功");
                                 btPushPerformanceCommit.setVisibility(View.GONE);
@@ -182,6 +179,8 @@ public class PushPerformance extends BaseBackActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        pushDetailsPerformance.setGroupIndicator(null);
+        pushDetailsPerformance.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         XGPushClickedResult clickedResult = XGPushManager.onActivityStarted(this);
         if (clickedResult != null) {
             Log.e(TAG, "onResume: " + clickedResult.getCustomContent().toString());
@@ -192,12 +191,13 @@ public class PushPerformance extends BaseBackActivity {
             tvPushPerformanceTitle.setText(bean.getName() + bean.getTypeName());
             workerId = bean.getWorkerId();
             id = bean.getId();
-            state = bean.isState();
-            initDataFormNet(id);
+            isMy = bean.isIsMy();
+            state = bean.getNext();
+            initDataFormNet(id,bean.getName());
         }
     }
 
-    private void initDataFormNet(int id) {
+    private void initDataFormNet(int id, final String name) {
         final LoadingDailog 获取数据中 = ToastUtils.showDailog(PushPerformance.this, "获取数据中");
         获取数据中.show();
         OkGo.<String>post(NetAddressUtils.selectMySumScoreMonthInfo).
@@ -207,28 +207,32 @@ public class PushPerformance extends BaseBackActivity {
                     public void onSuccess(Response<String> response) {
                         获取数据中.dismiss();
                         Log.e(TAG, "onSuccess: " + response.body().toString());
-                        PerformanceInfoBean bean = new Gson().fromJson(response.body().toString(), PerformanceInfoBean.class);
+                        bean = new Gson().fromJson(response.body().toString(), PerformanceInfoBean.class);
                         for (int i = 0; i < ConstantUtils.getGroupStrings().length; i++) {
                             Log.e(TAG, "onSuccess: " + bean.getData().getMyScore().get(i).getValue());
-                            map.get(ConstantUtils.getGroupStrings()[i]).add("自评打分：" + bean.getData().getMyScore().get(i).getValue() + "分");
-                            if (state) {
+                            map.get(ConstantUtils.getGroupStrings()[i]).add(name+"打分：" + bean.getData().getMyScore().get(i).getValue() + "分");
+                            if (isMy) {
+                                if (bean.getData().getManagerScore()!=null){
+                                    map.get(ConstantUtils.getGroupStrings()[i]).add("经理打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
+                                }
                                 btPushPerformanceCommit.setVisibility(View.VISIBLE);
-                                zipingzongfen+=bean.getData().getMyScore().get(i).getValue();
                             } else {
                                 btPushPerformanceCommit.setVisibility(View.GONE);
-                                treeMap.put(i, "经理打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
-                                zipingzongfen+=bean.getData().getMyScore().get(i).getValue();
-                                jinglizongfen+=bean.getData().getManagerScore().get(i).getValue();
-                            }
+                                if (bean.getData().getManagerScore()!=null&&bean.getData().getM2Score()==null){
+                                    map.get(ConstantUtils.getGroupStrings()[i]).add("经理打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
+                                }else {
+                                   if (bean.getData().getM2Score()!=null){
+                                       if (bean.getData().getManagerScore()!=null){
+                                           map.get(ConstantUtils.getGroupStrings()[i]).add("经理打分：" + bean.getData().getManagerScore().get(i).getValue() + "分");
+                                       }
+                                       treeMap.put(i, "总监打分："+ bean.getData().getM2Score().get(i).getValue() + "分");
+                                   }
+                                }
 
+                            }
                             adapter = new MyExpandableListViewAdapter();
                             pushDetailsPerformance.setAdapter(adapter);
                         }
-                        zongfen+=zipingzongfen;
-                        zongfen+=jinglizongfen;
-                        tvZongfen.setText("总分："+zongfen);
-                        tvZipingzongfen.setText("自评打分："+zipingzongfen);
-                        tvJinglizongfen.setText("经理打分："+jinglizongfen);
                     }
 
                 });
@@ -297,6 +301,9 @@ public class PushPerformance extends BaseBackActivity {
             tv_father.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    InputMethodManager imm = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     if (pushDetailsPerformance.isGroupExpanded(i)) {
                         pushDetailsPerformance.collapseGroup(i);
                     } else {
@@ -305,10 +312,12 @@ public class PushPerformance extends BaseBackActivity {
                 }
             });
             final EditText ettext = view.findViewById(R.id.ettext);
-            if (state) {
-                // ettext.setKeyListener(null);
+            if (isMy) {
                 ettext.setEnabled(true);
             } else {
+                if (bean.getData().getM2Score()==null){
+                ettext.setText("总监尚未评分");
+                }
                 ettext.setEnabled(false);
             }
             tv_father.setText(ConstantUtils.getGroupStrings()[i]);

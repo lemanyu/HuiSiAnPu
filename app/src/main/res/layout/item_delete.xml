@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
+    <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_margin="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        >
         <TextView
+            android:visibility="gone"
             android:textSize="18sp"
             android:layout_gravity="center_vertical"
             android:id="@+id/tv_delete_name"
@@ -20,16 +22,23 @@
             android:textColor="#000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <ImageView
+            android:scaleType="centerInside"
+            android:id="@+id/iv_delete"
+            android:layout_weight="2"
+            android:layout_gravity="left"
+            android:src="@drawable/down"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
         <CheckBox
             android:clickable="false"
             android:focusable="false"
-            android:focusableInTouchMode="false"
             android:id="@+id/cb_delete"
             android:layout_marginRight="20dp"
-            android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
+            android:gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </com.zhy.android.percent.support.PercentLinearLayout>
 
 </LinearLayout>

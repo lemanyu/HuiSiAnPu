@@ -55,9 +55,9 @@ public class WorkPerformanceActivity extends BaseBackActivity {
     private static final String TAG = "WorkPerformanceActivity";
     private Map<String, List<String>> dataset = new HashMap<>();
     public String[] groupStrings = {"研发过程的规范性（20）", "产品研发周期控制（20）",
-            "工作内容饱和度（20）","工作积极主动性（10）","与其他部门沟通配合（10）",
-          "解决问题（10）","工作日志（10）","工作失误","其他人员投诉","违反公司纪律"};
-    private Map<Integer,String> save=new TreeMap<>();
+            "工作内容饱和度（20）", "工作积极主动性（10）", "与其他部门沟通配合（10）",
+            "解决问题（10）", "工作日志（10）", "工作失误", "其他人员投诉", "违反公司纪律"};
+    private Map<Integer, String> save = new TreeMap<>();
 
     @Override
     public int getLayoutId() {
@@ -67,11 +67,11 @@ public class WorkPerformanceActivity extends BaseBackActivity {
 
     @Override
     public void initView() {
-        elv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+     //   elv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         ArrayList<String> oneList = new ArrayList<>();
         ArrayList<String> twoList = new ArrayList<>();
         ArrayList<String> threeList = new ArrayList<>();
-        ArrayList<String> fourList=new ArrayList<>();
+        ArrayList<String> fourList = new ArrayList<>();
         ArrayList<String> fiveList = new ArrayList<>();
         ArrayList<String> sixList = new ArrayList<>();
         ArrayList<String> sevenList = new ArrayList<>();
@@ -103,17 +103,17 @@ public class WorkPerformanceActivity extends BaseBackActivity {
         tenList.add("违反公司纪律每次扣10分");
         dataset.put(groupStrings[0], oneList);
         dataset.put(groupStrings[1], twoList);
-        dataset.put(groupStrings[2],threeList);
-        dataset.put(groupStrings[3],fourList);
-        dataset.put(groupStrings[4],fiveList);
-        dataset.put(groupStrings[5],sixList);
-        dataset.put(groupStrings[6],sevenList);
-        dataset.put(groupStrings[7],eightList);
-        dataset.put(groupStrings[8],nineList);
-        dataset.put(groupStrings[9],tenList);
+        dataset.put(groupStrings[2], threeList);
+        dataset.put(groupStrings[3], fourList);
+        dataset.put(groupStrings[4], fiveList);
+        dataset.put(groupStrings[5], sixList);
+        dataset.put(groupStrings[6], sevenList);
+        dataset.put(groupStrings[7], eightList);
+        dataset.put(groupStrings[8], nineList);
+        dataset.put(groupStrings[9], tenList);
 
-        for (int i = 0; i <groupStrings.length; i++) {
-            save.put(i,"");
+        for (int i = 0; i < groupStrings.length; i++) {
+            save.put(i, "");
         }
     }
 
@@ -143,68 +143,68 @@ public class WorkPerformanceActivity extends BaseBackActivity {
 
     private void commit() {
         boolean flag = false;
-        for (int i = 0; i <groupStrings.length; i++) {
-            if(TextUtils.isEmpty(save.get(i))){
-                ToastUtils.showToast(this,"请输入分数");
-                flag=true;
+        for (int i = 0; i < groupStrings.length; i++) {
+            if (TextUtils.isEmpty(save.get(i))) {
+                ToastUtils.showToast(this, "请输入分数");
+                flag = true;
                 break;
             }
-            Log.e(TAG, "commit: "+save.get(i) );
+            Log.e(TAG, "commit: " + save.get(i));
         }
-        if(flag){
+        if (flag) {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("确认要提交嘛");
-        builder.setNegativeButton("取消",null);
+        builder.setNegativeButton("取消", null);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 final LoadingDailog 提交中 = ToastUtils.showDailog(WorkPerformanceActivity.this, "提交中");
                 提交中.show();
-                Log.e(TAG, "onClick: "+new Gson().toJson(save).toString() );
+                Log.e(TAG, "onClick: " + new Gson().toJson(save).toString());
 
-                    OkGo.<String>post(NetAddressUtils.isNowMonth).
-                            params("workerId", SpUtils.getInt(ConstantUtils.UserId,WorkPerformanceActivity.this)).
-                            execute(new StringCallback() {
-                                @Override
-                                public void onSuccess(Response<String> response) {
-                                    Bean bean = new Gson().fromJson(response.body().toString(), Bean.class);
-                                    if (bean.isSuccess()){
-                                        提交中.dismiss();
-                                        ToastUtils.showToast(WorkPerformanceActivity.this,"本月已经提交过");
-                                        return;
-                                    }else {
-                                        OkGo.<String>post(NetAddressUtils.insertOneMonth).
-                                                params("workerId", SpUtils.getInt(ConstantUtils.UserId,WorkPerformanceActivity.this)).
-                                                params("json",new Gson().toJson(save).toString()).
-                                                params("type",0).
-                                                params("activity","com.hsap.huisianpu.push.PushPerformance").
-                                                execute(new StringCallback() {
-                                                    @Override
-                                                    public void onSuccess(Response<String> response) {
-                                                        提交中.dismiss();
-                                                        ToastUtils.showToast(WorkPerformanceActivity.this,"提交成功");
-                                                    }
-
-                                                    @Override
-                                                    public void onError(Response<String> response) {
-                                                        super.onError(response);
-                                                        提交中.dismiss();
-                                                        ToastUtils.showToast(WorkPerformanceActivity.this,"提交失败");
-                                                    }
-                                                });
-                                    }
-
-                                }
-
-                                @Override
-                                public void onError(Response<String> response) {
-                                    super.onError(response);
+                OkGo.<String>post(NetAddressUtils.isNowMonth).
+                        params("workerId", SpUtils.getInt(ConstantUtils.UserId, WorkPerformanceActivity.this)).
+                        execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                Bean bean = new Gson().fromJson(response.body().toString(), Bean.class);
+                                if (bean.isSuccess()) {
                                     提交中.dismiss();
-                                    ToastUtils.showToast(WorkPerformanceActivity.this,"网络错误");
+                                    ToastUtils.showToast(WorkPerformanceActivity.this, "本月已经提交过");
+                                    return;
+                                } else {
+                                    OkGo.<String>post(NetAddressUtils.insertOneMonth).
+                                            params("workerId", SpUtils.getInt(ConstantUtils.UserId, WorkPerformanceActivity.this)).
+                                            params("json", new Gson().toJson(save).toString()).
+                                            params("type", 0).
+                                            params("activity", "com.hsap.huisianpu.push.PushPerformance").
+                                            execute(new StringCallback() {
+                                                @Override
+                                                public void onSuccess(Response<String> response) {
+                                                    提交中.dismiss();
+                                                    ToastUtils.showToast(WorkPerformanceActivity.this, "提交成功");
+                                                }
+
+                                                @Override
+                                                public void onError(Response<String> response) {
+                                                    super.onError(response);
+                                                    提交中.dismiss();
+                                                    ToastUtils.showToast(WorkPerformanceActivity.this, "提交失败");
+                                                }
+                                            });
                                 }
-                            });
+
+                            }
+
+                            @Override
+                            public void onError(Response<String> response) {
+                                super.onError(response);
+                                提交中.dismiss();
+                                ToastUtils.showToast(WorkPerformanceActivity.this, "网络错误");
+                            }
+                        });
             }
         });
         builder.show();
@@ -243,15 +243,18 @@ public class WorkPerformanceActivity extends BaseBackActivity {
         public long getGroupId(int parentPos) {
             return parentPos;
         }
+
         //  获得某个父项的某个子项的id
         @Override
         public long getChildId(int parentPos, int childPos) {
             return childPos;
         }
+
         @Override
         public boolean hasStableIds() {
             return true;
         }
+
         @Override
         public View getGroupView(final int i, boolean b, View view, ViewGroup viewGroup) {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -265,19 +268,20 @@ public class WorkPerformanceActivity extends BaseBackActivity {
                     InputMethodManager imm = (InputMethodManager)
                             getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    if(elv.isGroupExpanded(i)){
+                    if (elv.isGroupExpanded(i)) {
                         elv.collapseGroup(i);
-                    }else {
+                    } else {
                         elv.expandGroup(i);
                     }
                 }
             });
             final EditText ettext = view.findViewById(R.id.ettext);
             tv_father.setText(groupStrings[i]);
-            if(!TextUtils.isEmpty(save.get(i))){
+            if (!TextUtils.isEmpty(save.get(i))) {
                 ettext.setText(save.get(i));
             }
-            ettext.clearFocus();
+         //   ettext.clearFocus();
+
             ettext.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -291,36 +295,42 @@ public class WorkPerformanceActivity extends BaseBackActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-
-                    save.put(i,ettext.getText().toString());
+                    save.put(i, ettext.getText().toString());
                 }
             });
-
-            if(i==0||i==1){
-                ettext.setFilters(new InputFilter[]{new InputFilterMinMax(0,20)});
-            }else {
-                ettext.setFilters(new InputFilter[]{new InputFilterMinMax(0,10)});
+            if (i > -1 && i < 3) {
+                Log.d(TAG, "getGroupView: "+i);
+                Log.d(TAG, "getGroupView: "+ettext);
+                ettext.setFilters(new InputFilter[]{new InputFilterMinMax(0, 20)});
+            } else if (i > 2 && i < 6) {
+                ettext.setFilters(new InputFilter[]{new InputFilterMinMax(0, 10)});
             }
+
+
+
             return view;
         }
+
         @Override
         public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
             if (view == null) {
                 LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.item_son, null);
             }
-            Log.e(TAG, "getChildView: father "+i );
-            Log.e(TAG, "getChildView: son"+i1);
+            Log.e(TAG, "getChildView: father " + i);
+            Log.e(TAG, "getChildView: son" + i1);
             view.setTag(R.layout.item_father, i);
             TextView tv_son = view.findViewById(R.id.tv_son);
             tv_son.setText(dataset.get(groupStrings[i]).get(i1));
             return view;
         }
+
         @Override
         public boolean isChildSelectable(int i, int i1) {
             return true;
         }
     }
+
     public class InputFilterMinMax implements InputFilter {
 
         private int min, max;
@@ -339,9 +349,11 @@ public class WorkPerformanceActivity extends BaseBackActivity {
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
             try {
                 int input = Integer.parseInt(dest.toString() + source.toString());
-                if (isInRange(min, max, input)){
-                    return null;}
-            } catch (NumberFormatException nfe) { }
+                if (isInRange(min, max, input)) {
+                    return null;
+                }
+            } catch (NumberFormatException nfe) {
+            }
             return "";
         }
 

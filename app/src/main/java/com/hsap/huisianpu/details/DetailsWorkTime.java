@@ -43,13 +43,14 @@ public class DetailsWorkTime extends BaseBackActivity {
     public void initView() {
         int id = getIntent().getIntExtra("id", 0);
         final int type = getIntent().getIntExtra("type", 0);
+        rlvWorkTime.setLayoutManager(new LinearLayoutManager(DetailsWorkTime.this));
         OkGo.<String>post(NetAddressUtils.getMyReportForms).
                 params("id",id).params("type",type).
                 params("page",0).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 final MineDayBean bean = new Gson().fromJson(response.body().toString(), MineDayBean.class);
-                rlvWorkTime.setLayoutManager(new LinearLayoutManager(DetailsWorkTime.this));
+
                 MyAdapter adapter = new MyAdapter(R.layout.item_mine_day, bean.getData().getList());
                 rlvWorkTime.setAdapter(adapter);
                 adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

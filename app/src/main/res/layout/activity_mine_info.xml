@@ -6,78 +6,67 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.hsap.huisianpu.activity.MineInfoActivity">
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <android.support.v7.widget.Toolbar
-            app:titleTextColor="@color/text_blue"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/white"
             android:theme="@style/ToolBarTheme"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            app:titleTextColor="@color/text_blue">
+
             <ImageButton
                 android:id="@id/back"
                 android:layout_width="30dp"
-                android:background="@drawable/back"
-                android:layout_height="25dp" />
+                android:layout_height="25dp"
+                android:background="@drawable/back" />
+
             <TextView
-                android:textSize="20sp"
+                style="@style/CommonText"
                 android:layout_gravity="center_horizontal"
                 android:text="我的信息"
-                style="@style/CommonText" />
+                android:textSize="20sp" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content">
+
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/mine_info_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="头像" />
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
-                <ImageView
-                    style="@style/MineInfoRightPicture" />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada" />
-
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="10dp">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="昵称" />
+
                 <TextView
+                    android:id="@+id/mine_info_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:hint="name"
+                    android:gravity="right|center"
                     android:paddingRight="5dp"
                     android:text="昵称" />
 
-                <ImageView
-                    style="@style/MineInfoRightPicture" />
+                <ImageView style="@style/MineInfoRightPicture" />
             </com.zhy.android.percent.support.PercentLinearLayout>
 
             <View
@@ -99,8 +88,11 @@
                     android:text="电话" />
 
                 <TextView
+                    android:id="@+id/mine_info_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:hint="phone"
+                    android:gravity="right|center"
                     android:paddingRight="5dp"
                     android:text="电话" />
 
@@ -129,8 +121,11 @@
                     android:text="身份证号" />
 
                 <TextView
+                    android:id="@+id/mine_info_iccard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:hint="idCard"
+                    android:gravity="right|center"
                     android:paddingRight="5dp"
                     android:text="身份证号" />
 
@@ -151,6 +146,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="10dp">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -158,13 +154,15 @@
                     android:text="出生日期" />
 
                 <TextView
+                    android:id="@+id/mine_info_birth"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="right|center"
+                    android:hint="newBirthDate"
                     android:paddingRight="5dp"
                     android:text="出生日期" />
 
-                <ImageView
-                    style="@style/MineInfoRightPicture" />
+                <ImageView style="@style/MineInfoRightPicture" />
             </com.zhy.android.percent.support.PercentLinearLayout>
 
             <View
@@ -186,12 +184,15 @@
                     android:text="性别" />
 
                 <TextView
+                    android:id="@+id/mine_info_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:hint="age"
+                    android:gravity="right|center"
                     android:paddingRight="5dp"
                     android:text="性别" />
-                <ImageView
-                    style="@style/MineInfoRightPicture" />
+
+                <ImageView style="@style/MineInfoRightPicture" />
             </com.zhy.android.percent.support.PercentLinearLayout>
 
             <View
@@ -213,12 +214,15 @@
                     android:text="部门" />
 
                 <TextView
+                    android:id="@+id/mine_info_departmentname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:hint="departmentId"
+                    android:gravity="right|center"
                     android:paddingRight="5dp"
                     android:text="部门" />
-                <ImageView
-                    style="@style/MineInfoRightPicture" />
+
+                <ImageView style="@style/MineInfoRightPicture" />
             </com.zhy.android.percent.support.PercentLinearLayout>
 
             <View
@@ -238,19 +242,45 @@
                     android:layout_weight="1"
                     android:text="入职时间" />
                 <TextView
+                    android:id="@+id/mine_info_createtime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:hint="newCreateTime"
+                    android:gravity="right|center"
                     android:paddingRight="5dp"
                     android:text="入职时间" />
-                <ImageView
-                    style="@style/MineInfoRightPicture" />
+                <ImageView style="@style/MineInfoRightPicture" />
             </com.zhy.android.percent.support.PercentLinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#dadada" />
-
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:visibility="gone"
+                android:id="@+id/pll_jixiao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="绩效评分" />
+                <TextView
+                    android:id="@+id/mine_info_jixiao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="newCreateTime"
+                    android:gravity="right|center"
+                    android:paddingRight="5dp" />
+                <ImageView style="@style/MineInfoRightPicture" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada" />
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -264,12 +294,13 @@
                     android:layout_weight="1"
                     android:text="级别" />
                 <TextView
+                    android:id="@+id/mine_info_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:hint="level"
                     android:paddingRight="5dp"
+                    android:gravity="right|center"
                     android:text="级别" />
-                <ImageView
-                    style="@style/MineInfoRightPicture" />
             </com.zhy.android.percent.support.PercentLinearLayout>
 
             <View
@@ -283,50 +314,15 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="10dp">
-
-                <TextView
+                <Button
+                    android:hint="newPassword"
+                    android:id="@+id/mine_info_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="状态" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="5dp"
-                    android:text="状态" />
-                <ImageView
-                    style="@style/MineInfoRightPicture" />
+                    android:text="修改登陆密码"
+                    android:textAlignment="center" />
             </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada" />
-
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="修改登陆密码" />
-
-                <ImageView style="@style/MineInfoRightPicture"
-
-
-                    />
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

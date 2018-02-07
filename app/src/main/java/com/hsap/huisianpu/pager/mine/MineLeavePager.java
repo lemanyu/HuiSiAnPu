@@ -59,9 +59,10 @@ public class MineLeavePager extends BaseFragmentPager {
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
+        mineRlvLeave.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFormNet(year,month);
     }
-    private void dataFormNet(int year, int month) {
+    private void dataFormNet(final int year, final int month) {
         OkGo.<String>post(NetAddressUtils.selectIntegration).
                 params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
                 params("type",0).params("year",year).params("month",month).
@@ -71,7 +72,7 @@ public class MineLeavePager extends BaseFragmentPager {
                         Log.e(TAG, response.body().toString() );
                         final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
                         if(bean.isSuccess()){
-                            mineRlvLeave.setLayoutManager(new LinearLayoutManager(mActivity));
+
                             if(adapter==null){
                                 adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
                                 mineRlvLeave.setAdapter(adapter);
@@ -86,6 +87,9 @@ public class MineLeavePager extends BaseFragmentPager {
                                     Intent intent = new Intent(mActivity, DetailsMineTrip.class);
                                     intent.putExtra("type",0);
                                     intent.putExtra("workid",bean.getData().get(position).getId());
+                                    intent.putExtra("flag",false);
+                                    intent.putExtra("year",year);
+                                    intent.putExtra("month",month);
                                     startActivity(intent);
                                 }
                             });
@@ -101,19 +105,6 @@ public class MineLeavePager extends BaseFragmentPager {
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
     class MyAdapter extends BaseQuickAdapter<MineLeaveBean.DataBean, BaseViewHolder> {
 
         public MyAdapter(int layoutResId, @Nullable List<MineLeaveBean.DataBean> data) {

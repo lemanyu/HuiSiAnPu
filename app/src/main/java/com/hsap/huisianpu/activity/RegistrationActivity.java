@@ -153,7 +153,7 @@ public class RegistrationActivity extends BaseActivity {
                 public void onSuccess(Response<String> response) {
                     RegistrationBean bean = new Gson().fromJson(response.body().toString(), RegistrationBean.class);
                     if(bean.isSuccess()){
-                        XGPushManager.registerPush(RegistrationActivity.this,account);
+                        XGPushManager.bindAccount(RegistrationActivity.this,account);
                         SpUtils.putInt(ConstantUtils.UserId,bean.getData(),RegistrationActivity.this);
                         SpUtils.putBoolean(ConstantUtils.Login,true,RegistrationActivity.this);
                         setToken(bean.getData());

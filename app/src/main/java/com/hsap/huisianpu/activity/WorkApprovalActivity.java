@@ -68,12 +68,13 @@ public class WorkApprovalActivity extends BaseBackActivity {
     public void initView() {
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
-        int month = instance.get(Calendar.MONTH);
-        tvCheckreportTime.setText(year+"-"+month);
+        int month = instance.get(Calendar.MONTH) + 1;
+        tvCheckreportTime.setText(year + "-" + month);
         fragmentList.add(new WorkMyApprovalPager());
         fragmentList.add(new WorkHaveApprovalPager());
         initMic();
         vpWorkApproval.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
+
     }
 
     @Override
@@ -120,25 +121,25 @@ public class WorkApprovalActivity extends BaseBackActivity {
 
     @Override
     public void processClick(View v) {
-         switch (v.getId()){
-             case R.id.ll_checkreport_time:
-                 Calendar calendar = Calendar.getInstance();
-                 int year=calendar.get(Calendar.YEAR);
-                 int month= calendar.get(Calendar.MONTH);
-                 int day =calendar.get(Calendar.DAY_OF_MONTH);
-                 DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                     @Override
-                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                               //发送通知
-                         EventBus.getDefault().post(new EventDate(i,i1+1));
-                         int a=i1+1;
-                         tvCheckreportTime.setText(i+"."+a);
-                     }
-                 }, year, month, day);
-                 dialog.show();
-                 break;
-                 default:
-         }
+        switch (v.getId()) {
+            case R.id.ll_checkreport_time:
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        //发送通知
+                        EventBus.getDefault().post(new EventDate(i, i1 + 1));
+                        int a = i1 + 1;
+                        tvCheckreportTime.setText(i + "." + a);
+                    }
+                }, year, month, day);
+                dialog.show();
+                break;
+            default:
+        }
     }
 
     private void initMic() {

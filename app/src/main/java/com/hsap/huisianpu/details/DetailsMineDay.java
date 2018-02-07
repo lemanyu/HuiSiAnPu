@@ -87,16 +87,13 @@ public class DetailsMineDay extends BaseBackActivity {
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
     private AccompanyGvidViewAdapter adapter;
-    private Map<String, List<String>> dataset = new HashMap<>();
-    public String[] groupStrings = {"研发过程的规范性（20）", "产品研发周期控制（20）",
-            "工作内容饱和度（20）","工作积极主动性（10）","与其他部门沟通配合（10）",
-            "解决问题（10）","工作日志（10）","工作失误","其他人员投诉","违反公司纪律"};
 
     private ExpandableListView item_details_performance;
     private TreeMap<Integer,String> treeMap=new TreeMap<>();
     private boolean enable;
     private MyExpandableListViewAdapter adapter1;
     private Map<String, List<String>> map;
+    private int id;
 
     @Override
     public int getLayoutId() {
@@ -107,7 +104,7 @@ public class DetailsMineDay extends BaseBackActivity {
     public void initView() {
 
 
-        int id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getIntExtra("id", 0);
         int type = getIntent().getIntExtra("type", 0);//日周月
         int style = getIntent().getIntExtra("style", 0);
         enable = getIntent().getBooleanExtra("enable", false);
@@ -545,7 +542,26 @@ public class DetailsMineDay extends BaseBackActivity {
             ToastUtils.showToast(DetailsMineDay.this, "请选择抄送人");
             return;
         }
+        final LoadingDailog 抄送中 = ToastUtils.showDailog(this, "抄送中");
+        抄送中.show();
+        OkGo.<String>post(NetAddressUtils.reportForward).
+               params("id",id).
+               params("ids",new Gson().toJson(personIdList)).
+               params("activity","com.hsap.huisianpu.push.PushWeekActivity")
+               .execute(new StringCallback() {
+                   @Override
+                   public void onSuccess(Response<String> response) {
+                       抄送中.dismiss();
+                       ToastUtils.showToast(DetailsMineDay.this,"抄送成功");
+                   }
 
+                   @Override
+                   public void onError(Response<String> response) {
+                       super.onError(response);
+                       抄送中.dismiss();
+                       ToastUtils.showToast(DetailsMineDay.this,"抄送失败");
+                   }
+               });
     }
 
     @Override

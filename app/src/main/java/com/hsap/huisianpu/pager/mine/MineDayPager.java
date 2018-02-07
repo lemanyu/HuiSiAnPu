@@ -54,6 +54,7 @@ public class MineDayPager extends BaseFragmentPager {
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
         int day = instance.get(Calendar.DAY_OF_MONTH);
+        mineRlvDay.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFormNet(year, month, day);
 
     }
@@ -67,7 +68,7 @@ public class MineDayPager extends BaseFragmentPager {
                 @Override
               public void onSuccess(Response<String> response) {
                    final WorkNameBean  bean = new Gson().fromJson(response.body().toString(), WorkNameBean.class);
-                    mineRlvDay.setLayoutManager(new LinearLayoutManager(mActivity));
+
                     if (adapter == null) {
                         adapter = new MyAdapter(R.layout.item_work_name, bean.getData().getList());
                         mineRlvDay.setAdapter(adapter);
@@ -82,8 +83,10 @@ public class MineDayPager extends BaseFragmentPager {
                             }
                         });
                     } else {
-                        adapter.setNewData(bean.getData().getList());
-                        adapter.notifyDataSetChanged();
+                        if (bean.getData().getList()!=null&&bean.getData().getList().size()!=0){
+                            adapter.setNewData(bean.getData().getList());
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 }
         });

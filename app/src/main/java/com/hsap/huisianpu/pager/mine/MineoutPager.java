@@ -57,11 +57,12 @@ public class MineoutPager extends BaseFragmentPager {
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
+        mineRlvOut.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFormNet(year,month);
 
     }
 
-    private void dataFormNet(int year, int month) {
+    private void dataFormNet(final int year, final int month) {
         OkGo.<String>post(NetAddressUtils.selectIntegration).
                 params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
                 params("type",1).params("year",year).params("month",month).
@@ -70,7 +71,7 @@ public class MineoutPager extends BaseFragmentPager {
                     public void onSuccess(Response<String> response) {
                         final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
                         if(bean.isSuccess()){
-                            mineRlvOut.setLayoutManager(new LinearLayoutManager(mActivity));
+
                             if(adapter==null){
                                 adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
                                 mineRlvOut.setAdapter(adapter);
@@ -85,6 +86,9 @@ public class MineoutPager extends BaseFragmentPager {
                                     Intent intent = new Intent(mActivity, DetailsMineTrip.class);
                                     intent.putExtra("type",1);
                                     intent.putExtra("workid",bean.getData().get(position).getId());
+                                    intent.putExtra("flag",false);
+                                    intent.putExtra("year",year);
+                                    intent.putExtra("month",month);
                                     startActivity(intent);
                                 }
                             });

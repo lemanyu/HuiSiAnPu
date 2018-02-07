@@ -65,6 +65,7 @@ public class MyViewPager extends ViewPager {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 break;
+                default:
         }
         return super.dispatchTouchEvent(ev);
     }

@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hsap.huisianpu">
+
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <!--用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-    <!--用于访问GPS定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-    <!--用于访问网络，网络定位需要上网-->
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <!--用于读取手机当前的状态-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-    <!--用于写入缓存数据到扩展存储卡-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <!--用于申请调用A-GPS模块-->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
-    <!--用于申请获取蓝牙信息进行室内定位-->
-    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
-   <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"></uses-permission>
-    <!-- 【必须】 信鸽SDK所需权限   -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <!-- 【必须】 信鸽SDK所需权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -49,13 +50,11 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
-    <!--系统的弹出窗口-->
+    <!-- 系统的弹出窗口 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-   <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"></uses-permission>
-
-
-
-
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:name=".HsApApplication"
@@ -67,132 +66,173 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="cfa6de2cfa58161720fd7b0cbb7d4fad">//开发者申请的key
+            android:value="cfa6de2cfa58161720fd7b0cbb7d4fad"></meta-data>
 
-        </meta-data>
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask">
-        </activity>
-        <activity android:name=".activity.MineInfoActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.SelectApproverActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.LoginActivity"></activity>
-        <activity android:name=".activity.WelcomeActivity"
-            >
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MineInfoActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.SelectApproverActivity"
+            android:theme="@style/BackTheme" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RegistrationActivity"></activity>
-        <activity android:name=".activity.ContactsActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.LeaveActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.PunchActivity"
-            android:theme="@style/BackTheme">
-        </activity>
-        <service android:name="com.amap.api.location.APSService"></service>
-        <activity android:name=".activity.MineInviteActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkOutActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkTripActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkOvertimeActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkCarActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkDayNewPaperActivity"
-            android:theme="@style/BackTheme"
+        <activity android:name=".activity.RegistrationActivity" />
+        <activity
+            android:name=".activity.ContactsActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.LeaveActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.PunchActivity"
+            android:theme="@style/BackTheme" />
+
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity
+            android:name=".activity.MineInviteActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkOutActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkTripActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkOvertimeActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkCarActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkDayNewPaperActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
-        <activity android:name=".activity.WorkWeekNewPaperActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkMonthNewPaperActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkCheckReportActivity"
-            android:theme="@style/BackTheme"></activity>
-       <activity android:name=".activity.MineReportActivity"
-           android:theme="@style/BackTheme"></activity>
-       <activity android:name=".activity.WorkApprovalActivity"
-           android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.MineApprovalActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkSummaryActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.MineProjectActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkPublishProjectActivity"
-            android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.WorkSeeProjectActivity"
-            android:theme="@style/BackTheme"></activity>
-         <activity android:name=".activity.WorkAttendanceActivity"
-             android:theme="@style/BackTheme"></activity>
-         <activity android:name=".activity.WorkModifyPermissionsActivity"
-             android:theme="@style/BackTheme"></activity>
-         <activity android:name=".details.DetailsMineDay"
-             android:theme="@style/BackTheme"></activity>
-         <activity android:name=".details.DetailsWorkTime"
-             android:theme="@style/BackTheme"></activity>
-        <activity android:name=".push.PushWeekActivity"
-            android:theme="@style/BackTheme"></activity>
-        <service android:name=".service.ForceOfflineService"></service>
-       <activity android:name=".activity.ChooseAccompanyActivity"
-           android:theme="@style/BackTheme"></activity>
-       <activity android:name=".push.PushTirpActivity"
-           android:theme="@style/BackTheme"></activity>
-       <activity android:name=".activity.MineOutDoorActivity"
-           android:theme="@style/BackTheme"></activity>
-        <activity android:name=".details.DetailsMineTrip"
-            android:theme="@style/BackTheme"></activity>
-         <activity android:name=".details.DetailsWorkApproval"
-             android:theme="@style/BackTheme"></activity>
-         <activity android:name=".activity.AnnouncementActivity"
-             android:theme="@style/BackTheme"></activity>
-         <activity android:name=".push.PushAnnouncenment"
-             android:theme="@style/BackTheme">
-         </activity>
-         <activity android:name=".activity.DeteleAnnouncenActivity"
-             android:theme="@style/BackTheme"></activity>
-        <activity android:name=".activity.PhotoViewPgaerActivity"></activity>
-        <activity android:name=".activity.WorkPurchaseActivity"
-            android:theme="@style/BackTheme"></activity>
-
-        <activity android:name=".activity.WorkPerformanceActivity"
             android:theme="@style/BackTheme"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".details.DetailsPerformance"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+        <activity
+            android:name=".activity.WorkWeekNewPaperActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkMonthNewPaperActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkCheckReportActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.MineReportActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkApprovalActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.MineApprovalActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkSummaryActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.MineProjectActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkPublishProjectActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkSeeProjectActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkAttendanceActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkModifyPermissionsActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".details.DetailsMineDay"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".details.DetailsWorkTime"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".push.PushWeekActivity"
+            android:theme="@style/BackTheme" />
+
+        <service android:name=".service.ForceOfflineService" />
+
+        <activity
+            android:name=".activity.ChooseAccompanyActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".push.PushTirpActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.MineOutDoorActivity"
+            android:theme="@style/BackTheme"/>
+        <activity
+            android:name=".details.DetailsMineTrip"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".details.DetailsWorkApproval"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.AnnouncementActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".push.PushAnnouncenment"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.DeteleAnnouncenActivity"
+            android:theme="@style/BackTheme" />
+        <activity android:name=".activity.PhotoViewPgaerActivity" />
+        <activity
+            android:name=".activity.WorkPurchaseActivity"
+            android:theme="@style/BackTheme" />
+        <activity
+            android:name=".activity.WorkPerformanceActivity"
             android:theme="@style/BackTheme"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".push.PushPerformance"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".details.DetailsPerformance"
+            android:theme="@style/BackTheme"
+            android:windowSoftInputMode="adjustResize"  />
+        <activity
+            android:name=".push.PushPerformance"
+            android:theme="@style/BackTheme" />
+        <activity android:name=".activity.WorkSeeActivity"
             android:theme="@style/BackTheme"></activity>
-
-
-
-
-
+        <activity android:name=".push.PushProject"
+            android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkPersonActivity"
+            android:theme="@style/BackTheme"></activity>
+        <activity android:name=".activity.WorkInfoActivity"
+            android:theme="@style/BackTheme"></activity>
 
 
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
-                <!-- 若使用AndroidStudio，请设置android:name="android.intent.action"-->
+
+                <!-- 若使用AndroidStudio，请设置android:name="android.intent.action" -->
                 <action android:name="android.intent.action" />
             </intent-filter>
         </activity>
 
-
-
         <!-- 【可选】APP实现的Receiver，用于接收消息透传和操作结果的回调，请根据需要添加 -->
         <!-- YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver： -->
-        <receiver android:name=".receiver.MessageReceiver"
-            android:exported="true" >
+        <receiver
+            android:name=".receiver.MessageReceiver"
+            android:exported="true">
             <intent-filter>
+
                 <!-- 接收消息透传 -->
                 <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
                 <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
@@ -200,12 +240,12 @@
             </intent-filter>
         </receiver>
 
-
-
         <!-- 【必须】 信鸽receiver广播接收 -->
-        <receiver android:name="com.tencent.android.tpush.XGPushReceiver"
-            android:process=":xg_service_v3" >
-            <intent-filter android:priority="0x7fffffff" >
+        <receiver
+            android:name="com.tencent.android.tpush.XGPushReceiver"
+            android:process=":xg_service_v3">
+            <intent-filter android:priority="0x7fffffff">
+
                 <!-- 【必须】 信鸽SDK的内部广播 -->
                 <action android:name="com.tencent.android.tpush.action.SDK" />
                 <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
@@ -229,16 +269,17 @@
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
             android:exported="true">
             <intent-filter>
+
                 <!-- 【必须】 请修改为当前APP包名 .PUSH_ACTION, 如demo的包名为：com.qq.xgdemo -->
                 <action android:name="com.hsap.huisianpu.PUSH_ACTION" />
             </intent-filter>
         </service>
-        <!-- 【必须】 【注意】authorities修改为 包名.AUTH_XGPUSH, 如demo的包名为：com.qq.xgdemo-->
+        <!-- 【必须】 【注意】authorities修改为 包名.AUTH_XGPUSH, 如demo的包名为：com.qq.xgdemo -->
         <provider
             android:name="com.tencent.android.tpush.XGPushProvider"
             android:authorities="com.hsap.huisianpu.AUTH_XGPUSH"
-            android:exported="true"/>
-        <!-- 【必须】 【注意】authorities修改为 包名.TPUSH_PROVIDER, 如demo的包名为：com.qq.xgdemo-->
+            android:exported="true" />
+        <!-- 【必须】 【注意】authorities修改为 包名.TPUSH_PROVIDER, 如demo的包名为：com.qq.xgdemo -->
         <provider
             android:name="com.tencent.android.tpush.SettingsContentProvider"
             android:authorities="com.hsap.huisianpu.TPUSH_PROVIDER"
@@ -246,9 +287,8 @@
         <provider
             android:name="com.tencent.mid.api.MidProvider"
             android:authorities="com.hsap.huisianpu.TENCENT.MID.V3"
-            android:exported="true" >
-        </provider>
-        <!-- 【必须】 请将YOUR_ACCESS_ID修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
+            android:exported="true" />
+
         <meta-data
             android:name="XG_V2_ACCESS_ID"
             android:value="2100271315" />
@@ -257,13 +297,12 @@
             android:name="XG_V2_ACCESS_KEY"
             android:value="A1T277UVH5JP" />
 
-        <service android:name=".service.DataServer"></service>
+        <service android:name=".service.DataServer" />
 
-
-
-
-
-
+        <activity android:name=".activity.WorkManagerActivity"
+            android:theme="@style/BackTheme"/>
+        <activity android:name=".details.DongDetailsWorkApproval"
+            android:theme="@style/BackTheme"/>
     </application>
 
 </manifest>

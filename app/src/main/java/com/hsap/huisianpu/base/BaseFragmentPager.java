@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hsap.huisianpu.bean.ApprovalBean;
+
 import butterknife.ButterKnife;
 
 /**
@@ -22,6 +24,8 @@ public abstract class BaseFragmentPager extends Fragment {
     //Fragment对用户可见的标记
     private boolean isUIVisible;
 
+    private ApprovalBean.DataBean dataBean;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +36,8 @@ public abstract class BaseFragmentPager extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=initView();
-        ButterKnife.bind(this,view);
+        View view = initView();
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -45,6 +49,7 @@ public abstract class BaseFragmentPager extends Fragment {
         initData();
         initListener();
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -59,7 +64,7 @@ public abstract class BaseFragmentPager extends Fragment {
     private void lazyLoad() {
         if (isViewCreated && isUIVisible) {
             //initData();
-           // initListener();
+            // initListener();
             //数据加载完毕,恢复标记,防止重复加载
             isViewCreated = false;
             isUIVisible = false;
@@ -67,8 +72,16 @@ public abstract class BaseFragmentPager extends Fragment {
 
 
     }
+
     public abstract View initView();
+
     public abstract void initData();
+
     public abstract void initListener();
+
+    public BaseFragmentPager setData(ApprovalBean.DataBean dataBean) {
+        this.dataBean = dataBean;
+        return this;
+    }
 
 }

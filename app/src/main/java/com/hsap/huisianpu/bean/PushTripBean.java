@@ -16,7 +16,7 @@ public class PushTripBean {
      */
 
     private int code;
-    private Object msg;
+    private String msg;
     private boolean success;
     private DataBean data;
 

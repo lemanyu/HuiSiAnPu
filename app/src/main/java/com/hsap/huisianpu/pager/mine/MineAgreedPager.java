@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ public class MineAgreedPager extends BaseFragmentPager {
     RecyclerView mRlvAgreed;
     Unbinder unbinder;
     private MyAdapter adapter;
-
+   private String TAG="MineAgreedPager";
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.pager_mine_agreed, null);
@@ -57,26 +58,13 @@ public class MineAgreedPager extends BaseFragmentPager {
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH)+1;
+        mRlvAgreed.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFormNet(year,month);
     }
 
     @Override
     public void initListener() {
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
     class MyAdapter extends BaseQuickAdapter<OngoingBean.DataBean, BaseViewHolder> {
 
@@ -117,16 +105,15 @@ public class MineAgreedPager extends BaseFragmentPager {
             case 6:
                 title += "出差总结";
                 break;
+            case 12:
+                title+="采购";
                 default:
         }
         return title;
     }
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDate(EventDate event){
-        dataFormNet(event.getYear(), event.getMonth());
-    }
 
-    private void dataFormNet(int year, int month) {
+
+    private void dataFormNet(final int year, final int month) {
 
         OkGo.<String>post(NetAddressUtils.selectIntegration).
                 params("workersId", SpUtils.getInt(ConstantUtils.UserId,mActivity)).
@@ -136,7 +123,7 @@ public class MineAgreedPager extends BaseFragmentPager {
                     public void onSuccess(Response<String> response) {
                         final OngoingBean bean = new Gson().fromJson(response.body().toString(), OngoingBean.class);
                         if (bean.isSuccess()){
-                            mRlvAgreed.setLayoutManager(new LinearLayoutManager(mActivity));
+
                             if (adapter==null){
                                 adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
                                 mRlvAgreed.setAdapter(adapter);
@@ -152,6 +139,9 @@ public class MineAgreedPager extends BaseFragmentPager {
                                     intent.putExtra("type",bean.getData().get(position).getType());
                                     intent.putExtra("workid",bean.getData().get(position).getId());
                                     intent.putExtra("state",1);
+                                    Log.e(TAG, "onItemClick: "+year );
+                                    intent.putExtra("year",year);
+                                    intent.putExtra("month",month);
                                     startActivity(intent);
 
                                 }
@@ -177,5 +167,11 @@ public class MineAgreedPager extends BaseFragmentPager {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDate(EventDate event){
+        Log.e(TAG, "onEventDate: " + event.getYear());
+        Log.e(TAG, "onEventDate: " + event.getMonth());
+        dataFormNet(event.getYear(), event.getMonth());
     }
 }

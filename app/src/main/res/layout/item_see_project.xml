@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:cardView="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:padding="5dp"
+        cardView:cardCornerRadiu="90dp"
+        cardView:cardElevation="5dp"
+        cardView:cardMaxElevation="5dp"
+        cardView:contentPadding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+       <LinearLayout
+           android:padding="5dp"
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <TextView
+               android:layout_margin="5dp"
+               android:layout_gravity="left"
+               android:id="@+id/tv_project_name"
+               android:text="aaaa"
+               android:textStyle="bold"
+               android:textColor="@color/text_blue"
+               android:textSize="18sp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:layout_margin="5dp"
+               android:layout_gravity="left"
+               android:id="@+id/tv_project_person"
+               android:text="aaaa"
+               android:textStyle="bold"
+               android:textColor="@color/text_blue"
+               android:textSize="18sp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:layout_margin="5dp"
+               android:layout_gravity="left"
+               android:id="@+id/tv_project_time"
+               android:text="aaaa"
+               android:textStyle="bold"
+               android:textColor="@color/text_blue"
+               android:textSize="18sp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:layout_margin="5dp"
+               android:layout_gravity="left"
+               android:id="@+id/tv_project_jindu"
+               android:text="aaaa"
+               android:textStyle="bold"
+               android:textColor="@color/text_blue"
+               android:textSize="18sp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+       </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <View
+        android:background="@color/linecolor"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"></View>
+</LinearLayout>

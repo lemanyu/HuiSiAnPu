@@ -105,6 +105,9 @@
             android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"></View>
     </LinearLayout>
 
     </com.zhy.android.percent.support.PercentLinearLayout>

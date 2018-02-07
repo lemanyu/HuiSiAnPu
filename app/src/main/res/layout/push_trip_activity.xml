@@ -27,7 +27,6 @@
                 android:text="我是推送过来的出差"
                 style="@style/CommonText" />
             <Button
-                android:visibility="gone"
                 android:background="@null"
                 android:textColor="@color/text_blue"
                 android:textSize="18sp"

@@ -16,7 +16,9 @@ import com.hsap.huisianpu.pager.mine.MineAllProjectPager;
 import com.hsap.huisianpu.pager.mine.MineComPleteProjectPager;
 import com.hsap.huisianpu.pager.mine.MineCondutProjectPager;
 import com.hsap.huisianpu.pager.mine.MineExamineProjectPager;
+import com.hsap.huisianpu.pager.mine.MineSeeProjectPager;
 import com.hsap.huisianpu.pager.mine.MineUploadProjectPager;
+import com.hsap.huisianpu.pager.work.WorkSeeProjectPager;
 import com.hsap.huisianpu.view.MyViewPager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -46,7 +48,9 @@ public class MineProjectActivity extends BaseBackActivity {
     MagicIndicator micMineProject;
     @BindView(R.id.vp_mine_project)
     MyViewPager vpMineProject;
-    private List<BaseFragmentPager> frgamentList=new ArrayList<>();
+    private List<MineSeeProjectPager> frgamentList=new ArrayList<>();
+    private ArrayList<String> list;
+
     @Override
     public int getLayoutId() {
 
@@ -55,16 +59,17 @@ public class MineProjectActivity extends BaseBackActivity {
 
     @Override
     public void initView() {
-        frgamentList.add(new MineAllProjectPager());
-        frgamentList.add(new MineCondutProjectPager());
-        frgamentList.add(new MineComPleteProjectPager());
-        frgamentList.add(new MineUploadProjectPager());
-        frgamentList.add(new MineExamineProjectPager());
+        initMic();
+
+       frgamentList.add(new MineSeeProjectPager().state(0));
+       frgamentList.add(new MineSeeProjectPager().state(1));
+       frgamentList.add(new MineSeeProjectPager().state(4));
+
     }
 
     @Override
     public void initData() {
-        initMic();
+
         vpMineProject.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(),frgamentList));
 
     }
@@ -86,6 +91,7 @@ public class MineProjectActivity extends BaseBackActivity {
             @Override
             public void onPageSelected(int position) {
                 micMineProject.onPageSelected(position);
+                frgamentList.get(position);
             }
 
             @Override
@@ -96,15 +102,18 @@ public class MineProjectActivity extends BaseBackActivity {
     }
 
     private void initMic() {
-        final ArrayList<String> list = new ArrayList<>();
-        list.add("全部项目");list.add("进行项目");list.add("完成项目");list.add("等待上传");list.add("等待审核");
+        list = new ArrayList<>();
+        list.add("进行项目");
+        list.add("等待审核");
+        list.add("完成项目");
         micMineProject.setBackgroundColor(Color.WHITE);
         CommonNavigator navigator = new CommonNavigator(this);
+        navigator.setAdjustMode(true);
         navigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
 
-                return list==null?0:list.size();
+                return list ==null?0: list.size();
             }
 
             @Override

@@ -71,12 +71,20 @@ public class MinePerformanceBean {
              * managerScore : 47
              * id : 9
              */
-
+            private int size;
             private int m2Score;
             private String createTime;
             private int myScore;
             private int managerScore;
             private int id;
+
+            public int getSize() {
+                return size;
+            }
+
+            public void setSize(int size) {
+                this.size = size;
+            }
 
             public int getM2Score() {
                 return m2Score;

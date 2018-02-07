@@ -14,6 +14,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:textColor="@color/text_blue"
+                android:gravity="center"
+                android:id="@+id/tv_see_jindu"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="aaa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_margin="5dp"
@@ -27,7 +37,7 @@
                 android:minLines="1"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
-                android:hint="请填写文字"
+                android:textSize="18sp"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -50,7 +60,7 @@
                 android:minLines="1"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
-                android:hint="请填写编号"
+                android:textSize="18sp"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -59,23 +69,31 @@
                 android:layout_height="2dp"
                 android:layout_marginTop="2dp"
                 android:background="@color/linecolor" />
-            <TextView
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_margin="5dp"
-                android:text="负责人："
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/et_publish_person"
-                android:gravity="left|top"
-                android:minLines="1"
-                android:inputType="textMultiLine"
-                android:padding="10dp"
-                android:hint="请填写负责人"
-                android:background="@null"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+                    android:text="负责人："
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_margin="5dp"
+                    android:id="@+id/et_publish_person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:inputType="textMultiLine"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
             <View
                 app:layout_marginRightPercent="2%w"
                 android:layout_width="match_parent"
@@ -139,7 +157,7 @@
                     android:id="@+id/et_publish_days"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
-                    android:hint="请输入需要天数（必填）"
+                    android:textSize="18sp"
                     android:layout_weight="2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -164,33 +182,42 @@
                 android:minLines="6"
                 android:inputType="textMultiLine"
                 android:background="@null"
-                android:hint="请输入项目内容"
+                android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <View
                 android:background="@color/linecolor"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"></View>
-            <TextView
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="参与人："
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.hsap.huisianpu.view.MyGridView
-                android:horizontalSpacing="10dp"
-                android:verticalSpacing="40dp"
-                android:numColumns="4"
-                android:layout_margin="5dp"
-                android:stretchMode="columnWidth"
+            <LinearLayout
+
+                android:orientation="vertical"
+                android:id="@+id/ll_project"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <View
-                android:layout_marginTop="5dp"
-                android:background="@color/linecolor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"></View>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:text="参与人："
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.hsap.huisianpu.view.MyGridView
+                    android:id="@+id/gv_approval_project"
+                    android:horizontalSpacing="20dp"
+                    android:verticalSpacing="30dp"
+                    android:numColumns="4"
+                    android:layout_margin="5dp"
+                    android:stretchMode="columnWidth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:layout_marginTop="5dp"
+                    android:background="@color/linecolor"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"></View>
+            </LinearLayout>
+
         </com.zhy.android.percent.support.PercentLinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

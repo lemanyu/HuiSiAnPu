@@ -30,11 +30,13 @@ public class MessageReceiver extends XGPushBaseReceiver {
                                           XGPushShowedResult notifiShowedRlt) {
         Log.d(TAG, "onNotifactionShowedResult: "+context);
         Log.d(TAG, "onNotifactionShowedResult: "+notifiShowedRlt);
-        EventBus.getDefault().post(new FalseBean("1"));
         Intent intent = new Intent(context, DataServer.class);
         intent.putExtra("title",notifiShowedRlt.getTitle());
         intent.putExtra("content",notifiShowedRlt.getContent());
         intent.putExtra("customContent",notifiShowedRlt.getCustomContent());
+        if("公告".equals(notifiShowedRlt.getTitle())){
+            EventBus.getDefault().post(new FalseBean("qq"));
+        }
         context.getApplicationContext().startService(intent);
         if (context == null || notifiShowedRlt == null) {
             Log.d(TAG, "onNotifactionShowedResult: return");
@@ -104,19 +106,6 @@ public class MessageReceiver extends XGPushBaseReceiver {
             // 这个动作可以在activity的onResume也能监听，请看第3点相关内容
             text = "通知被打开 :" + message;
             String name = message.getActivityName();
-
-            switch (name) {
-                case "com.hsap.huisianpu.push.PushWeekActivity":
-                    Log.e("message", "PushWeekActivity");
-                    Intent intent = new Intent(context, PushWeekActivity.class);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        intent.removeFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    }
-                    context.startActivity(intent);
-                    default:
-                    break;
-            }
         } else if (message.getActionType() == XGPushClickedResult.NOTIFACTION_DELETED_TYPE) {
             // 通知被清除啦。。。。
             // APP自己处理通知被清除后的相关动作

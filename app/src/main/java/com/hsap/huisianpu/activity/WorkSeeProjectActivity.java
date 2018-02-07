@@ -16,6 +16,7 @@ import com.hsap.huisianpu.pager.work.WorkAllProjectPager;
 import com.hsap.huisianpu.pager.work.WorkCompleteProjectPager;
 import com.hsap.huisianpu.pager.work.WorkCondutProjectPager;
 import com.hsap.huisianpu.pager.work.WorkExamineProjectPager;
+import com.hsap.huisianpu.pager.work.WorkSeeProjectPager;
 import com.hsap.huisianpu.pager.work.WorkUploadProjectPager;
 import com.hsap.huisianpu.view.MyViewPager;
 
@@ -46,20 +47,28 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
     MagicIndicator micWorkProject;
     @BindView(R.id.vp_work_project)
     MyViewPager vpWorkProject;
-    private List<BaseFragmentPager> frgamentList=new ArrayList<>();
+    private List<WorkSeeProjectPager> frgamentList=new ArrayList<>();
+    private ArrayList<String> list;
+
     @Override
     public int getLayoutId() {
+
         return R.layout.activity_work_see_project;
     }
 
     @Override
     public void initView() {
-           frgamentList.add(new WorkAllProjectPager());
+         /*  frgamentList.add(new WorkAllProjectPager());
            frgamentList.add(new WorkCondutProjectPager());
            frgamentList.add(new WorkCompleteProjectPager());
            frgamentList.add(new WorkUploadProjectPager());
-           frgamentList.add(new WorkExamineProjectPager());
+           frgamentList.add(new WorkExamineProjectPager());*/
+
            initMic();
+
+        frgamentList.add(new WorkSeeProjectPager().state(-1));
+        frgamentList.add(new WorkSeeProjectPager().state(0));
+        frgamentList.add(new WorkSeeProjectPager().state(4));
         vpWorkProject.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(),frgamentList));
     }
 
@@ -85,7 +94,9 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
 
             @Override
             public void onPageSelected(int position) {
-            micWorkProject.onPageSelected(position);
+                micWorkProject.onPageSelected(position);
+                frgamentList.get(position);
+
             }
 
             @Override
@@ -101,16 +112,17 @@ public class WorkSeeProjectActivity extends BaseBackActivity {
     }
 
     private void initMic() {
-        final ArrayList<String> list = new ArrayList<>();
-        list.add("全部项目");list.add("进行项目");list.add("完成项目");list.add("等待上传");list.add("等待审核");
+        list = new ArrayList<>();
+        list.add("全部项目");
+        list.add("进行项目");
+        list.add("完成项目");
         micWorkProject.setBackgroundColor(Color.WHITE);
         CommonNavigator navigator = new CommonNavigator(this);
         navigator.setAdjustMode(true);
         navigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
-
-                return list==null?0:list.size();
+                return list ==null?0: list.size();
             }
 
             @Override

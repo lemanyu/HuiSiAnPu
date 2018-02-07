@@ -67,7 +67,7 @@ public class ContactsActivity extends BaseBackActivity {
         rlvYaoqing.setItemsCanFocus(false);
         rlvYaoqing.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         rlvYaoqing.setAdapter(adapter);
-        rlvYaoqing.getCheckedItemPositions();
+       // rlvYaoqing.getCheckedItemPositions();
         rlvYaoqing.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -99,12 +99,14 @@ public class ContactsActivity extends BaseBackActivity {
             case R.id.bt_yaoqing:
                 yaoqing();
                 break;
+                default:
         }
     }
 
     private void yaoqing() {
         if (adapter.hasSelected.size() > 0) {
             final LoadingDailog dailog = ToastUtils.showDailog(ContactsActivity.this, "正在邀请中");
+            dailog.show();
             ArrayList<String> nameList = new ArrayList<>();
             for (int i = 0; i < adapter.hasSelected.size(); i++) {
                     Log.e(TAG,list.get(adapter.hasSelected.get(i)).getNumber());

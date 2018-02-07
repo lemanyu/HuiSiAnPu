@@ -34,6 +34,7 @@ public class ChooseAccompanyActivity extends BaseBackActivity {
     private static final String TAG = "ChooseAccompanyActivity";
     @BindView(R.id.back)
     ImageButton back;
+
     @BindView(R.id.rlv_choose)
     ListView rlvChoose;
     @BindView(R.id.bt_choose)
@@ -55,9 +56,8 @@ public class ChooseAccompanyActivity extends BaseBackActivity {
             @Override
             public void onSuccess(Response<String> response) {
                 bean = new Gson().fromJson(response.body().toString(), SelectApproverBean.class);
-                if (bean.isSuccess()){
                     dailog.dismiss();
-                    adapter = new ChooseAdapter(ChooseAccompanyActivity.this, bean.getData());
+                    adapter = new ChooseAdapter(ChooseAccompanyActivity.this, bean.getUsers());
                     rlvChoose.setItemsCanFocus(false);
                     rlvChoose.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                     rlvChoose.setAdapter(adapter);
@@ -79,10 +79,6 @@ public class ChooseAccompanyActivity extends BaseBackActivity {
                             }
                         }
                     });
-                }else{
-                    dailog.dismiss();
-                    ToastUtils.showToast(ChooseAccompanyActivity.this,"获取失败，当前网络不好");
-                }
             }
 
             @Override
@@ -119,8 +115,8 @@ public class ChooseAccompanyActivity extends BaseBackActivity {
              ArrayList<Integer> idlist = new ArrayList<>();
              ArrayList<String> namelist = new ArrayList<>();
              for (int i = 0; i <adapter.hasSelected.size(); i++) {
-                 idlist.add(bean.getData().get(adapter.hasSelected.get(i)).getId());
-                 namelist.add(bean.getData().get(adapter.hasSelected.get(i)).getName());
+                 idlist.add(bean.getUsers().get(adapter.hasSelected.get(i)).getUser().getId());
+                 namelist.add(bean.getUsers().get(adapter.hasSelected.get(i)).getUser().getName());
              }
              Intent intent = new Intent();
              intent.putStringArrayListExtra("namelist",namelist);

@@ -54,6 +54,7 @@ public class WorkWeekPager extends BaseFragmentPager {
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH)+1;
         int day = instance.get(Calendar.DAY_OF_MONTH);
+        workRlvWeek.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFromNet(year, month, day);
 
     }
@@ -67,7 +68,7 @@ public class WorkWeekPager extends BaseFragmentPager {
                     @Override
                     public void onSuccess(Response<String> response) {
                         bean = new Gson().fromJson(response.body().toString(), WorkNameBean.class);
-                        workRlvWeek.setLayoutManager(new LinearLayoutManager(mActivity));
+
                         if (adapter == null) {
                             adapter = new MyAdapter(R.layout.item_work_week, bean.getData().getList());
                             workRlvWeek.setAdapter(adapter);

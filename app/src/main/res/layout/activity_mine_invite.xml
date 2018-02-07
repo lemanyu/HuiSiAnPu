@@ -16,7 +16,7 @@
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="5dp"
-            android:text="我的邀请"
+            android:text="我的打分"
             style="@style/CommonText" />
     </android.support.v7.widget.Toolbar>
      <android.support.v7.widget.RecyclerView

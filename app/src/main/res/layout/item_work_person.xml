@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="2"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/text_blue"
+            android:text="aaa"
+            android:id="@+id/tv_name_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:gravity="right"
+            android:padding="2dp"
+            app:layout_heightPercent="7%w"
+            app:layout_widthPercent="7%w"
+            android:src="@drawable/right_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    <View
+        android:background="@color/text_gray"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"></View>
+</LinearLayout>

@@ -51,6 +51,7 @@ public class WorkHaveApprovalPager extends BaseFragmentPager {
     private int year;
     private int month;
 
+
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.pager_work_have_approval, null);
@@ -61,8 +62,9 @@ public class WorkHaveApprovalPager extends BaseFragmentPager {
     public void initData() {
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH)+1;
-         dataFromNet(year, month);
+        month = calendar.get(Calendar.MONTH) + 1;
+        rlvWorkHaveApproval.setLayoutManager(new LinearLayoutManager(mActivity));
+        dataFromNet(year, month);
 
     }
 
@@ -70,37 +72,38 @@ public class WorkHaveApprovalPager extends BaseFragmentPager {
     public void initListener() {
 
     }
-  class MyAdapter extends BaseQuickAdapter<ApprovalBean.DataBean,BaseViewHolder>{
 
-      public MyAdapter(int layoutResId, @Nullable List<ApprovalBean.DataBean> data) {
-          super(layoutResId, data);
-      }
+    class MyAdapter extends BaseQuickAdapter<ApprovalBean.DataBean, BaseViewHolder> {
 
-      @Override
-      protected void convert(BaseViewHolder helper, ApprovalBean.DataBean item) {
-           helper.getView(R.id.tv_work_approval_zhuangtai).setVisibility(View.VISIBLE);
-           helper.setText(R.id.tv_work_approval_name,"申请人："+item.getName())
-           .setText(R.id.tv_work_approval_type,"申请类型："+item.getTypeName())
-           .setText(R.id.tv_work_approval_zhuangtai,"审批状态："+choice(item.getOpinion()))
-           .setText(R.id.tv_work_approval_time,"审批时间："+
-                   item.getCreateTime().getYear()+"-"+item.getCreateTime().getMonthValue()
-                   +"-"+item.getCreateTime().getDayOfMonth());
+        public MyAdapter(int layoutResId, @Nullable List<ApprovalBean.DataBean> data) {
+            super(layoutResId, data);
+        }
 
-      }
-  }
+        @Override
+        protected void convert(BaseViewHolder helper, ApprovalBean.DataBean item) {
+            helper.getView(R.id.tv_work_approval_zhuangtai).setVisibility(View.VISIBLE);
+            helper.setText(R.id.tv_work_approval_name, "申请人：" + item.getName())
+                    .setText(R.id.tv_work_approval_type, "申请类型：" + item.getTypeName())
+                    .setText(R.id.tv_work_approval_zhuangtai, "审批状态：" + choice(item.getOpinion()))
+                    .setText(R.id.tv_work_approval_time, "审批时间：" +
+                            item.getCreateTime().getYear() + "-" + item.getCreateTime().getMonthValue()
+                            + "-" + item.getCreateTime().getDayOfMonth());
+
+        }
+    }
 
     private String choice(int opinion) {
-        String s="";
-        switch (opinion){
+        String s = "";
+        switch (opinion) {
             case 1:
-                s+="已同意";
+                s += "已同意";
                 break;
             case 2:
-                s+="已拒绝";
+                s += "已拒绝";
                 break;
-                default:
+            default:
         }
-        return  s;
+        return s;
     }
 
     @Override
@@ -116,49 +119,54 @@ public class WorkHaveApprovalPager extends BaseFragmentPager {
         super.onDestroyView();
         unbinder.unbind();
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDate(EventDate event) {
         Log.e(TAG, "onEventDate: " + event.getYear());
         Log.e(TAG, "onEventDate: " + event.getMonth());
         dataFromNet(event.getYear(), event.getMonth());
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFalse(FalseBean event) {
-        dataFromNet(year,month);
+        dataFromNet(year, month);
     }
 
     private void dataFromNet(int year, int month) {
         OkGo.<String>post(NetAddressUtils.getAuditList).
                 params("managerId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
                 params("opinion", -1).
-                params("year",year).params("month",month).
+                params("year", year).params("month", month).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         final ApprovalBean bean = new Gson().fromJson(response.body().toString(), ApprovalBean.class);
-                        if (bean.isSuccess()){
-                            rlvWorkHaveApproval.setLayoutManager(new LinearLayoutManager(mActivity));
-                            if (adapter==null){
+                        if (bean.isSuccess()) {
+
+                            if (adapter == null) {
                                 adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
                                 rlvWorkHaveApproval.setAdapter(adapter);
-                            }else {
+                            } else {
                                 adapter.setNewData(bean.getData());
                                 adapter.notifyDataSetChanged();
+
                             }
 
                             adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     Intent intent = new Intent(mActivity, DetailsWorkApproval.class);
-                                    intent.putExtra("name",bean.getData().get(position).getName());
-                                    intent.putExtra("type",bean.getData().get(position).getType());
-                                    intent.putExtra("projectId",bean.getData().get(position).getProjectId());
-                                    intent.putExtra("opinion",bean.getData().get(position).getOpinion());
-                                    startActivity(intent);
+                                    intent.putExtra("name", bean.getData().get(position).getName());
+                                    intent.putExtra("type", bean.getData().get(position).getType());
+                                    intent.putExtra("projectId", bean.getData().get(position).getProjectId());
+                                    intent.putExtra("opinion", bean.getData().get(position).getOpinion());
+
+                                    startActivityForResult(intent, 1024);
                                 }
                             });
-                        }else {
-                            ToastUtils.showToast(mActivity,"当前没有审批记录");
+                        } else {
+                            ToastUtils.showToast(mActivity, "当前没有审批记录");
                         }
 
                     }
@@ -166,7 +174,7 @@ public class WorkHaveApprovalPager extends BaseFragmentPager {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        ToastUtils.showToast(mActivity,"当前网络不好");
+                        ToastUtils.showToast(mActivity, "当前网络不好");
                     }
                 });
     }

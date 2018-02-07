@@ -56,6 +56,7 @@ public class WorkMonthPager extends BaseFragmentPager {
         if (day==0){
             day = instance.get(Calendar.DAY_OF_MONTH);
         }
+        workRlvMonth.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFromNet(year, month, day);
     }
 
@@ -69,7 +70,7 @@ public class WorkMonthPager extends BaseFragmentPager {
                     public void onSuccess(Response<String> response) {
                         final WorkNameBean bean = new Gson().fromJson(response.body().toString(), WorkNameBean.class);
                         if (adapter == null) {
-                            workRlvMonth.setLayoutManager(new LinearLayoutManager(mActivity));
+
                             adapter = new MyAdapter(R.layout.item_work_week, bean.getData().getList());
                             workRlvMonth.setAdapter(adapter);
                         } else {

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="项目名称："
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/et_publish_name"
+                android:textStyle="bold"
+                android:gravity="left|top"
+                android:minLines="1"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="项目编号："
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/et_publish_number"
+                android:textStyle="bold"
+                android:gravity="left|top"
+                android:minLines="1"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+                    android:text="负责人："
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_margin="5dp"
+                    android:id="@+id/et_publish_person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:inputType="textMultiLine"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                app:layout_marginRightPercent="2%w"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_margin="5dp"
+                android:background="@color/text_white"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:clickable="false"
+                    android:layout_weight="5"
+                    android:layout_marginLeft="5dp"
+                    android:layout_margin="5dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="开始时间"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_publish_time"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_blue"
+                    android:clickable="false"
+                    android:layout_weight="1"
+                    android:text="请选择（必填）"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                app:layout_marginRightPercent="2%w"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/linecolor" />
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="false"
+                    android:text="预计天数"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:inputType="number"
+                    android:textStyle="bold"
+                    android:id="@+id/et_publish_days"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"></View>
+            <TextView
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:textSize="18sp"
+                android:text="项目内容："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/et_publish_content"
+                android:textStyle="bold"
+                android:gravity="left|top"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:minLines="6"
+                android:inputType="textMultiLine"
+                android:background="@null"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@color/linecolor"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"></View>
+            <LinearLayout
+
+                android:orientation="vertical"
+                android:id="@+id/ll_project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:text="参与人："
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.hsap.huisianpu.view.MyGridView
+                    android:id="@+id/gv_approval_project"
+                    android:horizontalSpacing="20dp"
+                    android:verticalSpacing="30dp"
+                    android:numColumns="4"
+                    android:layout_margin="5dp"
+                    android:stretchMode="columnWidth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:layout_marginTop="5dp"
+                    android:background="@color/linecolor"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"></View>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_see_jindu"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/text_blue"
+                android:clickable="false"
+                android:text="目前阶段："
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.warkiz.widget.IndicatorSeekBar
+                android:id="@+id/see_icb"
+                app:isb_tick_num="11"
+                app:isb_tick_type="oval"
+                app:isb_seek_bar_type="discrete_ticks_texts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isb_track_background_bar_color="@color/linecolor"
+                app:isb_track_progress_bar_color="@color/text_blue"
+                app:isb_show_indicator="true"
+             />
+        </com.zhy.android.percent.support.PercentLinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

@@ -9,134 +9,99 @@ import java.util.List;
 public class PerformanceBean {
 
 
-    /**
-     * code : 200
-     * msg : null
-     * success : true
-     * data : {"list":[{"m2Score":-1,"createTime":"2017-12-20","myScore":59,"name":"王二","managerScore":-1}]}
-     */
+    private List<ListBean> list;
 
-
-
-    private int code;
-    private Object msg;
-    private boolean success;
-    private DataBean data;
-
-    public int getCode() {
-        return code;
+    public List<ListBean> getList() {
+        return list;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setList(List<ListBean> list) {
+        this.list = list;
     }
 
-    public Object getMsg() {
-        return msg;
-    }
+    public static class ListBean {
+        /**
+         * workerId : 5
+         * m2Score : -1
+         * size : 2
+         * createTime : 2018-01-10
+         * myScore : 54
+         * name : 赵贵
+         * managerScore : 66
+         * id : 6
+         */
 
-    public void setMsg(Object msg) {
-        this.msg = msg;
-    }
+        private int workerId;
+        private int m2Score;
+        private int size;
+        private String createTime;
+        private int myScore;
+        private String name;
+        private int managerScore;
+        private int id;
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
-        private List<ListBean> list;
-
-        public List<ListBean> getList() {
-            return list;
+        public int getWorkerId() {
+            return workerId;
         }
 
-        public void setList(List<ListBean> list) {
-            this.list = list;
+        public void setWorkerId(int workerId) {
+            this.workerId = workerId;
         }
 
-        public static class ListBean {
-            /**
-             * m2Score : -1
-             * createTime : 2017-12-20
-             * myScore : 59
-             * name : 王二
-             * managerScore : -1
-             */
-            private int workerId;
-            private int m2Score;
-            private String createTime;
-            private int myScore;
-            private String name;
-            private int managerScore;
-            private int id;
+        public int getM2Score() {
+            return m2Score;
+        }
 
-            public int getWorkerId() {
-                return workerId;
-            }
+        public void setM2Score(int m2Score) {
+            this.m2Score = m2Score;
+        }
 
-            public void setWorkerId(int workerId) {
-                this.workerId = workerId;
-            }
+        public int getSize() {
+            return size;
+        }
 
-            public int getId() {
-                return id;
-            }
+        public void setSize(int size) {
+            this.size = size;
+        }
 
-            public void setId(int id) {
-                this.id = id;
-            }
+        public String getCreateTime() {
+            return createTime;
+        }
 
-            public int getM2Score() {
-                return m2Score;
-            }
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
 
-            public void setM2Score(int m2Score) {
-                this.m2Score = m2Score;
-            }
+        public int getMyScore() {
+            return myScore;
+        }
 
-            public String getCreateTime() {
-                return createTime;
-            }
+        public void setMyScore(int myScore) {
+            this.myScore = myScore;
+        }
 
-            public void setCreateTime(String createTime) {
-                this.createTime = createTime;
-            }
+        public String getName() {
+            return name;
+        }
 
-            public int getMyScore() {
-                return myScore;
-            }
+        public void setName(String name) {
+            this.name = name;
+        }
 
-            public void setMyScore(int myScore) {
-                this.myScore = myScore;
-            }
+        public int getManagerScore() {
+            return managerScore;
+        }
 
-            public String getName() {
-                return name;
-            }
+        public void setManagerScore(int managerScore) {
+            this.managerScore = managerScore;
+        }
 
-            public void setName(String name) {
-                this.name = name;
-            }
+        public int getId() {
+            return id;
+        }
 
-            public int getManagerScore() {
-                return managerScore;
-            }
-
-            public void setManagerScore(int managerScore) {
-                this.managerScore = managerScore;
-            }
+        public void setId(int id) {
+            this.id = id;
         }
     }
 }

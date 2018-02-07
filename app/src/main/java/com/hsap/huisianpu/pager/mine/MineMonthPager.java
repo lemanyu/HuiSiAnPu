@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -52,6 +53,7 @@ public class MineMonthPager extends BaseFragmentPager {
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
         int day = instance.get(Calendar.DAY_OF_MONTH);
+        mineRlvMonth.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFormNet(year,month,day);
     }
     private void dataFormNet(int year, int month, int day) {
@@ -64,12 +66,14 @@ public class MineMonthPager extends BaseFragmentPager {
                     public void onSuccess(Response<String> response) {
                         final WorkNameBean bean = new Gson().fromJson(response.body().toString(), WorkNameBean.class);
                         if (adapter == null) {
-                            mineRlvMonth.setLayoutManager(new LinearLayoutManager(mActivity));
+
                             adapter = new MyAdapter(R.layout.item_work_week, bean.getData().getList());
                             mineRlvMonth.setAdapter(adapter);
                         } else {
-                            adapter.setNewData(bean.getData().getList());
-                            adapter.notifyDataSetChanged();
+                            if (bean.getData().getList()!=null&&bean.getData().getList().size()!=0){
+                                adapter.setNewData(bean.getData().getList());
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override

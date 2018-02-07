@@ -23,10 +23,10 @@ public class ChooseAdapter extends BaseAdapter {
 
 
     public  Map<Integer, Boolean> isSelected;
-    private final List<SelectApproverBean.DataBean> list;
+    private final List<SelectApproverBean.UsersBean> list;
     private Context context;
     public List<Integer> hasSelected;
-    public ChooseAdapter(Context context, List<SelectApproverBean.DataBean> list) {
+    public ChooseAdapter(Context context, List<SelectApproverBean.UsersBean> list) {
         hasSelected = new LinkedList<>();
         isSelected = new HashMap<>();
         this.context = context;
@@ -64,7 +64,7 @@ public class ChooseAdapter extends BaseAdapter {
         }else {
             holder= (ViewHolder) view.getTag();
         }
-           holder.tv_choose_name.setText(list.get(i).getName());
+           holder.tv_choose_name.setText(list.get(i).getUser().getName());
           holder.cb_choose.setChecked(getIsSelected().get(i));
         holder.cb_choose.setOnCheckedChangeListener(null);
         return view;

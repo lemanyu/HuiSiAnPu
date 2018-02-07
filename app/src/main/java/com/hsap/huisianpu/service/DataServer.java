@@ -42,6 +42,7 @@ public class DataServer extends IntentService {
         String title = intent.getStringExtra("title");
         String content = intent.getStringExtra("content");
         String customContent = intent.getStringExtra("customContent");
+        Log.e(TAG, "onHandleIntent: "+customContent );
         PushAnnouncenBean bean = new Gson().fromJson(customContent, PushAnnouncenBean.class);
         DataBean dataBean = new DataBean();
         dataBean.setTitle(title);
@@ -54,12 +55,8 @@ public class DataServer extends IntentService {
         dataBean.setType(bean.getType());
         dataBean.setWorkId(bean.getId());
         dataBean.setDate(new Date());
+        dataBean.setState(bean.getState());
         Log.e(TAG, "onHandleIntent: "+new Date() );
-        if (bean.isState()){
-            dataBean.setState(1);//1不能处理
-        }else {
-            dataBean.setState(0);//0不能处理
-        }
         dataBean.setCheck(true);
         dataBean.save();
         //消息列表显示

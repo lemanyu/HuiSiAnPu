@@ -21,6 +21,7 @@
                 android:background="@drawable/back"
                 android:layout_height="25dp" />
             <TextView
+                android:id="@+id/tv_gonggao"
                 android:textSize="18sp"
                 android:layout_gravity="center_horizontal"
                 android:text="请选择删除的公告"

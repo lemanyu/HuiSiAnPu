@@ -1,6 +1,8 @@
 package com.hsap.huisianpu.fragment;
 
 
+import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.hsap.huisianpu.R;
+import com.hsap.huisianpu.activity.MainActivity;
 import com.hsap.huisianpu.base.BaseFragment;
 import com.hsap.huisianpu.bean.DataBean;
 
@@ -37,6 +40,7 @@ import org.litepal.crud.DataSupport;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,9 +69,13 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        list.addAll(DataSupport.findAll(DataBean.class));
+
+        List<DataBean> beanList = DataSupport.select("title", "content",
+                "date","state","type","numberId","workId","check").
+                order("date desc").limit(DataSupport.findAll(DataBean.class).size()).find(DataBean.class);
+        list.addAll(beanList);
         setHasOptionsMenu(true);
-        newsToolbar.setOverflowIcon(getResources().getDrawable(R.drawable.add));
+     //   newsToolbar.setOverflowIcon(getResources().getDrawable(R.drawable.add));
         newsToolbar.setTitle("消息");
         ((AppCompatActivity)getActivity()).setSupportActionBar(newsToolbar);
         newsRlv.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -83,14 +91,24 @@ public class NewsFragment extends BaseFragment {
         adapter.enableSwipeItem();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Toast.makeText(mActivity, "aaa", Toast.LENGTH_SHORT).show();
+            public void onItemClick(BaseQuickAdapter aadapter, View view, int position) {
+                DataBean bean = list.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                builder.setTitle(bean.getTitle());
+                builder.setMessage(bean.getContent());
+                builder.setNegativeButton("知道了",null);
+                builder.show();
+                bean.setCheck(false);
+                ContentValues values = new ContentValues();
+                values.put("check",false);
+                DataBean.updateAll(DataBean.class, values, "numberId = ?", list.get(position).getNumberId()+"");
+                adapter.notifyDataSetChanged();
+
             }
         });
         adapter.setOnItemSwipeListener(new OnItemSwipeListener() {
             @Override
             public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
-                Toast.makeText(mActivity, "bb", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -100,7 +118,7 @@ public class NewsFragment extends BaseFragment {
 
             @Override
             public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-
+                DataSupport.deleteAll(DataBean.class, "numberId = ?", list.get(pos).getNumberId()+"");
             }
 
             @Override
@@ -111,23 +129,9 @@ public class NewsFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.news_menu,menu);
+      //  inflater.inflate(R.menu.news_menu,menu);
         setIconsVisiable(menu,true);
 
     }
@@ -154,9 +158,7 @@ public class NewsFragment extends BaseFragment {
             case R.id.add:
                 Toast.makeText(mActivity, "aaa", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.create:
-                Toast.makeText(mActivity, "bbb", Toast.LENGTH_SHORT).show();
-                break;
+
                 default:
         }
         return true;
@@ -164,7 +166,7 @@ public class NewsFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDataBean(DataBean dataBean) {
            list.add(0,dataBean);
-        Log.e(TAG, "onDataBean: "+dataBean );
+           Log.e(TAG, "onDataBean: "+dataBean );
            adapter.notifyDataSetChanged();
     }
 

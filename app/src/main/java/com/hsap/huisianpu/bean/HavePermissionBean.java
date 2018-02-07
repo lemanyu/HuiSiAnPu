@@ -22,4 +22,7 @@ public class HavePermissionBean {
         return success;
     }
 
+    public boolean isData() {
+        return data;
+    }
 }

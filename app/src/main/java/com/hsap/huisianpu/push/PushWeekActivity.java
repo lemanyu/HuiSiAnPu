@@ -27,8 +27,10 @@ import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
 import com.hsap.huisianpu.bean.DetailsMineDayBean;
 import com.hsap.huisianpu.bean.PushAnnouncenBean;
+import com.hsap.huisianpu.details.DetailsMineDay;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.ToastUtils;
+import com.hsap.huisianpu.utils.Utils;
 import com.hsap.huisianpu.view.MyGridView;
 import com.jaeger.ninegridimageview.NineGridImageView;
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
@@ -75,6 +77,7 @@ public class PushWeekActivity extends BaseBackActivity {
     private int[] color = {R.mipmap.chengyuan, R.mipmap.fenyuan, R.mipmap.lanyuan,
             R.mipmap.luyuan, R.mipmap.ziyuan, R.mipmap.hongyuan};
     private AccompanyGvidViewAdapter adapter;
+    private int id;
 
     @Override
     public int getLayoutId() {
@@ -87,8 +90,9 @@ public class PushWeekActivity extends BaseBackActivity {
 
     }
 
-    private void isStyle(boolean state) {
-        if (state) {
+    private void isStyle() {
+
+        if (Utils.is(this)==1) {
             btCc.setVisibility(View.VISIBLE);
             pllDetailsMineDay.setVisibility(View.VISIBLE);
         } else {
@@ -112,9 +116,6 @@ public class PushWeekActivity extends BaseBackActivity {
                 vsMonth.inflate();
                 vsMonth(id);
                 break;
-            case 3:
-                vsPerformance.inflate();
-                vsPerformance(id);
             default:
         }
     }
@@ -343,6 +344,26 @@ public class PushWeekActivity extends BaseBackActivity {
             ToastUtils.showToast(PushWeekActivity.this, "请选择抄送人");
             return;
         }
+        final LoadingDailog 抄送中 = ToastUtils.showDailog(this, "抄送中");
+        抄送中.show();
+        OkGo.<String>post(NetAddressUtils.reportForward).
+                params("id",id).
+                params("ids",new Gson().toJson(personIdList)).
+                params("activity","com.hsap.huisianpu.push.PushWeekActivity")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        抄送中.dismiss();
+                        ToastUtils.showToast(PushWeekActivity.this,"抄送成功");
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        抄送中.dismiss();
+                        ToastUtils.showToast(PushWeekActivity.this,"抄送失败");
+                    }
+                });
 
     }
 
@@ -375,8 +396,8 @@ public class PushWeekActivity extends BaseBackActivity {
             tvDetailsTitle.setText(title);
             String content = clickedResult.getCustomContent();
             PushAnnouncenBean bean = new Gson().fromJson(content, PushAnnouncenBean.class);
-            int id = bean.getId();
-            isStyle(bean.isState());
+            id = bean.getId();
+            isStyle();
             isVisiableLiearent(id, bean.getType());
         }
     }

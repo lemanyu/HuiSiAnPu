@@ -13,15 +13,15 @@ import java.util.List;
  * Created by zhao on 2017/11/22.
  */
 
-public class SelectApproverRecycleAdapter extends BaseQuickAdapter<SelectApproverBean.DataBean,BaseViewHolder> {
+public class SelectApproverRecycleAdapter extends BaseQuickAdapter<SelectApproverBean.UsersBean,BaseViewHolder> {
 
-    public SelectApproverRecycleAdapter(int layoutResId, @Nullable List<SelectApproverBean.DataBean> data) {
+    public SelectApproverRecycleAdapter(int layoutResId, @Nullable List<SelectApproverBean.UsersBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SelectApproverBean.DataBean item) {
-        helper.setText(R.id.tv_select_name,item.getName()).
-                setText(R.id.tv_approve_guanliyuan,"管理员");
+    protected void convert(BaseViewHolder helper, SelectApproverBean.UsersBean item) {
+        helper.setText(R.id.tv_select_name,item.getSName()).
+                setText(R.id.tv_approve_guanliyuan,item.getJName());
     }
 }

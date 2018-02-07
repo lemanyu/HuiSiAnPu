@@ -17,6 +17,8 @@ import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.bean.EventDate;
 import com.hsap.huisianpu.pager.mine.MineAgreedPager;
+import com.hsap.huisianpu.pager.mine.MineCancelPager;
+import com.hsap.huisianpu.pager.mine.MineFinishPager;
 import com.hsap.huisianpu.pager.mine.MineOngoingPager;
 import com.hsap.huisianpu.pager.mine.MineRefusedPager;
 import com.hsap.huisianpu.view.MyViewPager;
@@ -73,8 +75,11 @@ public class MineApprovalActivity extends BaseBackActivity {
         fragmentList.add(new MineOngoingPager());
         fragmentList.add(new MineRefusedPager());
         fragmentList.add(new MineAgreedPager());
+        fragmentList.add(new MineCancelPager());
+        fragmentList.add(new MineFinishPager());
+
         initmic();
-        vpMineApproval.setOffscreenPageLimit(2);
+        vpMineApproval.setOffscreenPageLimit(4);
         vpMineApproval.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
     }
 
@@ -104,7 +109,13 @@ public class MineApprovalActivity extends BaseBackActivity {
                            tvMineApproval.setText("审批拒绝");
                            break;
                        case 2:
-                           tvMineApproval.setText("审批同意");
+                           tvMineApproval.setText("审批通过");
+                           break;
+                       case 3:
+                           tvMineApproval.setText("审批撤销");
+                           break;
+                       case 4:
+                           tvMineApproval.setText("撤销完成");
                            break;
                            default:
                    }
@@ -144,9 +155,10 @@ public class MineApprovalActivity extends BaseBackActivity {
         list.add("审批进行");
         list.add("审批拒绝");
         list.add("审批通过");
+        list.add("审批撤销");
+        list.add("审批完成");
         micMineApproval.setBackgroundColor(Color.WHITE);
         CommonNavigator navigator = new CommonNavigator(this);
-        navigator.setAdjustMode(true);
         navigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {

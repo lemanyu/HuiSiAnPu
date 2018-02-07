@@ -26,11 +26,10 @@ import com.tencent.android.tpush.XGPushManager;
 public class ForceOfflineReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
-        XGPushManager.registerPush(context,SpUtils.getInt(ConstantUtils.UserId,context)+"@HSAP");
+        XGPushManager.delAccount(context,SpUtils.getString(ConstantUtils.Username,context));
               intent=new Intent(context, ForceOfflineService.class);
               context.stopService(intent);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        XGPushManager.registerPush(context, SpUtils.getInt(ConstantUtils.UserId, context) + "@HSAP");
         SpUtils.putBoolean(ConstantUtils.Login, false, context);
         SpUtils.putInt(ConstantUtils.UserId, 0, context);
         builder.setTitle("已下线");

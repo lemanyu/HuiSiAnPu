@@ -16,9 +16,10 @@ public class PushAnnouncenBean {
 
     private String name;
     private int id;
-    private boolean state;
+    private int state;
     private int type;
     private String content;
+    private int admin;
 
     public String getName() {
         return name;
@@ -36,11 +37,11 @@ public class PushAnnouncenBean {
         this.id = id;
     }
 
-    public boolean isState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(boolean state) {
+    public void setState(int state) {
         this.state = state;
     }
 
@@ -58,5 +59,13 @@ public class PushAnnouncenBean {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
     }
 }

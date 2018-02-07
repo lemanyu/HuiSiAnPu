@@ -22,9 +22,6 @@ public class InviteRecycleAdapter extends BaseQuickAdapter<InviteBean.DataBean,B
 
     @Override
     protected void convert(BaseViewHolder holder, InviteBean.DataBean item) {
-        holder.setText(R.id.tv_mine_invite_number,"邀请的电话："+item.getPhone())
-                .setText(R.id.tv_mine_invite_time,"邀请的时间："+
-                        item.getCreateTime().getYear()+"."+item.getCreateTime().getMonthValue()+"" +
-                        "."+item.getCreateTime().getHour());
+
     }
 }

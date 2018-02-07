@@ -6,11 +6,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.ViewPagerFragmentAdapter;
@@ -18,6 +22,7 @@ import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.pager.work.WorkAbsencePager;
 import com.hsap.huisianpu.pager.work.WorkAttendancePager;
+import com.hsap.huisianpu.view.MyDatePickerDialog;
 import com.hsap.huisianpu.view.MyViewPager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -65,9 +70,9 @@ public class WorkAttendanceActivity extends BaseBackActivity {
     public void initView() {
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH)+1;
+        month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        tvAttendanceTime.setText(year +"."+ month);
+        tvAttendanceTime.setText(year + "." + (month+1));
         fragmentList.add(new WorkAttendancePager());
         fragmentList.add(new WorkAbsencePager());
         initMic();
@@ -108,20 +113,20 @@ public class WorkAttendanceActivity extends BaseBackActivity {
 
     @Override
     public void processClick(View v) {
-              switch (v.getId()){
-                  case R.id.ll_attendance_time:
-                      time();
-                      break;
-              }
+        switch (v.getId()) {
+            case R.id.ll_attendance_time:
+                time();
+                break;
+                default:
+        }
     }
 
     private void time() {
-      Dialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        Dialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                       int month=i1+1;
-                       tvAttendanceTime.setText(i+"."+month);
-
+                int month = i1 + 1;
+                tvAttendanceTime.setText(i + "." + month);
             }
         }, year, month, day);
         dialog.show();

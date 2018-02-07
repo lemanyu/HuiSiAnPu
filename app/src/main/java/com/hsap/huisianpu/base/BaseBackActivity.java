@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.utils.ActivityManagerUtils;
+import com.hsap.huisianpu.utils.AndroidWorkaround;
 
 import java.lang.reflect.Field;
 
@@ -24,7 +25,9 @@ public abstract class BaseBackActivity extends AppCompatActivity implements Slid
         initSlideBackClose();
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        if (AndroidWorkaround.checkDeviceHasNavigationBar(this)) {
+            AndroidWorkaround.assistActivity(findViewById(android.R.id.content));
+        }
         ActivityManagerUtils.getInstance().addActivity(this);
         setContentView(getLayoutId());
         ButterKnife.bind(this);

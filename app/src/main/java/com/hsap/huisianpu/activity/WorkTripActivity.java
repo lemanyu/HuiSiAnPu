@@ -236,10 +236,71 @@ public class WorkTripActivity extends BaseBackActivity {
                 showEnd();
                 break;
             case R.id.bt_leave_again:
-                showCommit();
+                showCommitt();
                 break;
             default:
         }
+    }
+
+    private void showCommitt() {
+        if (TextUtils.isEmpty(etTripReason.getText().toString().trim())) {
+            ToastUtils.showToast(this, "请输入出差事由");
+            return;
+        }
+        if (TextUtils.isEmpty(etTripCity.getText().toString().trim())) {
+            ToastUtils.showToast(this, "请输入出差城市");
+            return;
+        }
+        if (tvTripBegin.getText().toString().trim().equals("请选择（必填）")) {
+            ToastUtils.showToast(this, "请选择开始时间");
+            return;
+        }
+        if (tvTripEnd.getText().toString().trim().equals("请选择（必填）")) {
+            ToastUtils.showToast(this, "请选择结束时间");
+            return;
+        }
+        if (Float.valueOf(tvTripDay.getText().toString().trim()) < 0.0) {
+            ToastUtils.showToast(this, "请选择正确的返回日期");
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定要提交吗？");
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                final LoadingDailog 提交中 = ToastUtils.showDailog(WorkTripActivity.this, "提交中");
+                提交中.show();
+                //TOdo 访问网络
+                OkGo.<String>post(NetAddressUtils.insertIntegration).
+                        params("activity", "com.hsap.huisianpu.push.PushTirpActivity").
+                        params("workersId", SpUtils.getInt(ConstantUtils.UserId, WorkTripActivity.this)).
+                        params("reason", etTripReason.getText().toString().trim()).
+                        params("type2", etTripCity.getText().toString().trim()).
+                        params("type", 2).
+                        params("reStart",id).
+                        params("startTime", tvTripBegin.getText().toString().trim()).
+                        params("endTime", tvTripEnd.getText().toString().trim()).
+                        params("ids", new Gson().toJson(personIdList)).
+                        params("totalTime", Float.valueOf(tvTripDay.getText().toString().trim())).
+                        execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                提交中.dismiss();
+                                ToastUtils.showToast(WorkTripActivity.this, "提交成功");
+                                Log.e(TAG, "onSuccess: " + response.body().toString());
+                            }
+
+                            @Override
+                            public void onError(Response<String> response) {
+                                super.onError(response);
+                                提交中.dismiss();
+                                ToastUtils.showToast(WorkTripActivity.this, "提交失败，当前网络不好");
+                            }
+                        });
+            }
+        });
+        builder.show();
     }
 
     private void showBegin() {
@@ -381,8 +442,7 @@ public class WorkTripActivity extends BaseBackActivity {
                         params("reason", etTripReason.getText().toString().trim()).
                         params("type2", etTripCity.getText().toString().trim()).
                         params("type", 2).
-                        params("reStart",id).
-                        params("startTime", tvTripBegin.getText().toString().trim()).
+                      params("startTime", tvTripBegin.getText().toString().trim()).
                         params("endTime", tvTripEnd.getText().toString().trim()).
                         params("ids", new Gson().toJson(personIdList)).
                         params("totalTime", Float.valueOf(tvTripDay.getText().toString().trim())).

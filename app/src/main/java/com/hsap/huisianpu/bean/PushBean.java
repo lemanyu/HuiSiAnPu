@@ -15,7 +15,7 @@ public class PushBean {
 
     private String name;
     private int id;
-    private boolean state;
+    private int state;
     private int type;
 
     public String getName() {
@@ -26,8 +26,12 @@ public class PushBean {
         return id;
     }
 
-    public boolean isState() {
+    public int getState() {
         return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public int getType() {

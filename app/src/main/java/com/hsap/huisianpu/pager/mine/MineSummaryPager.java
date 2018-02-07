@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,6 +14,7 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.bean.EventDate;
 import com.hsap.huisianpu.bean.MineLeaveBean;
+import com.hsap.huisianpu.bean.MineSummaryBean;
 import com.hsap.huisianpu.details.DetailsMineTrip;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
@@ -41,6 +43,7 @@ public class MineSummaryPager extends BaseFragmentPager {
     RecyclerView rlvSummary;
     Unbinder unbinder;
     private MyAdapter adapter;
+    private static String TAG="MineSummaryPager";
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.pager_mine_summary, null);
@@ -52,6 +55,7 @@ public class MineSummaryPager extends BaseFragmentPager {
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
+        rlvSummary.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFormNet(year,month);
     }
 
@@ -59,16 +63,16 @@ public class MineSummaryPager extends BaseFragmentPager {
     public void initListener() {
 
     }
-    class MyAdapter extends BaseQuickAdapter<MineLeaveBean.DataBean, BaseViewHolder> {
+    class MyAdapter extends BaseQuickAdapter<MineSummaryBean.ListBean, BaseViewHolder> {
 
-        public MyAdapter(int layoutResId, @Nullable List<MineLeaveBean.DataBean> data) {
+        public MyAdapter(int layoutResId, @Nullable List<MineSummaryBean.ListBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, MineLeaveBean.DataBean item) {
+        protected void convert(BaseViewHolder helper, MineSummaryBean.ListBean item) {
             helper.setText(R.id.mine_tv_time, "总结时间：" +
-                    item.getStartTime());
+                    item.getDate());
         }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -77,35 +81,37 @@ public class MineSummaryPager extends BaseFragmentPager {
         dataFormNet(event.getYear(), event.getMonth());
     }
 
-    private void dataFormNet(int year, int month) {
-        OkGo.<String>post(NetAddressUtils.selectIntegration).
+    private void dataFormNet(final int year, final int month) {
+        OkGo.<String>post(NetAddressUtils.queryTTBSummarAll).
                 params("workersId", SpUtils.getInt(ConstantUtils.UserId, mActivity)).
-                params("type", 6).params("year", year).params("month", month).
+                params("year", year).
+                params("month", month).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        final MineLeaveBean bean = new Gson().fromJson(response.body().toString(), MineLeaveBean.class);
-                        if (bean.isSuccess()) {
-                            rlvSummary.setLayoutManager(new LinearLayoutManager(mActivity));
+                        Log.e(TAG, "onSuccess: "+response.body().toString() );
+                        final MineSummaryBean bean = new Gson().fromJson(response.body().toString(), MineSummaryBean.class);
+
                             if (adapter == null) {
-                                adapter = new MyAdapter(R.layout.item_mine_trip, bean.getData());
+                                adapter = new MyAdapter(R.layout.item_mine_trip, bean.getList());
                                 rlvSummary.setAdapter(adapter);
                             } else {
-                                adapter.setNewData(bean.getData());
+                                adapter.setNewData(bean.getList());
                                 adapter.notifyDataSetChanged();
                             }
                             adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     Intent intent = new Intent(mActivity, DetailsMineTrip.class);
-                                    intent.putExtra("type", 1);
-                                    intent.putExtra("workid", bean.getData().get(position).getId());
+                                    intent.putExtra("type", 6);
+                                    intent.putExtra("workid", bean.getList().get(position).getId());
+                                    intent.putExtra("year",year);
+                                    intent.putExtra("flag",false);
+                                    intent.putExtra("month",month);
                                     startActivity(intent);
                                 }
                             });
-                        } else {
-                            ToastUtils.showToast(mActivity, "当前没有请假数据");
-                        }
+
                     }
                 });
     }

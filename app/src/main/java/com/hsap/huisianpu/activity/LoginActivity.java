@@ -103,9 +103,10 @@ public class LoginActivity extends BaseActivity {
             public void onSuccess(Response<String> response) {
                 bean = new Gson().fromJson(response.body().toString(), LoginBean.class);
                 if (bean.isSuccess()){
-                    XGPushManager.registerPush(getApplicationContext(),username);
+                    XGPushManager.bindAccount(getApplicationContext(),username);
                     SpUtils.putBoolean(ConstantUtils.Login,true,LoginActivity.this);
                     SpUtils.putInt(ConstantUtils.UserId, bean.getData(),LoginActivity.this);
+                    SpUtils.putString(ConstantUtils.Username,username,LoginActivity.this);
                     setToken(bean.getData());
                 }else {
                     登录中.dismiss();

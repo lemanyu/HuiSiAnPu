@@ -23,7 +23,7 @@
             <TextView
                 android:textSize="20sp"
                 android:layout_gravity="center_horizontal"
-                android:text="请选择陪同"
+                android:text="请选择"
                 style="@style/CommonText" />
             <Button
                 android:id="@+id/bt_choose"

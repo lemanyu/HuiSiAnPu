@@ -6,21 +6,34 @@ package com.hsap.huisianpu.bean;
 
 public class PushPerformanceBean {
 
+
     /**
-     * workerId : 2
+     * next : 1
+     * workerId : 5
+     * isMy : true
      * typeName : 月度考核
-     * name : 王二
-     * id : 5
-     * state : true
+     * name : 赵贵
+     * id : 19
+     * state : 0
      * type : 9
      */
 
+    private int next;
     private int workerId;
+    private boolean isMy;
     private String typeName;
     private String name;
     private int id;
-    private boolean state;
+    private int state;
     private int type;
+
+    public int getNext() {
+        return next;
+    }
+
+    public void setNext(int next) {
+        this.next = next;
+    }
 
     public int getWorkerId() {
         return workerId;
@@ -28,6 +41,14 @@ public class PushPerformanceBean {
 
     public void setWorkerId(int workerId) {
         this.workerId = workerId;
+    }
+
+    public boolean isIsMy() {
+        return isMy;
+    }
+
+    public void setIsMy(boolean isMy) {
+        this.isMy = isMy;
     }
 
     public String getTypeName() {
@@ -54,11 +75,11 @@ public class PushPerformanceBean {
         this.id = id;
     }
 
-    public boolean isState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(boolean state) {
+    public void setState(int state) {
         this.state = state;
     }
 

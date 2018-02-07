@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +67,7 @@ public class WorkDayNewPaperActivity extends BaseBackActivity {
     private int number=9;
     @Override
     public int getLayoutId() {
+
         return R.layout.activity_work_day;
 
     }
@@ -246,4 +249,5 @@ public class WorkDayNewPaperActivity extends BaseBackActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+    
 }

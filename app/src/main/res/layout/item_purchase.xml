@@ -37,13 +37,14 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content" />
          <EditText
+
              android:textSize="16sp"
              android:id="@+id/et_mingcheng"
              android:inputType="textMultiLine"
              android:layout_marginLeft="10dp"
              android:background="@null"
              android:hint="请输入采购名称"
-             android:gravity="center"
+             android:gravity="right"
              android:layout_weight="2"
              android:layout_width="match_parent"
              android:layout_height="wrap_content" />
@@ -69,7 +70,7 @@
             android:layout_marginLeft="10dp"
             android:background="@null"
             android:hint="请输入采购型号"
-            android:gravity="center"
+            android:gravity="right"
             android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -95,7 +96,7 @@
             android:layout_marginLeft="10dp"
             android:background="@null"
             android:hint="请输入采购数量"
-            android:gravity="center"
+            android:gravity="right"
             android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -121,7 +122,7 @@
             android:background="@null"
             android:hint="请输入采购单价"
             android:textSize="16sp"
-            android:gravity="center"
+            android:gravity="right"
             android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -146,7 +147,7 @@
             android:layout_marginLeft="10dp"
             android:background="@null"
             android:hint="自动生成"
-            android:gravity="center"
+            android:gravity="right"
             android:layout_weight="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -156,6 +157,148 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"/>
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_purchase_caigou"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="16sp"
+                android:text="封装："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_fengzhuang"
+                android:inputType="textMultiLine"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入封装信息"
+                android:textSize="16sp"
+                android:gravity="right"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:background="@color/linecolor"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="16sp"
+                android:text="品牌："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_pinpai"
+                android:inputType="textMultiLine"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入品牌信息"
+                android:textSize="16sp"
+                android:gravity="right"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:background="@color/linecolor"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="16sp"
+                android:text="分类："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_fenlei"
+                android:inputType="textMultiLine"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入分类信息"
+                android:textSize="16sp"
+                android:gravity="right"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:background="@color/linecolor"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="16sp"
+                android:text="联系人："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_lianxiren"
+                android:inputType="textMultiLine"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入联系人"
+                android:textSize="16sp"
+                android:gravity="right"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:background="@color/linecolor"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="16sp"
+                android:text="联系电话："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_dianhua"
+                android:inputType="number"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入联系电话"
+                android:textSize="16sp"
+                android:gravity="right"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:background="@color/linecolor"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_piaoju"
         android:orientation="horizontal"
         android:padding="10dp"
         android:layout_width="match_parent"
@@ -172,7 +315,34 @@
             android:layout_marginLeft="10dp"
             android:background="@null"
             android:hint="请输入采购票据"
-            android:gravity="center"
+            android:gravity="right"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:background="@color/linecolor"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+    <LinearLayout
+        android:id="@+id/ll_beizhu"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="16sp"
+            android:text="备注："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_beizhu"
+            android:textSize="16sp"
+            android:inputType="textMultiLine"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
+            android:hint="请输入采购用途"
+            android:gravity="right"
             android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -198,7 +368,7 @@
             android:layout_marginLeft="10dp"
             android:background="@null"
             android:hint="请输入采购用途"
-            android:gravity="center"
+            android:gravity="right"
             android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -207,4 +377,5 @@
         android:background="@color/linecolor"
         android:layout_width="match_parent"
         android:layout_height="20dp"/>
+
 </LinearLayout>

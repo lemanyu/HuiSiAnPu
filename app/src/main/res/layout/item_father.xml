@@ -18,7 +18,6 @@
         android:gravity="right"
         android:textColor="@color/text_blue"
         android:padding="10dp"
-        android:selectAllOnFocus="true"
         android:id="@+id/ettext"
         android:inputType="number"
         android:textStyle="bold"

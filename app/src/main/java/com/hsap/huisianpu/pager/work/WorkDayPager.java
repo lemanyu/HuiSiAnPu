@@ -71,24 +71,29 @@ public class WorkDayPager extends BaseFragmentPager {
                     @Override
                     public void onSuccess(Response<String> response) {
                         bean = new Gson().fromJson(response.body().toString(), WorkNameBean.class);
-                        if (adapter == null) {
-                            adapter = new MyAdapter(R.layout.item_work_name, bean.getData().getList());
-                            workRlvDay.setAdapter(adapter);
-                            adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    Intent intent = new Intent(mActivity, DetailsMineDay.class);
-                                    intent.putExtra("id",bean.getData().getList().get(position).getReportForm().getId());
-                                    intent.putExtra("type",0);
-                                    intent.putExtra("style",0);//可抄送
-                                    startActivity(intent);
-                                }
-                            });
+                        if (bean.getData().getList() != null && bean.getData().getList().size() != 0) {
+                            if (adapter == null) {
+                                adapter = new MyAdapter(R.layout.item_work_name, bean.getData().getList());
+                                workRlvDay.setAdapter(adapter);
+                                adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        Intent intent = new Intent(mActivity, DetailsMineDay.class);
+                                        intent.putExtra("id", bean.getData().getList().get(position).getReportForm().getId());
+                                        intent.putExtra("type", 0);
+                                        intent.putExtra("style", 0);//可抄送
+                                        startActivity(intent);
+                                    }
+                                });
+                            } else {
+                                adapter.setNewData(bean.getData().getList());
+                                adapter.notifyDataSetChanged();
+                            }
                         } else {
-                            adapter.setNewData(bean.getData().getList());
-                            adapter.notifyDataSetChanged();
+                           // adapter.setEmptyView();
                         }
                     }
+
                 });
     }
 

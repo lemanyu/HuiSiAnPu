@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.bean.EventDate;
+import com.hsap.huisianpu.bean.JiXiaoBean;
 import com.hsap.huisianpu.bean.PerformanceBean;
 import com.hsap.huisianpu.details.DetailsPerformance;
 import com.hsap.huisianpu.utils.ConstantUtils;
@@ -54,6 +55,7 @@ public class WorkPerformancePager extends BaseFragmentPager {
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
         int day = instance.get(Calendar.DAY_OF_MONTH);
+        rlvWorkPerformance.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFromNet(year,month,day);
 
     }
@@ -66,11 +68,9 @@ public class WorkPerformancePager extends BaseFragmentPager {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Log.e(TAG, "onSuccess: "+response.body().toString() );
-                        final PerformanceBean bean = new Gson().fromJson(response.body().toString(), PerformanceBean.class);
-                        if (bean.isSuccess()){
+                        final JiXiaoBean bean = new Gson().fromJson(response.body().toString(), JiXiaoBean.class);
                             if(adapter==null){
                                 adapter=new MyAdapter(R.layout.item_work_performance,bean.getData().getList());
-                                rlvWorkPerformance.setLayoutManager(new LinearLayoutManager(mActivity));
                                 rlvWorkPerformance.setAdapter(adapter);
                             }else {
                                 adapter.setNewData(bean.getData().getList());
@@ -85,15 +85,17 @@ public class WorkPerformancePager extends BaseFragmentPager {
                                     intent.putExtra("year",year);
                                     intent.putExtra("month",month);
                                     intent.putExtra("day",day);
-                                    if (bean.getData().getList().get(position).getManagerScore()==-1){
-                                        intent.putExtra("state",true);//能编写
+                                    intent.putExtra("size",bean.getData().getList().get(position).getSize());
+                                    intent.putExtra("name",bean.getData().getList().get(position).getName());
+                                    if(bean.getData().getList().get(position).getM2Score()==-1){
+                                        intent.putExtra("zong",true);//总监能编写
                                     }else {
-                                        intent.putExtra("state",false);
+                                        intent.putExtra("zong",false);
                                     }
                                     startActivity(intent);
                                 }
                             });
-                        }
+
                     }
                 });
     }
@@ -102,19 +104,24 @@ public class WorkPerformancePager extends BaseFragmentPager {
     public void initListener() {
 
     }
- class MyAdapter extends BaseQuickAdapter<PerformanceBean.DataBean.ListBean,BaseViewHolder>{
+ class MyAdapter extends BaseQuickAdapter<JiXiaoBean.DataBean.ListBean,BaseViewHolder>{
 
-     public MyAdapter(int layoutResId, @Nullable List<PerformanceBean.DataBean.ListBean> data) {
+     public MyAdapter(int layoutResId, @Nullable List<JiXiaoBean.DataBean.ListBean> data) {
          super(layoutResId, data);
      }
 
      @Override
-     protected void convert(BaseViewHolder helper, PerformanceBean.DataBean.ListBean item) {
-
+     protected void convert(BaseViewHolder helper, JiXiaoBean.DataBean.ListBean item) {
+         if (item.getSize()==1){
+             helper.getView(R.id.tv_work_performance_zhuangtai).setVisibility(View.GONE);
+         }else {
+             helper.getView(R.id.tv_work_performance_zhuangtai).setVisibility(View.VISIBLE);
+         }
          Log.e(TAG, "convert: "+ item.getMyScore());
          helper.setText(R.id.tv_work_performance_name,"提交人："+item.getName())
                  .setText(R.id.tv_work_performance_myscore,"自评打分："+item.getMyScore())
                  .setText(R.id.tv_work_performance_zhuangtai,"经理打分："+choice(item.getManagerScore()))
+                 .setText(R.id.tv_work_performance_m2Score,"总监打分："+choice(item.getM2Score()))
                  .setText(R.id.tv_work_performance_time,"提交时间："+item.getCreateTime());
      }
 

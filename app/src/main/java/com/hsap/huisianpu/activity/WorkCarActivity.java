@@ -27,6 +27,7 @@ import com.hsap.huisianpu.adapter.ApproveGridViewAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.Bean;
 import com.hsap.huisianpu.bean.CarBean;
+import com.hsap.huisianpu.bean.CarcarBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
@@ -160,7 +161,7 @@ public class WorkCarActivity extends BaseBackActivity {
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        CarBean bean = new Gson().fromJson(response.body(), CarBean.class);
+                        CarcarBean bean = new Gson().fromJson(response.body(), CarcarBean.class);
                         if (bean.isSuccess()) {
                             获取数据中.dismiss();
                             tvCarBegin.setText(bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
@@ -173,10 +174,10 @@ public class WorkCarActivity extends BaseBackActivity {
                                     + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
                                     bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
                                     bean.getData().getWaIntegration().getEndTime().getMinute());
-                            tvCarChoice.setText(bean.getData().getObject().getLeixing());
+                            tvCarChoice.setText(bean.getData().getObject().getList().get(0).getLeixing());
                             etCarPhone.setText(bean.getData().getWaIntegration().getType2());
-                            etCarMatters.setText(bean.getData().getObject().getShixiang());
-                            etCarLocation.setText(bean.getData().getObject().getDidian());
+                            etCarMatters.setText(bean.getData().getObject().getList().get(0).getShixiang());
+                            etCarLocation.setText(bean.getData().getObject().getList().get(0).getDidian());
                             if (bean.getData().getNameList().size() != 0 && bean.getData().getNameList() != null) {
                                 for (int i = 0; i <bean.getData().getNameList().size(); i++) {
                                     personList.add(new Bean(bean.getData().getNameList().get(i),color[(int) (Math.random() * 6)]));

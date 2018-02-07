@@ -18,6 +18,7 @@ import com.hsap.huisianpu.activity.WorkCarActivity;
 import com.hsap.huisianpu.activity.WorkOutActivity;
 import com.hsap.huisianpu.activity.WorkOvertimeActivity;
 import com.hsap.huisianpu.activity.WorkPurchaseActivity;
+import com.hsap.huisianpu.activity.WorkSummaryActivity;
 import com.hsap.huisianpu.activity.WorkTripActivity;
 import com.hsap.huisianpu.base.BaseFragmentPager;
 import com.hsap.huisianpu.bean.EventDate;
@@ -62,6 +63,7 @@ public class MineRefusedPager extends BaseFragmentPager {
         Calendar instance = Calendar.getInstance();
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH)+1;
+        mRlvRefused.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFormNet(year,month);
 
     }
@@ -75,7 +77,7 @@ public class MineRefusedPager extends BaseFragmentPager {
                     public void onSuccess(Response<String> response) {
                         final OngoingBean bean = new Gson().fromJson(response.body().toString(), OngoingBean.class);
                         if (bean.isSuccess()){
-                            mRlvRefused.setLayoutManager(new LinearLayoutManager(mActivity));
+
                             if(adapter==null){
                                 adapter = new MyAdapter(R.layout.item_work_approval, bean.getData());
                                 mRlvRefused.setAdapter(adapter);
@@ -104,7 +106,10 @@ public class MineRefusedPager extends BaseFragmentPager {
                                         case 4:
                                             intent=new Intent(mActivity, WorkCarActivity.class);
                                             break;
-                                        case 12:
+                                        case 6:
+                                            intent=new Intent(mActivity, WorkSummaryActivity.class);
+                                            break;
+                                            case 12:
                                             intent=new Intent(mActivity, WorkPurchaseActivity.class);
                                             break;
                                             default:

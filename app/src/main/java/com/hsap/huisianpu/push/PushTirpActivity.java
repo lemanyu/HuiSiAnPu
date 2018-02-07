@@ -3,6 +3,7 @@ package com.hsap.huisianpu.push;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
@@ -19,9 +20,14 @@ import com.hsap.huisianpu.R;
 import com.hsap.huisianpu.adapter.MyAdapter;
 import com.hsap.huisianpu.base.BaseBackActivity;
 import com.hsap.huisianpu.bean.CarBean;
+import com.hsap.huisianpu.bean.CarcarBean;
+import com.hsap.huisianpu.bean.FalseBean;
+import com.hsap.huisianpu.bean.HavePermissionBean;
 import com.hsap.huisianpu.bean.PurchaseBean;
 import com.hsap.huisianpu.bean.PushBean;
+import com.hsap.huisianpu.bean.PushProjectBean;
 import com.hsap.huisianpu.bean.PushTripBean;
+import com.hsap.huisianpu.bean.SummayBean;
 import com.hsap.huisianpu.utils.ConstantUtils;
 import com.hsap.huisianpu.utils.NetAddressUtils;
 import com.hsap.huisianpu.utils.SpUtils;
@@ -33,6 +39,8 @@ import com.lzy.okgo.model.Response;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 import com.zhy.android.percent.support.PercentLinearLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +85,7 @@ public class PushTirpActivity extends BaseBackActivity {
     private StringBuilder end = new StringBuilder();
     private LoadingDailog dailog;
     private PushBean pushBean;
+    private int type;
 
     @Override
     public int getLayoutId() {
@@ -97,7 +106,7 @@ public class PushTirpActivity extends BaseBackActivity {
 
     @Override
     public void initListener() {
-
+          back.setOnClickListener(this);
     }
 
     @Override
@@ -115,6 +124,12 @@ public class PushTirpActivity extends BaseBackActivity {
 
 
     private void confirm() {
+        String s;
+        if (type==5){
+            s="com.hsap.huisianpu.push.PushProject";
+        }else {
+            s="com.hsap.huisianpu.push.PushTirpActivity";
+        }
         final LoadingDailog 提交中 = ToastUtils.showDailog(this, "提交中");
         提交中.show();
         OkGo.<String>post(NetAddressUtils.setAudit).
@@ -122,6 +137,7 @@ public class PushTirpActivity extends BaseBackActivity {
                 params("type",pushBean.getType()).
                 params("opinion",1).
                 params("managerId", SpUtils.getInt(ConstantUtils.UserId,this)).
+                params("activity",s).
                 execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -147,10 +163,17 @@ public class PushTirpActivity extends BaseBackActivity {
     private void refuse() {
         final LoadingDailog 提交中 = ToastUtils.showDailog(this, "提交中");
         提交中.show();
+        String s;
+        if (type==5){
+            s="com.hsap.huisianpu.push.PushProject";
+        }else {
+            s="com.hsap.huisianpu.push.PushTirpActivity";
+        }
         OkGo.<String>post(NetAddressUtils.setAudit).
                 params("projectId",pushBean.getId()).
                 params("type",pushBean.getType()).
                 params("opinion",2).
+                params("activity",s).
                 params("managerId", SpUtils.getInt(ConstantUtils.UserId,this)).
                 execute(new StringCallback() {
                     @Override
@@ -186,41 +209,46 @@ public class PushTirpActivity extends BaseBackActivity {
                 dailog = ToastUtils.showDailog(this, "获取中，请稍后");
                 dailog.show();
                 pushBean = new Gson().fromJson(content, PushBean.class);
-                if (pushBean.isState()) {
-                    llPs.setVisibility(View.VISIBLE);
-                    tvPushTitle.setText(pushBean.getName() + "的" + clickedResult.getTitle());
-                } else {
-                    llPs.setVisibility(View.GONE);
-                    tvPushTitle.setText("您的" + clickedResult.getTitle());
-                }
-                switch (pushBean.getType()) {
+                choice(pushBean.getState());
+                type = pushBean.getType();
+                switch (type) {
                     case 0:
+                        tvPushTitle.setText("请假申请");
                         psLeave.inflate();
                         initLeaveForNet(pushBean.getId());
                         break;
                     case 1:
+                        tvPushTitle.setText("外出申请");
                         psOut.inflate();
                         initOutFormNet(pushBean.getId());
                         break;
                     case 2:
+                        tvPushTitle.setText("出差申请");
                         psTrip.inflate();
                         initTripFormNet(pushBean.getId());
                         break;
                     case 3:
+                        tvPushTitle.setText("加班申请");
                         psOvertime.inflate();
                         initOverTimeFormNet(pushBean.getId());
                         break;
                     case 4:
+                        tvPushTitle.setText("用车申请");
                         psCar.inflate();
                         initCarFormNet(pushBean.getId());
                         break;
                     case 5:
+                        tvPushTitle.setText("项目");
                         psProject.inflate();
+                        initProjcetFormNet(pushBean.getId());
                         break;
                     case 6:
+                        tvPushTitle.setText("出差总结");
                         psSummary.inflate();
+                        initSummaryFormNet(pushBean.getId());
                         break;
                     case 12:
+                        tvPushTitle.setText("采购申请");
                         psPurchase.inflate();
                         initPurchaseFormNet(pushBean.getId());
                         break;
@@ -231,11 +259,150 @@ public class PushTirpActivity extends BaseBackActivity {
 
     }
 
+    private void initProjcetFormNet(int id) {
+        llPs.setVisibility(View.GONE);
+        btPushZhuangtai.setText("");
+        final TextView tv_see_jindu = findViewById(R.id.tv_see_jindu);
+        tv_see_jindu.setVisibility(View.GONE);
+        final TextView et_publish_name = findViewById(R.id.et_publish_name);
+        final TextView et_publish_number = findViewById(R.id.et_publish_number);
+        final TextView et_publish_person = findViewById(R.id.et_publish_person);
+        final TextView tv_publish_time = findViewById(R.id.tv_publish_time);
+        final TextView et_publish_days = findViewById(R.id.et_publish_days);
+        final TextView et_publish_content = findViewById(R.id.et_publish_content);
+        final LinearLayout ll_project = findViewById(R.id.ll_project);
+
+        final MyGridView gv_approval_project = findViewById(R.id.gv_approval_project);
+        OkGo.<String>post(NetAddressUtils.getMyProjectInfo).
+                params("projectId",id).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Log.e(TAG, "onSuccess: "+response.body().toString());
+                        PushProjectBean projectBean = new Gson().fromJson(response.body().toString(), PushProjectBean.class);
+                        if (projectBean.isSuccess()){
+                            dailog.dismiss();
+                            PushProjectBean.DataBean.InfoBean info = projectBean.getData().getInfo();
+                            et_publish_name.setText(info.getProjectName());
+                            et_publish_number.setText(info.getProjectNumber());
+                            et_publish_person.setText(projectBean.getData().getName() );
+                            tv_publish_time.setText(info.getEsStartTime().getYear()+"-"+info.getEsStartTime().getMonthValue()+"-"+
+                                                 info.getEsStartTime().getDayOfMonth());
+                            et_publish_days.setText(String.valueOf(info.getEsCycle()));
+                            et_publish_content.setText(info.getBody());
+                            if (projectBean.getData().getPersonList()!=null&&projectBean.getData().getPersonList().size()!=0){
+                                ll_project.setVisibility(View.VISIBLE);
+                                ArrayList<String> nameList = new ArrayList<>();
+                                for (int i = 0; i < projectBean.getData().getPersonList().size(); i++) {
+                                    nameList.add(projectBean.getData().getPersonList().get(i).getName());
+                                }
+                                gv_approval_project.setAdapter(new MyAdapter(PushTirpActivity.this,nameList));
+                            }else {
+                                ll_project.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        dailog.dismiss();
+                        ToastUtils.showToast(PushTirpActivity.this,"获取失败");
+                    }
+                });
+    }
+
+    public void choice(int state){
+     switch (state){
+         case 0:
+             btPushZhuangtai.setText("待处理");
+             llPs.setVisibility(View.VISIBLE);
+             break;
+         case 1:
+             btPushZhuangtai.setText("已同意");
+             llPs.setVisibility(View.GONE);
+             break;
+         case 2:
+             btPushZhuangtai.setText("已拒绝");
+             llPs.setVisibility(View.GONE);
+             break;
+         case 3:
+             btPushZhuangtai.setText("待撤销");
+             llPs.setVisibility(View.VISIBLE);
+             break;
+         case 4:
+             btPushZhuangtai.setText("已完成");
+             llPs.setVisibility(View.GONE);
+             break;
+         default:
+     }
+ }
+    private void initSummaryFormNet(int id) {
+        final TextView tv_summary_time = findViewById(R.id.tv_summary_time);
+        final TextView et_summary_location = findViewById(R.id.et_summary_location);
+        final TextView et_summary_products = findViewById(R.id.et_summary_products);
+        final TextView et_summary_mingcheng = findViewById(R.id.et_summary_mingcheng);
+        final TextView et_summary_customer = findViewById(R.id.et_summary_customer);
+        final TextView et_summary_scene = findViewById(R.id.et_summary_scene);
+        final TextView et_summary_preliminary = findViewById(R.id.et_summary_preliminary);
+        final TextView et_summary_practice = findViewById(R.id.et_summary_practice);
+        final TextView et_summary_technology = findViewById(R.id.et_summary_technology);
+        final LinearLayout ll_approval_trip = findViewById(R.id.ll_approval_trip);
+        final MyGridView gv_trip_person = findViewById(R.id.gv_trip_person);
+        OkGo.<String>post(NetAddressUtils.queryTTBSummar).
+                params("id",id).
+                execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Log.e(TAG, "onSuccess: "+response.body().toString());
+                        dailog.dismiss();
+                        SummayBean bean = new Gson().fromJson(response.body().toString(), SummayBean.class);
+                        choice(bean.getWaIntegration().getState());
+                        if (bean.getWaIntegration().getStartTime().getHour() == 8) {
+                            begin.setLength(0);
+                            begin.append("上午");
+                        } else {
+                            begin.setLength(0);
+                            begin.append("下午");
+                        }
+                        tv_summary_time.setText(bean.getWaIntegration().getStartTime().getYear()+"-"+
+                               bean.getWaIntegration().getStartTime().getMonthValue()+"-"+
+                                bean.getWaIntegration().getStartTime().getDayOfMonth()+" "+begin);
+                        et_summary_location.setText(bean.getWaIntegration().getType2());
+                        et_summary_products.setText(bean.getSummary().getType());
+                        et_summary_mingcheng.setText(bean.getSummary().getCname());
+                        et_summary_customer.setText(bean.getSummary().getCmanager());
+                        et_summary_scene.setText(bean.getSummary().getBody1());
+                        et_summary_preliminary.setText(bean.getSummary().getBody2());
+                        et_summary_practice.setText(bean.getSummary().getBody3());
+                        et_summary_technology.setText(bean.getSummary().getBody4());
+                        if (bean.getNameList().size()!=0&&bean.getNameList()!=null){
+                            ll_approval_trip.setVisibility(View.VISIBLE);
+                            ArrayList<String> list = new ArrayList<>();
+                            for (int i = 0; i <bean.getNameList().size() ; i++) {
+                                list.add(bean.getNameList().get(i).getName());
+                            }
+                            gv_trip_person.setAdapter(new MyAdapter(PushTirpActivity.this,list));
+                        }else {
+                            ll_approval_trip.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        dailog.dismiss();
+                        ToastUtils.showToast(PushTirpActivity.this,"当前无网络");
+                    }
+                });
+    }
+
     private void initPurchaseFormNet(int id) {
         final TextView et_purchase_reason = findViewById(R.id.et_purchase_reason);
         final TextView tv_purchase_type = findViewById(R.id.tv_purchase_type);
         final TextView tv_purchase_time = findViewById(R.id.tv_purchase_time);
         final RecyclerView rlv_purchase = findViewById(R.id.rlv_purchase);
+        rlv_purchase.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         OkGo.<String>post(NetAddressUtils.selectOneIntergration).
                 params("id", id).
                 execute(new StringCallback() {
@@ -245,15 +412,14 @@ public class PushTirpActivity extends BaseBackActivity {
                         ArrayList<PurchaseBean.DataBean.ObjectBean.ListBean> list = new ArrayList<>();
                         if (bean.isSuccess()){
                             dailog.dismiss();
-                            Log.e(TAG, "onSuccess: " + response.body().toString());
                             list.addAll(bean.getData().getObject().getList());
                             et_purchase_reason.setText(bean.getData().getWaIntegration().getReason()+"");
                             tv_purchase_type.setText(bean.getData().getWaIntegration().getType2());
                             tv_purchase_time.setText(bean.getData().getWaIntegration().getEndTime().getYear()+"-"
                                     +bean.getData().getWaIntegration().getEndTime().getMonthValue()+"-"+
                                     bean.getData().getWaIntegration().getEndTime().getDayOfMonth());
-                            rlv_purchase.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                            rlv_purchase.setAdapter(new PurchaseMyAdapter(R.layout.item_push_purchase,list));
+
+                            rlv_purchase.setAdapter(new PurchaseMyAdapter(R.layout.item_push_purchase,list,bean.getData().getWaIntegration().getType2()));
                         }else {
                             dailog.dismiss();
                             ToastUtils.showToast(getApplicationContext(),"当前无网络");
@@ -271,23 +437,37 @@ public class PushTirpActivity extends BaseBackActivity {
                 });
     }
  class PurchaseMyAdapter extends BaseQuickAdapter<PurchaseBean.DataBean.ObjectBean.ListBean,BaseViewHolder>{
+     private String type2;
 
-
-     public PurchaseMyAdapter(int layoutResId, @Nullable List<PurchaseBean.DataBean.ObjectBean.ListBean> data) {
+     public PurchaseMyAdapter(int layoutResId,@Nullable List<PurchaseBean.DataBean.ObjectBean.ListBean> data, String type2) {
          super(layoutResId, data);
+         this.type2=type2;
      }
 
      @Override
      protected void convert(BaseViewHolder helper, PurchaseBean.DataBean.ObjectBean.ListBean item) {
          TextView et_shuliang = helper.getView(R.id.et_shuliang);
          TextView et_danjia = helper.getView(R.id.et_danjia);
+         LinearLayout ll_purchase_caigou = helper.getView(R.id.ll_purchase_caigou);
+         if (type2.equals("生产原料")){
+             ll_purchase_caigou.setVisibility(View.VISIBLE);
+             helper.getView(R.id.ll_piaoju).setVisibility(View.GONE);
+             helper.getView(R.id.ll_beizhu).setVisibility(View.VISIBLE);
+         }else {
+             helper.getView(R.id.ll_beizhu).setVisibility(View.GONE);
+         }
          helper.setText(R.id.et_mingcheng,item.getName())
                  .setText(R.id.et_xinghao,item.getGuige())
                  .setText(R.id.et_shuliang,item.getShuliang())
                  .setText(R.id.et_danjia,item.getDanjia())
                  .setText(R.id.tv_jine,Double.valueOf(et_shuliang.getText().toString())*Double.valueOf(et_danjia.getText().toString())+"")
                  .setText(R.id.et_piaoju,item.getPiaoju())
-                 .setText(R.id.et_yongtu,item.getYongtu());
+                 .setText(R.id.et_yongtu,item.getYongtu())
+                 .setText(R.id.et_fengzhuang,item.getFengzhuang())
+                 .setText(R.id.et_fenlei,item.getFenlei())
+                 .setText(R.id.et_pinpai,item.getPinpai())
+                 .setText(R.id.et_lianxiren,item.getLianxiren())
+                 .setText(R.id.et_dianhua,item.getDianhua());
      }
  }
     private void initCarFormNet(int id) {
@@ -305,7 +485,7 @@ public class PushTirpActivity extends BaseBackActivity {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Log.e(TAG, "onSuccess: "+response.body().toString() );
-                        CarBean bean = new Gson().fromJson(response.body(), CarBean.class);
+                        CarcarBean bean = new Gson().fromJson(response.body(), CarcarBean.class);
                         if (bean.isSuccess()) {
                             dailog.dismiss();
                             tv_car_begin.setText(bean.getData().getWaIntegration().getStartTime().getYear() + "-" +
@@ -318,16 +498,38 @@ public class PushTirpActivity extends BaseBackActivity {
                                     + bean.getData().getWaIntegration().getEndTime().getDayOfMonth() + " " +
                                     bean.getData().getWaIntegration().getEndTime().getHour() + ":" +
                                     bean.getData().getWaIntegration().getEndTime().getMinute());
-                            tv_car_choice.setText(bean.getData().getObject().getLeixing());
+                            tv_car_choice.setText(bean.getData().getObject().getList().get(0).getLeixing());
                             et_car_phone.setText(bean.getData().getWaIntegration().getType2());
-                            et_car_matters.setText(bean.getData().getObject().getShixiang());
-                            et_car_location.setText(bean.getData().getObject().getDidian());
+                            et_car_matters.setText(bean.getData().getObject().getList().get(0).getShixiang());
+                            et_car_location.setText(bean.getData().getObject().getList().get(0).getDidian());
                             if (bean.getData().getNameList().size()!=0&& bean.getData().getNameList()!= null) {
                                 ll_approval_car.setVisibility(View.VISIBLE);
                                 gv_car_person.setAdapter(new MyAdapter(PushTirpActivity.this, bean.getData().getNameList()));
                             } else {
                                 ll_approval_car.setVisibility(View.GONE);
                             }
+                            OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                                    params("id", SpUtils.getInt(ConstantUtils.UserId,PushTirpActivity.this)).
+                                    execute(new StringCallback() {
+                                        @Override
+                                        public void onSuccess(Response<String> response) {
+                                            HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                                            if (bean.isSuccess()) {
+                                                psBtConfirm.setVisibility(View.VISIBLE);
+                                                psBtRefuse.setVisibility(View.VISIBLE);
+                                            }else {
+                                                psBtConfirm.setVisibility(View.GONE);
+                                                psBtRefuse.setVisibility(View.GONE);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(Response<String> response) {
+                                            super.onError(response);
+                                            psBtConfirm.setVisibility(View.GONE);
+                                            psBtRefuse.setVisibility(View.GONE);
+                                        }
+                                    });
                         } else {
                             dailog.dismiss();
                             ToastUtils.showToast(PushTirpActivity.this, "当前无网络");
@@ -375,6 +577,28 @@ public class PushTirpActivity extends BaseBackActivity {
                             } else {
                                 ll_overtime.setVisibility(View.GONE);
                             }
+                            OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                                    params("id", SpUtils.getInt(ConstantUtils.UserId,PushTirpActivity.this)).
+                                    execute(new StringCallback() {
+                                        @Override
+                                        public void onSuccess(Response<String> response) {
+                                            HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                                            if (bean.isSuccess()) {
+                                                psBtConfirm.setVisibility(View.VISIBLE);
+                                                psBtRefuse.setVisibility(View.VISIBLE);
+                                            }else {
+                                                psBtConfirm.setVisibility(View.GONE);
+                                                psBtRefuse.setVisibility(View.GONE);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(Response<String> response) {
+                                            super.onError(response);
+                                            psBtConfirm.setVisibility(View.GONE);
+                                            psBtRefuse.setVisibility(View.GONE);
+                                        }
+                                    });
                         } else {
                             dailog.dismiss();
                             ToastUtils.showToast(PushTirpActivity.this, "当前无网络");
@@ -536,6 +760,28 @@ public class PushTirpActivity extends BaseBackActivity {
                             } else {
                                 ll_approval_trip.setVisibility(View.GONE);
                             }
+                            OkGo.<String>post(NetAddressUtils.getJurisdiction).
+                                    params("id", SpUtils.getInt(ConstantUtils.UserId,PushTirpActivity.this)).
+                                    execute(new StringCallback() {
+                                        @Override
+                                        public void onSuccess(Response<String> response) {
+                                            HavePermissionBean bean = new Gson().fromJson(response.body().toString(), HavePermissionBean.class);
+                                            if (bean.isSuccess()) {
+                                                psBtConfirm.setVisibility(View.VISIBLE);
+                                                psBtRefuse.setVisibility(View.VISIBLE);
+                                            }else {
+                                                psBtConfirm.setVisibility(View.GONE);
+                                                psBtRefuse.setVisibility(View.GONE);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(Response<String> response) {
+                                            super.onError(response);
+                                            psBtConfirm.setVisibility(View.GONE);
+                                            psBtRefuse.setVisibility(View.GONE);
+                                        }
+                                    });
                         } else {
                             dailog.dismiss();
                             ToastUtils.showToast(PushTirpActivity.this, "当前无网络");
@@ -558,6 +804,7 @@ public class PushTirpActivity extends BaseBackActivity {
     protected void onPause() {
         super.onPause();
         XGPushManager.onActivityStoped(this);
+        EventBus.getDefault().post(new FalseBean("qq"));
     }
 
 }

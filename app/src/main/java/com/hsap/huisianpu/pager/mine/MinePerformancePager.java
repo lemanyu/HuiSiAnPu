@@ -56,6 +56,7 @@ public class MinePerformancePager extends BaseFragmentPager {
         year = calendar.get(Calendar.YEAR);
         int month=calendar.get(Calendar.MONTH);
         int day=calendar.get(Calendar.DAY_OF_MONTH);
+        rlvMinePerformance.setLayoutManager(new LinearLayoutManager(mActivity));
         dataFormNet(year, month, day);
     }
 
@@ -72,9 +73,15 @@ public class MinePerformancePager extends BaseFragmentPager {
         @Override
         protected void convert(BaseViewHolder helper, MinePerformanceBean.DataBean.InfoBean item) {
             Log.e(TAG, "convert: "+ item.getMyScore());
+            if (item.getSize()==1){
+                helper.getView(R.id.tv_work_performance_zhuangtai).setVisibility(View.GONE);
+            }else {
+                helper.getView(R.id.tv_work_performance_zhuangtai).setVisibility(View.VISIBLE);
+            }
             helper.getView(R.id.tv_work_performance_name).setVisibility(View.GONE);
             helper.setText(R.id.tv_work_performance_myscore,"自评打分："+item.getMyScore())
                     .setText(R.id.tv_work_performance_zhuangtai,"经理打分："+choice(item.getManagerScore()))
+            .setText(R.id.tv_work_performance_m2Score,"总监打分："+choice(item.getM2Score()))
                     .setText(R.id.tv_work_performance_time,"提交时间："+item.getCreateTime());
         }
 
@@ -105,7 +112,7 @@ public class MinePerformancePager extends BaseFragmentPager {
                 if (bean.isSuccess()){
                     if(adapter ==null){
                         adapter =new MyAdapter(R.layout.item_work_performance,bean.getData().getInfo());
-                        rlvMinePerformance.setLayoutManager(new LinearLayoutManager(mActivity));
+
                         rlvMinePerformance.setAdapter(adapter);
                     }else {
                         adapter.setNewData(bean.getData().getInfo());
@@ -119,13 +126,20 @@ public class MinePerformancePager extends BaseFragmentPager {
                             intent.putExtra("year",year);
                             intent.putExtra("month",month);
                             intent.putExtra("day",day);
-                            if (bean.getData().getInfo().get(position).getManagerScore()==-1){
-                                intent.putExtra("style",1);
+                            if (adapter.getViewByPosition(rlvMinePerformance,position,R.id.tv_work_performance_zhuangtai).getVisibility()
+                                    ==View.VISIBLE){
+                                intent.putExtra("style",2);//两层
+
                             }else {
-                                intent.putExtra("style",0);
+                                intent.putExtra("style",1);//一层
+                            }
+                            if (bean.getData().getInfo().get(position).getM2Score()==-1){
+                                intent.putExtra("zong",true);
+                            }else {
+                                intent.putExtra("zong",false);
                             }
 
-                            intent.putExtra("state",false);//能编写
+
                             startActivity(intent);
                         }
                     });

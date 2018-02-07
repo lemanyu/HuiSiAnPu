@@ -2,6 +2,7 @@ package com.hsap.huisianpu.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -122,6 +123,7 @@ public class PunchActivity extends BaseBackActivity {
             case R.id.punch_fab:
                 punchPermission();
                 break;
+                default:
         }
     }
 
@@ -207,13 +209,16 @@ public class PunchActivity extends BaseBackActivity {
                 case 1:
                     获取位置();
                     break;
+                    default:
             }
         }
 
         @Override
         public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-            ToastUtils.showToast(PunchActivity.this, "请到设置-权限管理中开启");
-            if (AndPermission.hasAlwaysDeniedPermission(PunchActivity.this, deniedPermissions)) {
+            if (isPermissionGranted("android.permission.ACCESS_FINE_LOCATION")&&
+                    isPermissionGranted("android.permission.ACCESS_COARSE_LOCATION")){
+                获取位置();
+            }else if (AndPermission.hasAlwaysDeniedPermission(PunchActivity.this, deniedPermissions)) {
                 // 第一种：用默认的提示语。
                 AndPermission.defaultSettingDialog(PunchActivity.this, 1).show();
             }
@@ -291,6 +296,7 @@ public class PunchActivity extends BaseBackActivity {
                         case 2:
                             ToastUtils.showToast(getApplicationContext(),"您今天考勤已完成");
                             break;
+                            default:
                 }
                 }else {
                     ToastUtils.showToast(getApplicationContext(),"未在打卡时间范围内");
@@ -334,7 +340,7 @@ public class PunchActivity extends BaseBackActivity {
                 ToastUtils.showToast(PunchActivity.this, "下班打卡成功");
                 llShangban.setVisibility(View.VISIBLE);
                 tvXiabantime.setText("下班班打卡时间" + hour + ":" + minute);
-                tvXiabantime.setText(locale);
+                tvXiabandidian.setText(locale);
             }
         });
     }
@@ -368,5 +374,15 @@ public class PunchActivity extends BaseBackActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+    private boolean isPermissionGranted(String permissionCode) {
+        PackageManager pm = getPackageManager();
+        boolean permission = (PackageManager.PERMISSION_GRANTED ==
+                pm.checkPermission(permissionCode,"com.hsap.huisianpu"));
+        if (permission) {
+            return true;
+        }else {
+            return false;
+        }
     }
 }
